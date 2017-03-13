@@ -1,5 +1,5 @@
 var biblio = {
-	
+
 	"ACCNAME-AAM": {
 		"title": "Accessible Name and Description: Computation and API Mappings 1.1",
 		"href": "http://www.w3.org/TR/accname-aam-1.1/",
@@ -22,7 +22,7 @@ var biblio = {
 		"status": "WD",
 		"publisher": "W3C",
 		"authors": [
-			"Matt King", 
+			"Matt King",
 			"James Nurthen",
 			"Michael Cooper",
 			"Michiel Bijl",
@@ -43,8 +43,8 @@ var biblio = {
 	},
 	// Custom reference for the Mac OSX Accessibility API
 	"AXAPI": {
-		"href": "https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Protocols/NSAccessibility_Protocol/index.html",
-		"title": "The Mac OS X Accessibility Protocol Mac OS 10.10",
+		"href": "https://developer.apple.com/library/content/documentation/Accessibility/Conceptual/AccessibilityMacOSX/index.html#//apple_ref/doc/uid/TP40001078",
+		"title": "Accessibility Programming Guide for OS X",
 		"publisher": "Apple Corporation"
 	},
 	"CORE-AAM": {
@@ -116,6 +116,12 @@ var biblio = {
 	"EPUB-SSV": {
 		"href": "http://www.idpf.org/epub/vocab/structure/",
 		"title": "EPUB Structural Semantics Vocabulary",
+		"publisher": "IDPF"
+	},
+
+	"EPUB-Content": {
+		"href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
+		"title": "EPUB Content Documents 3.1",
 		"publisher": "IDPF"
 	},
 	// Custom reference for GTK+ (GNOME GUI Toolkit) (not available from SpecRef biblio)
