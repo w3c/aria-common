@@ -35,18 +35,6 @@ var biblio = {
 			"http://www.w3.org/WAI/ARIA/"
 		]
 	},
-	// Correct reference for ATK
-	"ATK": {
-		"href": "https://developer.gnome.org/atk/stable/",
-		"title": "ATK - Accessibility Toolkit",
-		"publisher": "The GNOME Project"
-	},
-	// Custom reference for the Mac OSX Accessibility API
-	"AXAPI": {
-		"href": "https://developer.apple.com/library/content/documentation/Accessibility/Conceptual/AccessibilityMacOSX/index.html#//apple_ref/doc/uid/TP40001078",
-		"title": "Accessibility Programming Guide for OS X",
-		"publisher": "Apple Corporation"
-	},
 	"CORE-AAM": {
 		"title": "Core Accessibility API Mappings 1.1",
 		"href": "http://www.w3.org/TR/core-aam-1.1/",
@@ -112,23 +100,10 @@ var biblio = {
                         "http://www.w3.org/SVG/"
                 ]
         },
-
-	"EPUB-SSV": {
-		"href": "http://www.idpf.org/epub/vocab/structure/",
-		"title": "EPUB Structural Semantics Vocabulary",
-		"publisher": "IDPF"
-	},
-
 	"EPUB-Content": {
 		"href": "http://www.idpf.org/epub/31/spec/epub-contentdocs.html",
 		"title": "EPUB Content Documents 3.1",
 		"publisher": "IDPF"
-	},
-	// Custom reference for GTK+ (GNOME GUI Toolkit) (not available from SpecRef biblio)
-	"GTK": {
-		"href": "https://developer.gnome.org/gtk3/stable/",
-		"title": "GTK+ 3 Reference Manual",
-		"publisher": "The GNOME Project"
 	},
 	"HTML-AAM": {
 		"authors": [
@@ -146,11 +121,6 @@ var biblio = {
 			"http://www.w3.org/html",
 			"http://www.w3.org/WAI/PF/"
 		]
-	},
-	"MSAA": {
-		"href": "https://msdn.microsoft.com/en-us/library/ms697707.aspx",
-		"title": "Microsoft Active Accessibility (MSAA) 2.0",
-		"publisher": "Microsoft Corporation"
 	},
 	"SVG-AAM": {
 		"title": "SVG2 Accessibility API Mappings 1.0",
@@ -179,65 +149,6 @@ var biblio = {
 		"http://www.w3.org/SVG"
 		]
 	},
-	"SVG11": {
-		"title": "Scalable Vector Graphics (SVG) 1.1 (Second Edition)",
-		"href": "http://www.w3.org/TR/SVG11/",
-		"status": "REC",
-		"publisher": "W3C",
-		"authors": [
-			"Erik Dahlström",
-			"Patrick Dengler",
-			"Anthony Grasso",
-			"Chris Lilley",
-			"Cameron McCormack",
-			"Doug Schepers",
-			"Jonathan Watt",
-			"John Ferraiolo",
-			"藤沢 淳 (FUJISAWA Jun)",
-			"Dean Jackson"
-		],
-		"etAl": true,
-		"deliveredBy": [
-			"http://www.w3.org/SVG"
-		]
-	},
-	"SVG2": {
-		"title": "Scalable Vector Graphics (SVG) 2",
-		"href": "http://www.w3.org/TR/2015/WD-SVG2-20150915/",
-		"status": "WD",
-		"publisher": "W3C",
-		"authors": [
-			"Nikos Andronikos",
-			"Rossen Atanassov",
-			"Tavmjong Bah",
-			"Amelia Bellamy-Royds",
-			"Brian Birtles",
-			"Cyril Concolato",
-			"Erik Dahlström",
-			"Chris Lilley",
-			"Cameron McCormack",
-			"Doug Schepers",
-			"Dirk Schulze",
-			"Richard Schwerdtfeger",
-			"Satoru Takagi",
-			"Jonathan Watt"
-		],
-		"etAl": true,
-		"deliveredBy": [
-			"http://www.w3.org/WAI/PF/"
-		]
-	},
-	"UI-AUTOMATION": {
-		"href": "https://msdn.microsoft.com/en-us/library/ee684009%28v=vs.85%29.aspx",
-		"title": "UI Automation",
-		"publisher": "Microsoft Corporation"
-	},
-	// Custom reference for UIA Express (not available from SpecRef biblio).
-	"UIA-EXPRESS": {
-		"href": "https://msdn.microsoft.com/en-us/library/windows/desktop/dd561898%28v=vs.85%29.aspx",
-		"title": "The IAccessibleEx Interface",
-		"publisher": "Microsoft Corporation"
-	},
 	"WAI-ARIA": {
 		"title": "Accessible Rich Internet Applications (WAI-ARIA) 1.1",
 		"href": "http://www.w3.org/TR/wai-aria-1.1/",
@@ -249,20 +160,6 @@ var biblio = {
 			"Shane McCarron"
 		],
 		"etAl": true,
-		"deliveredBy": [
-			"http://www.w3.org/WAI/PF/"
-		]
-	},
-	"WAI-ARIA-10": {
-		"authors": [
-			"James Craig",
-			"Michael Cooper"
-		],
-		"etAl": true,
-		"href": "http://www.w3.org/TR/wai-aria/",
-		"title": "Accessible Rich Internet Applications (WAI-ARIA) 1.0",
-		"status": "REC",
-		"publisher": "W3C",
 		"deliveredBy": [
 			"http://www.w3.org/WAI/PF/"
 		]
