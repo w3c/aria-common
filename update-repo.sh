@@ -4,4 +4,4 @@ cp -r acknowledgements.html biblio.js terms.html css img script utility ../../$1
 cd ../../$1
 git add -A .
 git commit -m "TRAVIS-CI update from aria-common"
-git push "https://\${GH_TOKEN}@github.com/w3c/$1.git" master \> /dev/null 2\>\&1
+git push "https://${GH_TOKEN}@github.com/w3c/$1.git" master > /dev/null 2>&1
