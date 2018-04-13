@@ -48,7 +48,8 @@ function mapTables(respecEvents) {
 			var tableInfo = {};
 			mappingTableInfos.push (tableInfo);
 			//store a reference to the container and hide it
-			tableInfo.tableContainer = $(this).hide();
+			tableInfo.tableContainer = $(this);
+			$(this).hide();
 			//store a reference to the table
 			tableInfo.table = $('table', tableInfo.tableContainer);
 			//create a container div to hold all the details element and insert after table
