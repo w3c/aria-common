@@ -15,5 +15,13 @@ before_script:
   - git config --global user.name "michael-n-cooper"
   
 script:
+  - bash update-repo.sh accname
+  - bash update-repo.sh aria
+  - bash update-repo.sh aria-practices
   - bash update-repo.sh core-aam
+  - bash update-repo.sh dpub-aam
+  - bash update-repo.sh dpub-aria
+  - bash update-repo.sh graphics-aam
+  - bash update-repo.sh graphics-aria
+  - bash update-repo.sh svg-aam
   
