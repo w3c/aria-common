@@ -1,8 +1,5 @@
 language: node_js
-env:
-  global:
-    - GH_REF: github.com/w3c/wcag21.git
-    
+
 git:
   depth: 3
   
