@@ -20,5 +20,7 @@ script:
   - bash update-repo.sh dpub-aria
   - bash update-repo.sh graphics-aam
   - bash update-repo.sh graphics-aria
+  - bash update-repo.sh math-aam
+  - bash update-repo.sh math-aria
   - bash update-repo.sh svg-aam
   
