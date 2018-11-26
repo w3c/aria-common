@@ -23,4 +23,4 @@ script:
   - bash update-repo.sh math-aam
   - bash update-repo.sh math-aria
   - bash update-repo.sh svg-aam
-  
+  - bash update-repo.sh html-aam
