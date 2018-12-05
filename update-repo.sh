@@ -5,3 +5,4 @@ cd ../../$1
 git add -A .
 git commit -m "TRAVIS-CI update from aria-common"
 git push "https://${GH_TOKEN}@github.com/w3c/$1.git" $2 > /dev/null 2>&1
+rm -rf ../../$1
