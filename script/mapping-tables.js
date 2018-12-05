@@ -134,7 +134,7 @@ function mapTables(respecEvents) {
 			tableInfo.detailsContainer.prepend($expandAllButton, $collapseAllButton);
 			var expandCollapseDetails = function($detCont, action) {
 				$detCont.find('details').each(function() {
-					var $details = $(this), 
+					var $details = $(this),
 					$detailsSummary = $('summary', $details),
 					$detailsNotSummary = $details.children(':not(summary)');
 					if (action == 'collapse') {
@@ -187,7 +187,7 @@ function mapTables(respecEvents) {
 			$('html').addClass('no-details');
 		}
 		$('details').details();
-		
+
 		//Use jquery-details plugin event handlers on details open/close to set state of expand/collapse all buttons
 		$('details').on({
 			'open.details': function() {
@@ -226,7 +226,7 @@ function mapTables(respecEvents) {
 	  $('a[href^="#"]').each(function() {
 	  	var fragId = $(this).attr('href');
 	  	if ($(fragId).prop('tagName') == "SUMMARY") {
-	  		$(this).on('click', function() {  			
+	  		$(this).on('click', function() {
 		  		expandReferredDetails(fragId);
 		  	});
 	  	}
@@ -252,9 +252,9 @@ function mapTables(respecEvents) {
 				mappingTables();
 			}
 		});
-		// Subscribe to ReSpec "save" message to set the mapping tables to
+		// Subscribe to ReSpec "end" message to set the mapping tables to
 		// view-as-single-table state.
-		respecEvents.sub ("save", function (details) {
+		respecEvents.sub ("end", function (details) {
 			mappingTableInfos.forEach (function (item) {
 				viewAsSingleTable (item);
 			});
