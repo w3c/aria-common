@@ -20,7 +20,7 @@ ol ol ol ol{ list-style:lower-alpha; }
 }
 
 /* not clear where/why the following two blocks are used; spacing on .role causes problem in html-aam; commenting out for now
- *
+ * 
 .role, .state, .property, .widget {
 	margin-left: 2em;
 	margin-bottom: 4ex;
@@ -243,9 +243,9 @@ abbr.symbol {
 	border-bottom:none;
 }
 
-.aref {
-	font-family: monospace;
-	font-weight: bold;
+.aref { 
+	font-family: monospace; 
+	font-weight: bold; 
 	color: #ff4500 !important;
 }
 
