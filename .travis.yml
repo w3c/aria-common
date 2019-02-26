@@ -13,6 +13,7 @@ before_script:
   
 script:
   - bash update-repo.sh accname master
+  - bash update-repo.sh annotation-aria master
   - bash update-repo.sh aria master
   - bash update-repo.sh aria stable
   - bash update-repo.sh aria-practices master
