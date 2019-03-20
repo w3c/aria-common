@@ -19,6 +19,7 @@ script:
   - bash update-repo.sh aria-practices master
   - bash update-repo.sh core-aam master
   - bash update-repo.sh core-aam stable
+  - bash update-repo.sh css-aam master
   - bash update-repo.sh dpub-aam master
   - bash update-repo.sh dpub-aria master
   - bash update-repo.sh graphics-aam master
