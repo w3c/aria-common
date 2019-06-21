@@ -319,7 +319,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     }
                     // are there supported states / properties in this role?  
                     var attrs = [];
-                    $.each(container.querySelectorAll(".role-properties, .role-required-properties, .role-disallowed"), function(i, node) {                        if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
+                    $.each(container.querySelectorAll(".role-properties, .role-required-properties, .role-disallowed"), function(i, node) {
                         if (node && ((node.textContent && node.textContent.length !== 1) || (node.innerText && node.innerText.length !== 1))) {
                             // looks like we do
                             $.each(node.querySelectorAll("pref,sref"), function(i, item) {
