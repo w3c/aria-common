@@ -161,7 +161,6 @@ pre .comment, code .comment, code.comment, .comment .str, .comment .tag{
 	background-color: #9f6;
 }
 */
-.role-reference, .state-reference, .property-reference, .widget-reference, .design-pattern-reference {}
 .termref, a.termref:link {
 	color:#006400;
 	text-decoration:none;
@@ -232,8 +231,6 @@ dl.compact dd {
 	font-weight: bold;
 	text-transform: uppercase;
 }
-.tocnum {}
-.section {}
 .todo {
 	background-color:#f99;
 }
