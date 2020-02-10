@@ -26,5 +26,6 @@ script:
   - bash update-repo.sh graphics-aria master
   - bash update-repo.sh math-aam master
   - bash update-repo.sh math-aria master
+  - bash update-repo.sh mathml-aam master
   - bash update-repo.sh svg-aam master
   
