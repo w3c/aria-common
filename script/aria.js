@@ -172,7 +172,7 @@ require(["core/pubsubhub"], function( respecEvents ) {
                     propList[title] = { is: type, title: title, name: content, desc: desc, roles: [] };
                     var abstract = container.querySelector("." + type + "-applicability");
                     if ((abstract.textContent || abstract.innerText) === "All elements of the base markup") {
-                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false });	                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false, deprecated: false });
+                        globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: false, deprecated: false });
                     }
                     else if ((abstract.textContent || abstract.innerText) === "All elements of the base markup except for some roles or elements that prohibit its use") {
                         globalSP.push({ is: type, title: title, name: content, desc: desc, prohibited: true, deprecated: false });
