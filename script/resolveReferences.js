@@ -254,6 +254,7 @@ require(["core/pubsubhub"], function(respecEvents) {
                 }
             });
     // delete any terms that were not referenced.
+            if (!respecConfig.definitionMap) return;
             Object.keys(termNames).forEach(function(term) {
                 var $p = $("#"+term);
                 if ($p) {
