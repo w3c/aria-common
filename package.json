@@ -1,0 +1,20 @@
+{
+  "name": "aria-common",
+  "version": "1.0.0",
+  "description": "[This is the repository for aria-common](https://github.com/w3c/aria-common). It contains files shared by several other ARIA repositories, and copied into those repositories. Note *content must be updated in w3c/aria-common*; changes made in copies are overwritten next time content from this repository is synced.",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/w3c/aria-common.git"
+  },
+  "keywords": [],
+  "author": "Michael N Cooper <cooper@w3.org>",
+  "license": "LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/w3c/aria-common/issues"
+  },
+  "homepage": "https://github.com/w3c/aria-common#readme"
+}
