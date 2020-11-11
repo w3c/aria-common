@@ -2,7 +2,7 @@ language: node_js
 
 git:
   depth: 3
-  
+
 branches:
   only:
     - master
@@ -10,8 +10,9 @@ branches:
 before_script:
   - git config --global user.email "cooper@w3.org"
   - git config --global user.name "michael-n-cooper"
-  
+
 script:
+  - npm test
   - bash update-repo.sh accname master
   - bash update-repo.sh annotation-aria master
   - bash update-repo.sh aria master
@@ -28,4 +29,4 @@ script:
   - bash update-repo.sh math-aria master
   - bash update-repo.sh mathml-aam master
   - bash update-repo.sh svg-aam master
-  
+

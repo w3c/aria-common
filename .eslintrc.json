@@ -1,0 +1,14 @@
+{
+    "env": {
+        "es6": true,
+        "browser": true,
+        "jquery": true
+    },
+    "globals": {
+        "require": true
+    },
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+    "parserOptions": {
+        "ecmaVersion": 6
+    }
+}
