@@ -5,27 +5,26 @@ git:
   
 branches:
   only:
-    - master
+    - main
 
 before_script:
   - git config --global user.email "cooper@w3.org"
   - git config --global user.name "michael-n-cooper"
   
 script:
-  - bash update-repo.sh accname master
-  - bash update-repo.sh annotation-aria master
-  - bash update-repo.sh aria master
+  - bash update-repo.sh accname main
+  - bash update-repo.sh aria main
   - bash update-repo.sh aria stable
   - bash update-repo.sh aria-practices master
-  - bash update-repo.sh core-aam master
+  - bash update-repo.sh core-aam main
   - bash update-repo.sh core-aam stable
-  - bash update-repo.sh css-aam master
-  - bash update-repo.sh dpub-aam master
-  - bash update-repo.sh dpub-aria master
-  - bash update-repo.sh graphics-aam master
-  - bash update-repo.sh graphics-aria master
-  - bash update-repo.sh math-aam master
-  - bash update-repo.sh math-aria master
-  - bash update-repo.sh mathml-aam master
-  - bash update-repo.sh svg-aam master
+  - bash update-repo.sh css-aam main
+  - bash update-repo.sh dpub-aam main
+  - bash update-repo.sh dpub-aria main
+  - bash update-repo.sh graphics-aam main
+  - bash update-repo.sh graphics-aria main
+  - bash update-repo.sh math-aam main
+  - bash update-repo.sh math-aria main
+  - bash update-repo.sh mathml-aam main
+  - bash update-repo.sh svg-aam main
   
