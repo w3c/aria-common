@@ -7,24 +7,53 @@
 /* global require, roleInfo, updateReferences */
 var localRoleInfo = {};
 
-function makeId(el, pfx, txt) {
-  if (el.hasAttribute('id')) return el.getAttribute('id');
-  var id = '';
-  if (!txt) {
-    if (el.hasAttribute('title')) txt = el.getAttribute('title');
-    else txt = el.textContent;
+// NOTE: this was taken from https://github.com/w3c/respec/blob/develop/src/core/utils.js
+/**
+ * Creates and sets an ID to an element (elem)
+ * using a specific prefix if provided, and a specific text if given.
+ * @param {HTMLElement} elem element
+ * @param {String} pfx prefix
+ * @param {String} txt text
+ * @param {Boolean} noLC do not convert to lowercase
+ * @returns {String} generated (or existing) id for element
+ */
+ function addId(elem, pfx = "", txt = "", noLC = false) {
+  if (elem.id) {
+    return elem.id;
   }
-  txt = txt.replace(/^\s+/, '');
-  txt = txt.replace(/\s+$/, '');
-  id += txt;
-  id = id.toLowerCase();
-  if (id.length === 0) id = 'generatedID';
-  id = this.sanitiseID(id);
-  if (pfx) id = pfx + '-' + id;
-  id = this.idThatDoesNotExist(id);
-  el.setAttribute('id', id);
+  if (!txt) {
+    txt = (elem.title ? elem.title : elem.textContent).trim();
+  }
+  let id = noLC ? txt : txt.toLowerCase();
+  id = id
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\W+/gim, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+
+  if (!id) {
+    id = "generatedID";
+  } else if (/\.$/.test(id) || !/^[a-z]/i.test(pfx || id)) {
+    id = `x${id}`; // trailing . doesn't play well with jQuery
+  }
+  if (pfx) {
+    id = `${pfx}-${id}`;
+  }
+  if (elem.ownerDocument.getElementById(id)) {
+    let i = 0;
+    let nextId = `${id}-${i}`;
+    while (elem.ownerDocument.getElementById(nextId)) {
+      i += 1;
+      nextId = `${id}-${i}`;
+    }
+    id = nextId;
+  }
+  elem.id = id;
   return id;
 }
+
 
 require(['core/pubsubhub'], function (respecEvents) {
   respecEvents.sub('end', function (msg) {
@@ -127,7 +156,7 @@ require(['core/pubsubhub'], function (respecEvents) {
             title = content;
           }
 
-          var pnID = makeID(container, '', title);
+          var pnID = addId(container, '', title);
           sp.className = 'role-name';
           sp.title = title;
           // is this a role or an abstract role
@@ -449,28 +478,28 @@ require(['core/pubsubhub'], function (respecEvents) {
 
       // prune out unused rows throughout the document
 
-      Array.prototype.slice.call(
-        document
-          .querySelectorAll(
+      Array.prototype.slice
+        .call(
+        document.querySelectorAll(
             '.role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values'
           )
-          .forEach(function (item) {
-            var content = item.innerText;
-            if (content.length === 1 || content.length === 0) {
-              // there is no item - remove the row
-              item.parentNode.remove();
-            } else if (
-              content === 'Placeholder' &&
-              !skipIndex &&
-              (item.className === 'role-inherited' ||
-                item.className === 'role-children' ||
-                item.className === 'property-descendants' ||
-                item.className === 'state-descendants')
-            ) {
-              item.parentNode.remove();
-            }
-          })
-      );
+        )
+        .forEach(function (item) {
+          var content = item.innerText;
+          if (content.length === 1 || content.length === 0) {
+            // there is no item - remove the row
+            item.parentNode.parentNode.removeChild(item.parentNode);
+          } else if (
+            content === 'Placeholder' &&
+            !skipIndex &&
+            (item.className === 'role-inherited' ||
+              item.className === 'role-children' ||
+              item.className === 'property-descendants' ||
+              item.className === 'state-descendants')
+          ) {
+            item.parentNode.remove();
+          }
+        });
     }
   });
 });
