@@ -1,4 +1,4 @@
-/* globals respecConfig, localRoleInfo, roleInfo, require */
+/* globals parents, respecConfig, localRoleInfo, roleInfo, require, norm, getDfnTitles */
 /* exported linkCrossReferences, restrictReferences, fixIncludes */
 
 function parents(element, selector) {
@@ -18,24 +18,62 @@ function parents(element, selector) {
   }
 }
 
-function makeId(el, pfx, txt) {
-  if (el.hasAttribute('id')) return el.getAttribute('id');
-  var id = '';
-  if (!txt) {
-    if (el.hasAttribute('title')) txt = el.getAttribute('title');
-    else txt = el.textContent;
+// NOTE: this was taken from https://github.com/w3c/respec/blob/develop/src/core/utils.js
+/**
+ * Trims string at both ends and replaces all other white space with a single space
+ * @param {string} str
+ */
+function norm(str) {
+  return str.trim().replace(/\s+/g, " ");
+}
+
+// NOTE: this was taken from https://github.com/w3c/respec/blob/develop/src/core/utils.js
+/**
+ * Creates and sets an ID to an element (elem)
+ * using a specific prefix if provided, and a specific text if given.
+ * @param {HTMLElement} elem element
+ * @param {String} pfx prefix
+ * @param {String} txt text
+ * @param {Boolean} noLC do not convert to lowercase
+ * @returns {String} generated (or existing) id for element
+ */
+ function addId(elem, pfx = "", txt = "", noLC = false) {
+  if (elem.id) {
+    return elem.id;
   }
-  txt = txt.replace(/^\s+/, '');
-  txt = txt.replace(/\s+$/, '');
-  id += txt;
-  id = id.toLowerCase();
-  if (id.length === 0) id = 'generatedID';
-  id = this.sanitiseID(id);
-  if (pfx) id = pfx + '-' + id;
-  id = this.idThatDoesNotExist(id);
-  el.setAttribute('id', id);
+  if (!txt) {
+    txt = (elem.title ? elem.title : elem.textContent).trim();
+  }
+  let id = noLC ? txt : txt.toLowerCase();
+  id = id
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\W+/gim, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
+
+  if (!id) {
+    id = "generatedID";
+  } else if (/\.$/.test(id) || !/^[a-z]/i.test(pfx || id)) {
+    id = `x${id}`; // trailing . doesn't play well with jQuery
+  }
+  if (pfx) {
+    id = `${pfx}-${id}`;
+  }
+  if (elem.ownerDocument.getElementById(id)) {
+    let i = 0;
+    let nextId = `${id}-${i}`;
+    while (elem.ownerDocument.getElementById(nextId)) {
+      i += 1;
+      nextId = `${id}-${i}`;
+    }
+    id = nextId;
+  }
+  elem.id = id;
   return id;
 }
+
 
 // NOTE: this was taken from https://github.com/w3c/respec/blob/develop/src/core/utils.js#L474 while removing jQuery
 function getDfnTitles(elem) {
@@ -239,26 +277,28 @@ function updateReferences(base) {
       var theElement = 'a';
 
       // pSec is the nearest parent section element
-      var pSec = parents(item, 'section, div.role, div.state, div.property')[0];
-      var pID = pSec.id;
-
-      if (pID) {
-        if (sectionMap[pID]) {
-          if (sectionMap[pID][ref]) {
-            // only change the element if we not in a table or a dl
-            if (parents(item, 'table dl').length === 0) {
-              if (usedTitle) {
-                theElement = 'span';
-              } else {
-                theElement = 'code';
+      var parentNodes =  parents(item, 'section, div.role, div.state, div.property');
+      if (parentNodes) {
+        var pSec = parentNodes[0];
+        var pID = pSec.id;
+        if (pID) {
+          if (sectionMap[pID]) {
+            if (sectionMap[pID][ref]) {
+              // only change the element if we not in a table or a dl
+              if (parents(item, 'table dl').length === 0) {
+                if (usedTitle) {
+                  theElement = 'span';
+                } else {
+                  theElement = 'code';
+                }
               }
+            } else {
+              sectionMap[pID][ref] = 1;
             }
           } else {
+            sectionMap[pID] = {};
             sectionMap[pID][ref] = 1;
           }
-        } else {
-          sectionMap[pID] = {};
-          sectionMap[pID][ref] = 1;
         }
       }
 
@@ -300,7 +340,7 @@ function restrictReferences(utils, content) {
     .call(base.querySelectorAll('dfn'))
     .forEach(function (item) {
       var titles = getDfnTitles(item);
-      var n = makeId(item, 'dfn', titles[0]);
+      var n = addId(item, 'dfn', titles[0]);
 
       if (n) {
         termNames[n] = item.parentNode;
@@ -342,7 +382,7 @@ require(['core/pubsubhub'], function (respecEvents) {
                 dd &&
                 dd.previousElementSibling &&
                 dd.previousElementSibling.querySelector('dfn');
-              var parentTermId = makeID(dfn, 'dfn', getDfnTitles(dfn)[0]);
+              var parentTermId = addId(dfn, 'dfn', getDfnTitles(dfn)[0]);
               if (termNames[parentTermId]) return;
             }
           }
@@ -360,7 +400,7 @@ require(['core/pubsubhub'], function (respecEvents) {
         if (p) {
           // Delete altered dfn elements and refs
           p.parentNode.nextElementSibling.parentNode.removeChild(
-            nextElementSibling
+            p.parentNode.nextElementSibling
           );
           p.parentNode.parentNode.removeChild(p.parentNode);
 

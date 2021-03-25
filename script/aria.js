@@ -546,8 +546,9 @@ require(['core/pubsubhub'], function (respecEvents) {
           }
         };
 
-        Object.keys(propList).forEach(function (item) {
+        Object.entries(propList).forEach(function (index) {
           var output = '';
+          var item = index[1];
           var section = document.querySelector('#' + item.name);
           var placeholder = section.querySelector(
             '.state-applicability, .property-applicability'
