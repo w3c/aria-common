@@ -169,31 +169,33 @@ function mapTables(respecEvents) {
         // create content for each <details> element; add row header's content to summary
         var details = document.createElement('details');
         details.className = 'map removeOnSave';
-        details.innerHTML += '<summary id="' + id + '">' + summary;
+
+        var detailsHTML = '<summary id="' + id + '">' + summary;
 
         // if attributes mapping table, append relevant elements to summary
         if (tableInfo.table.classList.contains('attributes')) {
-          details.innerHTML += ' [' + relevantElsSummary + ']';
+          detailsHTML += ' [' + relevantElsSummary + ']';
         }
 
-        details.innerHTML += '</summary><table><caption>' + caption;
+        detailsHTML += '</summary><table><caption>' + caption;
 
         if (tableInfo.table.classList.contains('attributes')) {
-          details.innerHTML += ' [' + relevantElsCaption + ']';
+          detailsHTML += ' [' + relevantElsCaption + ']';
         }
 
-        details.innerHTML += '</caption><tbody>';
+        detailsHTML += '</caption><tbody>';
 
         // add table rows using appropriate header from detailsRowHead array and relevant value from rowCells array
         for (var i = 0, len = rowCells.length; i < len; i++) {
-          details.innerHTML +=
+          detailsHTML +=
             '<tr><th>' +
             rowHeaders[i] +
             '</th><td>' +
             rowCells[i] +
             '</td></tr>';
         }
-        details += '</tbody></table></details>';
+        detailsHTML += '</tbody></table></details>';
+        details.innerHTML = detailsHTML;
 
         // append the <details> element to the detailsContainer div
         tableInfo.detailsContainer.appendChild(details);
@@ -314,7 +316,7 @@ function mapTables(respecEvents) {
         });
         queryAll('span', showHideColButton)
           .filter(function (span) {
-            return !span.classList.conatins('action');
+            return !span.classList.contains('action');
           })
           .forEach(function (span) {
             span.parentNode.removeChild(span);
