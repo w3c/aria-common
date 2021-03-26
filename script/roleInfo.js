@@ -15,6 +15,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -38,6 +52,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -237,6 +258,251 @@ var roleInfo = {
 		  "disallowed": false,
 		  "deprecated": false
 		}
+	  ],
+	  "allprops": [
+		{
+		  "is": "property",
+		  "name": "aria-posinset",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-setsize",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-atomic",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "state",
+		  "name": "aria-busy",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-controls",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "state",
+		  "name": "aria-current",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-details",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "state",
+		  "name": "aria-disabled",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": true
+		},
+		{
+		  "is": "property",
+		  "name": "aria-dropeffect",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-errormessage",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": true
+		},
+		{
+		  "is": "property",
+		  "name": "aria-flowto",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "state",
+		  "name": "aria-grabbed",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-haspopup",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": true
+		},
+		{
+		  "is": "state",
+		  "name": "aria-hidden",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "state",
+		  "name": "aria-invalid",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": true
+		},
+		{
+		  "is": "property",
+		  "name": "aria-keyshortcuts",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-label",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-labelledby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-live",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-owns",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-relevant",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-roledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		}
+	  ]
+	},
+	"associationlist": {
+	  "name": "associationlist",
+	  "fragID": "associationlist",
+	  "parentRoles": [
+		"section"
+	  ],
+	  "localprops": []
+	},
+	"associationlistitemkey": {
+	  "name": "associationlistitemkey",
+	  "fragID": "associationlistitemkey",
+	  "parentRoles": [
+		"section"
+	  ],
+	  "localprops": [
+		{
+		  "is": "property",
+		  "name": "aria-level",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-posinset",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-setsize",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		}
+	  ]
+	},
+	"associationlistitemvalue": {
+	  "name": "associationlistitemvalue",
+	  "fragID": "associationlistitemvalue",
+	  "parentRoles": [
+		"section"
+	  ],
+	  "localprops": [
+		{
+		  "is": "property",
+		  "name": "aria-posinset",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-setsize",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		}
 	  ]
 	},
 	"banner": {
@@ -331,6 +597,13 @@ var roleInfo = {
 		},
 		{
 		  "is": "property",
+		  "name": "aria-colindextext",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
 		  "name": "aria-colspan",
 		  "required": false,
 		  "disallowed": false,
@@ -339,6 +612,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-rowindex",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-rowindextext",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -361,6 +641,13 @@ var roleInfo = {
 		},
 		{
 		  "is": "property",
+		  "name": "aria-colindextext",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
 		  "name": "aria-colspan",
 		  "required": false,
 		  "disallowed": false,
@@ -375,6 +662,13 @@ var roleInfo = {
 		},
 		{
 		  "is": "property",
+		  "name": "aria-rowindextext",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
 		  "name": "aria-rowspan",
 		  "required": false,
 		  "disallowed": false,
@@ -383,6 +677,20 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-atomic",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -411,6 +719,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -637,6 +952,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -660,6 +989,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -827,13 +1163,6 @@ var roleInfo = {
 	  ],
 	  "localprops": [
 		{
-		  "is": "property",
-		  "name": "aria-controls",
-		  "required": true,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
 		  "is": "state",
 		  "name": "aria-expanded",
 		  "required": true,
@@ -850,6 +1179,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-autocomplete",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-controls",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -907,6 +1243,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -930,6 +1280,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -1048,6 +1405,36 @@ var roleInfo = {
 		}
 	  ]
 	},
+	"comment": {
+	  "name": "comment",
+	  "fragID": "comment",
+	  "parentRoles": [
+		"article"
+	  ],
+	  "localprops": [
+		{
+		  "is": "property",
+		  "name": "aria-level",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-posinset",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-setsize",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		}
+	  ]
+	},
 	"complementary": {
 	  "name": "complementary",
 	  "fragID": "complementary",
@@ -1101,6 +1488,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -1124,6 +1525,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -1256,7 +1664,22 @@ var roleInfo = {
 	  "parentRoles": [
 		"section"
 	  ],
-	  "localprops": []
+	  "localprops": [
+		{
+		  "is": "property",
+		  "name": "aria-label",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-labelledby",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		}
+	  ]
 	},
 	"deletion": {
 	  "name": "deletion",
@@ -1304,6 +1727,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -1327,6 +1764,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -1469,6 +1913,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -1492,6 +1950,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -1666,6 +2131,13 @@ var roleInfo = {
 	  "localprops": [
 		{
 		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
 		  "name": "aria-label",
 		  "required": false,
 		  "disallowed": true,
@@ -1747,6 +2219,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -1770,6 +2256,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -1908,6 +2401,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -1931,6 +2438,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -2180,6 +2694,13 @@ var roleInfo = {
 		},
 		{
 		  "is": "property",
+		  "name": "aria-colindextext",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
 		  "name": "aria-colspan",
 		  "required": false,
 		  "disallowed": false,
@@ -2194,6 +2715,13 @@ var roleInfo = {
 		},
 		{
 		  "is": "property",
+		  "name": "aria-rowindextext",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
 		  "name": "aria-rowspan",
 		  "required": false,
 		  "disallowed": false,
@@ -2202,6 +2730,20 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-atomic",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -2230,6 +2772,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -2354,6 +2903,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -2377,6 +2940,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -2540,6 +3110,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -2563,6 +3147,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -2736,6 +3327,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -2759,6 +3364,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -2900,6 +3512,14 @@ var roleInfo = {
 		}
 	  ]
 	},
+	"label": {
+	  "name": "label",
+	  "fragID": "label",
+	  "parentRoles": [
+		"section"
+	  ],
+	  "localprops": []
+	},
 	"landmark": {
 	  "name": "landmark",
 	  "fragID": "landmark",
@@ -2911,6 +3531,20 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-atomic",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -2939,6 +3573,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -3057,6 +3698,14 @@ var roleInfo = {
 		}
 	  ]
 	},
+	"legend": {
+	  "name": "legend",
+	  "fragID": "legend",
+	  "parentRoles": [
+		"section"
+	  ],
+	  "localprops": []
+	},
 	"link": {
 	  "name": "link",
 	  "fragID": "link",
@@ -3103,6 +3752,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -3126,6 +3789,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -3354,6 +4024,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -3377,6 +4061,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -3511,6 +4202,29 @@ var roleInfo = {
 	  ],
 	  "localprops": []
 	},
+	"mark": {
+	  "name": "mark",
+	  "fragID": "mark",
+	  "parentRoles": [
+		"section"
+	  ],
+	  "localprops": [
+		{
+		  "is": "property",
+		  "name": "aria-label",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-labelledby",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		}
+	  ]
+	},
 	"marquee": {
 	  "name": "marquee",
 	  "fragID": "marquee",
@@ -3580,6 +4294,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -3603,6 +4331,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -3741,6 +4476,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -3764,6 +4513,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -3977,6 +4733,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -4000,6 +4770,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -4132,206 +4909,23 @@ var roleInfo = {
 		  "disallowed": false,
 		  "deprecated": false
 		}
-	  ],
-	  "allprops": [
-		{
-		  "is": "state",
-		  "name": "aria-checked",
-		  "required": true,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
-		  "name": "aria-disabled",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
-		  "name": "aria-expanded",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-haspopup",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-posinset",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-setsize",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-atomic",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
-		  "name": "aria-busy",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-controls",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
-		  "name": "aria-current",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-describedby",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-details",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
-		  "name": "aria-disabled",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": true
-		},
-		{
-		  "is": "property",
-		  "name": "aria-dropeffect",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-errormessage",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": true
-		},
-		{
-		  "is": "property",
-		  "name": "aria-flowto",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
-		  "name": "aria-grabbed",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-haspopup",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": true
-		},
-		{
-		  "is": "state",
-		  "name": "aria-hidden",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
-		  "name": "aria-invalid",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": true
-		},
-		{
-		  "is": "property",
-		  "name": "aria-keyshortcuts",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-label",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-labelledby",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-live",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-owns",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-relevant",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "property",
-		  "name": "aria-roledescription",
-		  "required": false,
-		  "disallowed": false,
-		  "deprecated": false
-		}
 	  ]
 	},
 	"menuitemradio": {
 	  "name": "menuitemradio",
 	  "fragID": "menuitemradio",
 	  "parentRoles": [
-		"menuitemcheckbox"
+		"menuitem"
 	  ],
-	  "localprops": []
+	  "localprops": [
+		{
+		  "is": "state",
+		  "name": "aria-checked",
+		  "required": true,
+		  "disallowed": false,
+		  "deprecated": false
+		}
+	  ]
 	},
 	"navigation": {
 	  "name": "navigation",
@@ -4364,13 +4958,6 @@ var roleInfo = {
 	  "localprops": [
 		{
 		  "is": "state",
-		  "name": "aria-selected",
-		  "required": true,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
 		  "name": "aria-checked",
 		  "required": false,
 		  "disallowed": false,
@@ -4379,6 +4966,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-posinset",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "state",
+		  "name": "aria-selected",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -4394,13 +4988,6 @@ var roleInfo = {
 	  "allprops": [
 		{
 		  "is": "state",
-		  "name": "aria-selected",
-		  "required": true,
-		  "disallowed": false,
-		  "deprecated": false
-		},
-		{
-		  "is": "state",
 		  "name": "aria-checked",
 		  "required": false,
 		  "disallowed": false,
@@ -4409,6 +4996,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-posinset",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "state",
+		  "name": "aria-selected",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -4430,6 +5024,20 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-atomic",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -4458,6 +5066,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -4771,6 +5386,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -4794,6 +5423,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -4933,6 +5569,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -4956,6 +5606,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -5082,6 +5739,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -5105,6 +5776,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -5268,6 +5946,13 @@ var roleInfo = {
 		},
 		{
 		  "is": "property",
+		  "name": "aria-rowindextext",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
 		  "name": "aria-setsize",
 		  "required": false,
 		  "disallowed": false,
@@ -5399,6 +6084,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -5422,6 +6121,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -5556,6 +6262,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -5579,6 +6299,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -5743,6 +6470,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -5766,6 +6507,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -5904,6 +6652,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -5927,6 +6689,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -6246,6 +7015,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -6269,6 +7052,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -6426,6 +7216,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -6449,6 +7253,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -6570,6 +7381,29 @@ var roleInfo = {
 	"subscript": {
 	  "name": "subscript",
 	  "fragID": "subscript",
+	  "parentRoles": [
+		"section"
+	  ],
+	  "localprops": [
+		{
+		  "is": "property",
+		  "name": "aria-label",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-labelledby",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		}
+	  ]
+	},
+	"suggestion": {
+	  "name": "suggestion",
+	  "fragID": "suggestion",
 	  "parentRoles": [
 		"section"
 	  ],
@@ -6726,6 +7560,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -6749,6 +7597,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -6904,7 +7759,22 @@ var roleInfo = {
 	  "parentRoles": [
 		"section"
 	  ],
-	  "localprops": []
+	  "localprops": [
+		{
+		  "is": "property",
+		  "name": "aria-label",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-labelledby",
+		  "required": false,
+		  "disallowed": true,
+		  "deprecated": false
+		}
+	  ]
 	},
 	"textbox": {
 	  "name": "textbox",
@@ -7056,6 +7926,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -7079,6 +7963,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -7331,6 +8222,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -7354,6 +8259,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -7492,6 +8404,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -7515,6 +8441,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -7682,6 +8615,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -7705,6 +8652,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
@@ -7854,6 +8808,20 @@ var roleInfo = {
 		  "deprecated": false
 		},
 		{
+		  "is": "property",
+		  "name": "aria-braillelabel",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-brailleroledescription",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
 		  "is": "state",
 		  "name": "aria-busy",
 		  "required": false,
@@ -7877,6 +8845,13 @@ var roleInfo = {
 		{
 		  "is": "property",
 		  "name": "aria-describedby",
+		  "required": false,
+		  "disallowed": false,
+		  "deprecated": false
+		},
+		{
+		  "is": "property",
+		  "name": "aria-description",
 		  "required": false,
 		  "disallowed": false,
 		  "deprecated": false
