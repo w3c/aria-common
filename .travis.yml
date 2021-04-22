@@ -15,7 +15,7 @@ script:
   - bash update-repo.sh accname main
   - bash update-repo.sh aria main
   - bash update-repo.sh aria stable
-  - bash update-repo.sh aria-practices master
+  - bash update-repo.sh aria-practices main
   - bash update-repo.sh core-aam main
   - bash update-repo.sh core-aam stable
   - bash update-repo.sh css-aam main
