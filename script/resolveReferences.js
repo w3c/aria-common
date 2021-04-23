@@ -228,6 +228,16 @@ function linkCrossReferences() {
   }
 }
 
+function updateTerms() {
+  Array.prototype.slice
+  .call(document.querySelectorAll('.termref'))
+  .forEach(function (item) {
+    item.classList.add("informative");
+  });
+
+}
+
+
 function updateReferences(base) {
   // update references to properties
   //
