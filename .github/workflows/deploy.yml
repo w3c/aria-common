@@ -19,7 +19,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.repository == "w3c/aria-common" }}
+    if: github.repository == 'w3c/aria-common'
     strategy:
       fail-fast: false
       matrix:
