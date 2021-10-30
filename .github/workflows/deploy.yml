@@ -62,6 +62,7 @@ jobs:
 
     - uses: actions/checkout@v2
       with:
+        repository: w3c/${{ matrix.repo }}
         path: ${{ matrix.repo }}
         ref: ${{ matrix.branch }}
         token: ${{ secrets.GH_TOKEN }}
