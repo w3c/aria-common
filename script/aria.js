@@ -13,7 +13,6 @@
 var roleInfo = {};
 
 function ariaAttributeReferences() {
-  {
       var propList = {};
       var globalSP = [];
 
@@ -745,7 +744,6 @@ function ariaAttributeReferences() {
         });
 
       updateReferences(document);
-    }
   }
 
 require(['core/pubsubhub'], function (respecEvents) {
