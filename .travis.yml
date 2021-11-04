@@ -1,0 +1,30 @@
+language: node_js
+
+git:
+  depth: 3
+  
+branches:
+  only:
+    - main
+
+before_script:
+  - git config --global user.email "cooper@w3.org"
+  - git config --global user.name "michael-n-cooper"
+  
+script:
+  - bash update-repo.sh accname main
+  - bash update-repo.sh aria main
+  - bash update-repo.sh aria stable
+  - bash update-repo.sh aria-practices main
+  - bash update-repo.sh core-aam main
+  - bash update-repo.sh core-aam stable
+  - bash update-repo.sh css-aam main
+  - bash update-repo.sh dpub-aam main
+  - bash update-repo.sh dpub-aria main
+  - bash update-repo.sh graphics-aam main
+  - bash update-repo.sh graphics-aria main
+  - bash update-repo.sh math-aam main
+  - bash update-repo.sh math-aria main
+  - bash update-repo.sh mathml-aam main
+  - bash update-repo.sh svg-aam main
+  
