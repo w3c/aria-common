@@ -73,15 +73,15 @@ jobs:
     - name: Copy files
       run: |
         mkdir ${{ matrix.repo }}/common
-        cp -R ${{ matrix.repo }}/commmon/README.md ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/acknowledgements.html ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/biblio.js ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/terms.html ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/acknowledgements ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/css ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/img ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/script ${{ matrix.repo }}
-        cp -R ${{ matrix.repo }}/commmon/utility ${{ matrix.repo }}
+        cp -R commmon/README.md ${{ matrix.repo }}
+        cp -R commmon/acknowledgements.html ${{ matrix.repo }}
+        cp -R commmon/biblio.js ${{ matrix.repo }}
+        cp -R commmon/terms.html ${{ matrix.repo }}
+        cp -R commmon/acknowledgements ${{ matrix.repo }}
+        cp -R commmon/css ${{ matrix.repo }}
+        cp -R commmon/img ${{ matrix.repo }}
+        cp -R commmon/script ${{ matrix.repo }}
+        cp -R commmon/utility ${{ matrix.repo }}
 
     - name: Commit back
       run: |
