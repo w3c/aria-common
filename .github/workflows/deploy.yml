@@ -72,6 +72,7 @@ jobs:
 
     - name: Copy files
       run: |
+        mkdir ${{ matrix.repo }}/common
         cp -R commmon/README.md ${{ matrix.repo }}
         cp -R commmon/acknowledgements.html ${{ matrix.repo }}
         cp -R commmon/biblio.js ${{ matrix.repo }}
