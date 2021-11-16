@@ -24,35 +24,35 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - repo: accname
+          - repo: w3c/accname
             branch: main
-          - repo: aria
+          - repo: w3c/aria
             branch: main
-          - repo: aria
+          - repo: w3c/aria
             branch: stable
-          - repo: aria-practices
+          - repo: w3c/aria-practices
             branch: main
-          - repo: core-aam
+          - repo: w3c/core-aam
             branch: main
-          - repo: core-aam
+          - repo: w3c/core-aam
             branch: stable
-          - repo: css-aam
+          - repo: w3c/css-aam
             branch: main
-          - repo: dpub-aam
+          - repo: w3c/dpub-aam
             branch: main
-          - repo: dpub-aria
+          - repo: w3c/dpub-aria
             branch: main
-          - repo: graphics-aam
+          - repo: w3c/graphics-aam
             branch: main
-          - repo: graphics-aria
+          - repo: w3c/graphics-aria
             branch: main
-          - repo: math-aam
+          - repo: w3c/math-aam
             branch: main
-          - repo: math-aria
+          - repo: w3c/math-aria
             branch: main
-          - repo: mathml-aam
+          - repo: w3c/mathml-aam
             branch: main
-          - repo: svg-aam
+          - repo: w3c/svg-aam
             branch: main
 
     steps:
