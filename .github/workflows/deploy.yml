@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - deploy
     paths:
       - .github/workflows/deploy.yml
       - README.md
