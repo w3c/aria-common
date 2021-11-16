@@ -71,15 +71,15 @@ jobs:
     - name: Copy files
       run: |
         mkdir ${{ matrix.repo }}/common
-        cp -R README.md ${{ matrix.repo }}
-        cp -R acknowledgements.html ${{ matrix.repo }}
-        cp -R biblio.js ${{ matrix.repo }}
-        cp -R terms.html ${{ matrix.repo }}
-        cp -R acknowledgements ${{ matrix.repo }}
-        cp -R css ${{ matrix.repo }}
-        cp -R img ${{ matrix.repo }}
-        cp -R script ${{ matrix.repo }}
-        cp -R utility ${{ matrix.repo }}
+        cp -R ${{ github.repository }}/README.md ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/acknowledgements.html ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/biblio.js ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/terms.html ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/acknowledgements ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/css ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/img ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/script ${{ matrix.repo }}/common
+        cp -R ${{ github.repository }}/utility ${{ matrix.repo }}/common
 
     - name: Commit back
       run: |
