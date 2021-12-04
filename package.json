@@ -4,7 +4,8 @@
   "description": "[This is the repository for aria-common](https://github.com/w3c/aria-common). It contains files shared by several other ARIA repositories, and copied into those repositories. Note *content must be updated in w3c/aria-common*; changes made in copies are overwritten next time content from this repository is synced.",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "fix": "eslint . --fix",
+    "test": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/w3c/aria-common/issues"
   },
-  "homepage": "https://github.com/w3c/aria-common#readme"
+  "homepage": "https://github.com/w3c/aria-common#readme",
+  "devDependencies": {
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
+  }
 }
