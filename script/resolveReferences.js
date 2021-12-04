@@ -157,7 +157,7 @@ function linkCrossReferences() {
     }
 
     // First the links to the definitions of roles, states, and properties.
-    if (!!specBaseURL) {
+    if (specBaseURL) {
         setHrefs(
             "a.role-reference, a.property-reference, a.state-reference, a.specref",
             specBaseURL
@@ -168,7 +168,7 @@ function linkCrossReferences() {
 
     // Second, for links to role, state, and property mappings in the core mapping
     // doc.
-    if (!!coreMappingURL) {
+    if (coreMappingURL) {
         setHrefs("a.core-mapping", coreMappingURL);
     } else {
         console.log(
@@ -177,7 +177,7 @@ function linkCrossReferences() {
     }
 
     // Third, for links into the accname document.
-    if (!!accNameURL) {
+    if (accNameURL) {
         setHrefs("a.accname", accNameURL);
     } else {
         console.log(
@@ -186,7 +186,7 @@ function linkCrossReferences() {
     }
     // Fourth, for links to role, state, and property mappings in the html mapping
     // doc.
-    if (!!htmlMappingURL) {
+    if (htmlMappingURL) {
         setHrefs("a.html-mapping", htmlMappingURL);
     } else {
         console.log(
@@ -194,7 +194,7 @@ function linkCrossReferences() {
         );
     }
     // Links to the DPub WAI-ARIA Module.
-    if (!!dpubModURL) {
+    if (dpubModURL) {
         setHrefs(
             "a.dpub-role-reference, a.dpub-property-reference, a.dpub-state-reference, a.dpub",
             dpubModURL
@@ -203,7 +203,7 @@ function linkCrossReferences() {
         console.log("linkCrossReferences():  dpubModURL is not defined.");
     }
     // Links to the Graphics WAI-ARIA Module.
-    if (!!graphicsModURL) {
+    if (graphicsModURL) {
         setHrefs(
             "a.graphics-role-reference, a.graphics-property-reference, a.graphics-state-reference, a.graphics",
             graphicsModURL
@@ -212,7 +212,7 @@ function linkCrossReferences() {
         console.log("linkCrossReferences():  graphicsModURL is not defined.");
     }
     // Links to the Graphics Mapping WAI-ARIA Module.
-    if (!!graphicsMappingModURL) {
+    if (graphicsMappingModURL) {
         setHrefs(
             "a.graphics-role-mapping, a.graphics-property-mapping, a.graphics-state-mapping, a.graphics-mapping",
             graphicsMappingModURL
@@ -223,7 +223,7 @@ function linkCrossReferences() {
         );
     }
     // Links to the Authoring Practices.
-    if (!!practicesURL) {
+    if (practicesURL) {
         setHrefs("a.practices", practicesURL);
     } else {
         console.log("linkCrossReferences():  practicesURL is not defined.");

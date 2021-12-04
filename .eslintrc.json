@@ -10,5 +10,10 @@
     "extends": ["eslint:recommended", "plugin:prettier/recommended"],
     "parserOptions": {
         "ecmaVersion": 6
+    },
+    "rules": {
+        "no-unused-vars": "off",
+        "no-redeclare": "off",
+        "no-undef": "off"
     }
 }
