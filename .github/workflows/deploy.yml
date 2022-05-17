@@ -54,6 +54,8 @@ jobs:
             branch: main
           - repo: w3c/svg-aam
             branch: main
+          - repo: w3c/html-aam
+            branch: gh-pages
 
     steps:
     - uses: actions/checkout@v2
