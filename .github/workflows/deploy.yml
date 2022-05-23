@@ -26,6 +26,8 @@ jobs:
         include:
           - repo: w3c/accname
             branch: main
+          - repo: w3c/accname
+            branch: stable            
           - repo: w3c/aria
             branch: main
           - repo: w3c/aria
