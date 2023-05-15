@@ -17,7 +17,7 @@ var localRoleInfo = {};
  * @param {Boolean} noLC do not convert to lowercase
  * @returns {String} generated (or existing) id for element
  */
- function addId(elem, pfx = "", txt = "", noLC = false) {
+function addId(elem, pfx = "", txt = "", noLC = false) {
   if (elem.id) {
     return elem.id;
   }
@@ -68,30 +68,30 @@ function ariaAttributeReferences() {
     // process the document before anything else is done
     // first get the properties
     Array.prototype.slice
-      .call(document.querySelectorAll('pdef, sdef'))
+      .call(document.querySelectorAll("pdef, sdef"))
       .forEach(function (item) {
-        var type = item.localName === 'pdef' ? 'property' : 'state';
+        var type = item.localName === "pdef" ? "property" : "state";
         var container = item.parentNode;
         var content = item.innerHTML;
-        var sp = document.createElement('span');
-        var title = item.getAttribute('title');
+        var sp = document.createElement("span");
+        var title = item.getAttribute("title");
         if (!title) {
           title = content;
         }
-        sp.className = type + '-name';
+        sp.className = type + "-name";
         sp.title = title;
         sp.innerHTML =
-          '<code>' +
+          "<code>" +
           content +
           '</code> <span class="type-indicator">(' +
           type +
-          ')</span>';
-        sp.setAttribute('aria-describedby', 'desc-' + title);
+          ")</span>";
+        sp.setAttribute("aria-describedby", "desc-" + title);
         var dRef = item.nextElementSibling;
         var desc = dRef.firstElementChild.innerHTML;
-        dRef.id = 'desc-' + title;
-        dRef.setAttribute('role', 'definition');
-        var heading = document.createElement('h3');
+        dRef.id = "desc-" + title;
+        dRef.setAttribute("role", "definition");
+        var heading = document.createElement("h3");
         heading.appendChild(sp);
         container.replaceChild(heading, item);
         // add this item to the index
@@ -102,10 +102,10 @@ function ariaAttributeReferences() {
           desc: desc,
           roles: [],
         };
-        var abstract = container.querySelector('.' + type + '-applicability');
+        var abstract = container.querySelector("." + type + "-applicability");
         if (
           (abstract.textContent || abstract.innerText) ===
-          'All elements of the base markup'
+          "All elements of the base markup"
         ) {
           globalSP.push({
             is: type,
@@ -116,15 +116,15 @@ function ariaAttributeReferences() {
         }
         // the pdef/sdef is gone.  if we are in a div, convert that div to a section
 
-        if (container.nodeName.toLowerCase() == 'div') {
+        if (container.nodeName.toLowerCase() == "div") {
           // change the enclosing DIV to a section with notoc
-          var sec = document.createElement('section');
+          var sec = document.createElement("section");
           Array.prototype.slice
             .call(container.attributes)
             .forEach(function (attr) {
               sec.setAttribute(attr.name, attr.value);
             });
-          sec.classList.add('notoc');
+          sec.classList.add("notoc");
           var theContents = container.innerHTML;
           sec.innerHTML = theContents;
           container.parentNode.replaceChild(sec, container);
@@ -141,52 +141,52 @@ function ariaAttributeReferences() {
     //
 
     var subRoles = [];
-    var roleIndex = '';
+    var roleIndex = "";
     Array.prototype.slice
-      .call(document.querySelectorAll('rdef'))
+      .call(document.querySelectorAll("rdef"))
       .forEach(function (item) {
         var container = item.parentNode;
         var content = item.innerHTML;
-        var sp = document.createElement('h3');
-        var title = item.getAttribute('title');
+        var sp = document.createElement("h3");
+        var title = item.getAttribute("title");
 
         if (!title) {
           title = content;
         }
 
-        var pnID = addId(container, '', title);
-        sp.className = 'role-name';
+        var pnID = addId(container, "", title);
+        sp.className = "role-name";
         sp.title = title;
         // is this a role or an abstract role
-        var type = 'role';
-        var abstract = container.querySelectorAll('.role-abstract');
-        if (abstract.innerText === 'True') {
-          type = 'abstract role';
+        var type = "role";
+        var abstract = container.querySelectorAll(".role-abstract");
+        if (abstract.innerText === "True") {
+          type = "abstract role";
         }
 
         sp.innerHTML =
-          '<code>' +
+          "<code>" +
           content +
           '</code> <span class="type-indicator">(' +
           type +
-          ')</span>';
+          ")</span>";
         // sp.id = title;
-        sp.setAttribute('aria-describedby', 'desc-' + title);
+        sp.setAttribute("aria-describedby", "desc-" + title);
         var dRef = item.nextElementSibling;
         var desc = dRef.firstElementChild.innerHTML;
-        dRef.id = 'desc-' + title;
-        dRef.setAttribute('role', 'definition');
+        dRef.id = "desc-" + title;
+        dRef.setAttribute("role", "definition");
         container.replaceChild(sp, item);
         roleIndex +=
           '<dt><a href="#' +
           pnID +
           '" class="role-reference">' +
           content +
-          '</a></dt>\n';
-        roleIndex += '<dd>' + desc + '</dd>\n';
+          "</a></dt>\n";
+        roleIndex += "<dd>" + desc + "</dd>\n";
         // grab info about this role
         // do we have a parent class?  if so, put us in that parents list
-        var node = container.querySelectorAll('.role-parent rref');
+        var node = container.querySelectorAll(".role-parent rref");
         // s will hold the name of the parent role if any
         var s = null;
         var parentRoles = [];
@@ -209,7 +209,7 @@ function ariaAttributeReferences() {
         Array.prototype.slice
           .call(
             container.querySelectorAll(
-              '.role-properties, .role-required-properties'
+              ".role-properties, .role-required-properties"
             )
           )
           .forEach(function (node) {
@@ -220,16 +220,14 @@ function ariaAttributeReferences() {
             ) {
               // looks like we do
               Array.prototype.slice
-                .call(node.querySelectorAll('pref,sref'))
+                .call(node.querySelectorAll("pref,sref"))
                 .forEach(function (item) {
-                  var name = item.getAttribute('title');
+                  var name = item.getAttribute("title");
                   if (!name) {
                     name = item.textContent || item.innerText;
                   }
-                  var type = item.localName === 'pref' ? 'property' : 'state';
-                  var req = node.classList.contains(
-                    'role-required-properties'
-                  );
+                  var type = item.localName === "pref" ? "property" : "state";
+                  var req = node.classList.contains("role-required-properties");
                   attrs.push({ is: type, name: name, required: req });
                   // remember that the state or property is
                   // referenced by this role
@@ -245,15 +243,15 @@ function ariaAttributeReferences() {
           localprops: attrs,
         };
 
-        if (container.nodeName.toLowerCase() == 'div') {
+        if (container.nodeName.toLowerCase() == "div") {
           // change the enclosing DIV to a section with notoc
-          var sec = document.createElement('section');
+          var sec = document.createElement("section");
           Array.prototype.slice
             .call(container.attributes)
             .forEach(function (attr) {
               sec.setAttribute(attr.name, attr.value);
             });
-          sec.classList.add('notoc');
+          sec.classList.add("notoc");
           var theContents = container.innerHTML;
           sec.innerHTML = theContents;
           container.parentNode.replaceChild(sec, container);
@@ -266,7 +264,7 @@ function ariaAttributeReferences() {
         ref = roleInfo[role];
       }
       if (!ref) {
-        msg.pub('error', 'No role definition for ' + role);
+        msg.pub("error", "No role definition for " + role);
       } else if (ref.allprops) {
         return ref.allprops;
       } else {
@@ -286,9 +284,9 @@ function ariaAttributeReferences() {
       // build up the complete inherited SP lists for each role
       Object.entries(localRoleInfo).forEach(function (index) {
         item = index[1];
-        var output = '';
+        var output = "";
         var placeholder = document.querySelector(
-          '#' + item.fragID + ' .role-inherited'
+          "#" + item.fragID + " .role-inherited"
         );
 
         if (placeholder) {
@@ -317,46 +315,46 @@ function ariaAttributeReferences() {
           if (sortedList) {
             for (var k = 0; k < sortedList.length; k++) {
               var role = sortedList[k];
-              var req = '';
+              var req = "";
               if (role.required) {
-                req = ' <strong>(required)</strong>';
+                req = " <strong>(required)</strong>";
               }
               if (prev != role.name) {
-                output += '<li>';
-                if (role.is === 'state') {
+                output += "<li>";
+                if (role.is === "state") {
                   output +=
-                    '<sref ' +
-                    (role.prohibited ? 'data-prohibited ' : '') +
-                    (role.deprecated ? 'data-deprecated ' : '') +
+                    "<sref " +
+                    (role.prohibited ? "data-prohibited " : "") +
+                    (role.deprecated ? "data-deprecated " : "") +
                     'title="' +
                     role.name +
                     '">' +
                     role.name +
-                    ' (state)</sref>' +
+                    " (state)</sref>" +
                     req;
                 } else {
                   output +=
-                    '<pref ' +
-                    (role.prohibited ? 'data-prohibited ' : '') +
-                    (role.deprecated ? 'data-deprecated ' : '') +
-                    '>' +
+                    "<pref " +
+                    (role.prohibited ? "data-prohibited " : "") +
+                    (role.deprecated ? "data-deprecated " : "") +
+                    ">" +
                     role.name +
-                    '</pref>' +
+                    "</pref>" +
                     req;
                 }
                 if (role.prohibited) {
-                  output += ' (Except where prohibited)';
+                  output += " (Except where prohibited)";
                 }
                 if (role.deprecated) {
-                  output += ' (Global use deprecated in ARIA 1.2)';
+                  output += " (Global use deprecated in ARIA 1.2)";
                 }
-                output += '</li>\n';
+                output += "</li>\n";
                 prev = role.name;
               }
             }
           }
-          if (output !== '') {
-            output = '<ul>\n' + output + '</ul>\n';
+          if (output !== "") {
+            output = "<ul>\n" + output + "</ul>\n";
             placeholder.innerHTML = output;
           }
         }
@@ -384,25 +382,25 @@ function ariaAttributeReferences() {
       };
 
       Object.values(propList).forEach(function (item) {
-        var output = '';
-        var section = document.querySelector('#' + item.name);
+        var output = "";
+        var section = document.querySelector("#" + item.name);
         var placeholder = section.querySelector(
-          '.state-applicability, .property-applicability'
+          ".state-applicability, .property-applicability"
         );
         if (
           placeholder &&
           (placeholder.textContent || placeholder.innerText) ===
-            'Placeholder' &&
+            "Placeholder" &&
           item.roles.length
         ) {
           // update the used in roles list
           var sortedList = [];
           sortedList = item.roles.sort();
           for (var j = 0; j < sortedList.length; j++) {
-            output += '<li><rref>' + sortedList[j] + '</rref></li>\n';
+            output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
           }
-          if (output !== '') {
-            output = '<ul>\n' + output + '</ul>\n';
+          if (output !== "") {
+            output = "<ul>\n" + output + "</ul>\n";
           }
           placeholder.innerHTML = output;
           // also update any inherited roles
@@ -421,22 +419,22 @@ function ariaAttributeReferences() {
           });
 
           placeholder = section.querySelector(
-            '.state-descendants, .property-descendants'
+            ".state-descendants, .property-descendants"
           );
 
           if (placeholder && myList.length) {
             sortedList = myList.sort();
-            output = '';
-            var last = '';
+            output = "";
+            var last = "";
             for (var k = 0; k < sortedList.length; k++) {
               var lItem = sortedList[k];
               if (last != lItem) {
-                output += '<li><rref>' + lItem + '</rref></li>\n';
+                output += "<li><rref>" + lItem + "</rref></li>\n";
                 last = lItem;
               }
             }
-            if (output !== '') {
-              output = '<ul>\n' + output + '</ul>\n';
+            if (output !== "") {
+              output = "<ul>\n" + output + "</ul>\n";
             }
             placeholder.innerHTML = output;
           }
@@ -444,11 +442,11 @@ function ariaAttributeReferences() {
       });
 
       // spit out the index
-      var node = document.getElementById('index_role');
+      var node = document.getElementById("index_role");
       var parentNode = node.parentNode;
-      var list = document.createElement('dl');
-      list.id = 'index_role';
-      list.className = 'compact';
+      var list = document.createElement("dl");
+      list.id = "index_role";
+      list.className = "compact";
       list.innerHTML = roleIndex;
       parentNode.replaceChild(list, node);
 
@@ -458,17 +456,16 @@ function ariaAttributeReferences() {
         var sortedList = item.sort(function (a, b) {
           return a < b ? -1 : a > b ? 1 : 0;
         });
-        var output = '<ul>\n';
+        var output = "<ul>\n";
         for (var j = 0; j < sortedList.length; j++) {
-          output += '<li><rref>' + sortedList[j] + '</rref></li>\n';
+          output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
         }
-        output += '</ul>\n';
+        output += "</ul>\n";
         // put it somewhere
-        var subRolesContainer = document.querySelector('#' + subRoles[i]);
+        var subRolesContainer = document.querySelector("#" + subRoles[i]);
         if (subRolesContainer) {
-          var subRolesListContainer = subRolesContainer.querySelector(
-            '.role-children'
-          );
+          var subRolesListContainer =
+            subRolesContainer.querySelector(".role-children");
           if (subRolesListContainer) {
             subRolesListContainer.innerHTML = output;
           }
@@ -482,8 +479,8 @@ function ariaAttributeReferences() {
 
     Array.prototype.slice
       .call(
-      document.querySelectorAll(
-          '.role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values'
+        document.querySelectorAll(
+          ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"
         )
       )
       .forEach(function (item) {
@@ -492,23 +489,23 @@ function ariaAttributeReferences() {
           // there is no item - remove the row
           item.parentNode.parentNode.removeChild(item.parentNode);
         } else if (
-          content === 'Placeholder' &&
+          content === "Placeholder" &&
           !skipIndex &&
-          (item.className === 'role-inherited' ||
-            item.className === 'role-children' ||
-            item.className === 'property-descendants' ||
-            item.className === 'state-descendants')
+          (item.className === "role-inherited" ||
+            item.className === "role-children" ||
+            item.className === "property-descendants" ||
+            item.className === "state-descendants")
         ) {
           item.parentNode.remove();
         }
       });
   }
-} 
+}
 
-require(['core/pubsubhub'], function (respecEvents) {
-  respecEvents.sub('end', function (msg) {
-  if (msg == 'w3c/conformance') {
-    ariaAttributeReferences();
-  }
+require(["core/pubsubhub"], function (respecEvents) {
+  respecEvents.sub("end", function (msg) {
+    if (msg == "w3c/conformance") {
+      ariaAttributeReferences();
+    }
   });
 });

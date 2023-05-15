@@ -1,11 +1,11 @@
 /* global mappingTables */
 
 function hideElement(element) {
-  element.style.display = 'none';
+  element.style.display = "none";
 }
 
 function showElement(element) {
-  element.style.display = 'block';
+  element.style.display = "block";
 }
 
 function queryAll(selector, context) {
@@ -28,19 +28,15 @@ function viewAsSingleTable(tableContainer, detailsContainer) {
   showElement(tableContainer);
 
   // Remove ids from summary
-  queryAll('summary', detailsContainer).forEach(function (
-    summary
-  ) {
-    summary.dataset['id'] = summary.id;
-    summary.removeAttribute('id');
+  queryAll("summary", detailsContainer).forEach(function (summary) {
+    summary.dataset["id"] = summary.id;
+    summary.removeAttribute("id");
   });
 
   // Add ids to table
-  queryAll('tbody tr', tableContainer).forEach(function (
-    tr
-  ) {
-    tr.id = tr.dataset['id'];
-    tr.removeAttribute('data-id');
+  queryAll("tbody tr", tableContainer).forEach(function (tr) {
+    tr.id = tr.dataset["id"];
+    tr.removeAttribute("data-id");
   });
 }
 
@@ -49,22 +45,17 @@ function viewAsDetails(tableContainer, detailsContainer) {
   showElement(detailsContainer);
 
   // Remove ids from table
-  queryAll('tbody tr', tableContainer).forEach(function (
-    tr
-  ) {
-    tr.dataset['id'] = tr.id;
-    tr.removeAttribute('id');
+  queryAll("tbody tr", tableContainer).forEach(function (tr) {
+    tr.dataset["id"] = tr.id;
+    tr.removeAttribute("id");
   });
 
   // Add ids to summary
-  queryAll('summary', detailsContainer).forEach(function (
-    summary
-  ) {
-    summary.id = summary.dataset['id'];
-    summary.removeAttribute('data-id');
+  queryAll("summary", detailsContainer).forEach(function (summary) {
+    summary.id = summary.dataset["id"];
+    summary.removeAttribute("data-id");
   });
 }
-
 
 function expandReferredDetails(summaryFragId) {
   // if details element is not open, activate click on summary
@@ -74,8 +65,7 @@ function expandReferredDetails(summaryFragId) {
 }
 
 function mappingTables() {
-  queryAll('.table-container').forEach(function (container) {
-
+  queryAll(".table-container").forEach(function (container) {
     // object to store information about a mapping table.
     var tableInfo = {};
     mappingTableInfos.push(tableInfo);
@@ -85,27 +75,27 @@ function mappingTables() {
     hideElement(container);
 
     // store a reference to the table
-    tableInfo.table = container.querySelector('table');
+    tableInfo.table = container.querySelector("table");
 
     // create a container div to hold all the details element and insert after table
-    tableInfo.detailsContainer = document.createElement('div');
-    tableInfo.detailsContainer.className = 'details';
-    tableInfo.id = tableInfo.table.id + '-details';
+    tableInfo.detailsContainer = document.createElement("div");
+    tableInfo.detailsContainer.className = "details";
+    tableInfo.id = tableInfo.table.id + "-details";
     tableInfo.tableContainer.insertAdjacentElement(
-      'afterend',
+      "afterend",
       tableInfo.detailsContainer
     );
 
     // add switch to view as single table or details/summary
-    var viewSwitch = document.createElement('button');
-    viewSwitch.className = 'switch-view';
+    var viewSwitch = document.createElement("button");
+    viewSwitch.className = "switch-view";
     viewSwitch.innerHTML = mappingTableLabels.viewByTable;
-    tableInfo.tableContainer.insertAdjacentElement('beforebegin', viewSwitch);
+    tableInfo.tableContainer.insertAdjacentElement("beforebegin", viewSwitch);
 
     // store the table's column headers in array colHeaders
     // TODO: figure out what browsers we have to support and replace this with Array#map if possible
     var colHeaders = [];
-    queryAll('thead th', tableInfo.table).forEach(function (th) {
+    queryAll("thead th", tableInfo.table).forEach(function (th) {
       colHeaders.push(th.innerHTML);
     });
 
@@ -113,64 +103,60 @@ function mappingTables() {
     colHeaders.shift();
     // for each row in the table, create details/summary..
 
-    queryAll('tbody tr', tableInfo.table).forEach(function (row) {
-      var caption = row.querySelector('th').innerHTML;
-      var summary = caption.replace(/<a [^>]+>|<\/a>/g, '');
+    queryAll("tbody tr", tableInfo.table).forEach(function (row) {
+      var caption = row.querySelector("th").innerHTML;
+      var summary = caption.replace(/<a [^>]+>|<\/a>/g, "");
       // get the tr's @id
       var id = row.id;
       row.dataset.id = id;
 
       // remove the tr's @id since same id will be used in the relevant summary element
-      row.removeAttribute('id');
+      row.removeAttribute("id");
       // store the row's cells in array rowCells
       var rowCells = [];
       // add row cells to array rowCells for use in the details' table
-      queryAll('td', row).forEach(function (cell) {
+      queryAll("td", row).forEach(function (cell) {
         rowCells.push(cell.innerHTML);
       });
       // clone colHeaders array for use in details table row headers
       var rowHeaders = colHeaders.slice(0);
       // if attributes mapping table...
-      if (tableInfo.table.classList.contains('attributes')) {
+      if (tableInfo.table.classList.contains("attributes")) {
         // remove second column header from array
         rowHeaders.shift();
         // remove and store "HTML elements" cell from rowCells array for use in details' summary and table caption
         var relevantElsCaption = rowCells.shift();
         var relevantElsSummary = relevantElsCaption.replace(
           /<a [^>]+>|<\/a>/g,
-          ''
+          ""
         );
       }
 
       // create content for each <details> element; add row header's content to summary
-      var details = document.createElement('details');
-      details.className = 'map';
+      var details = document.createElement("details");
+      details.className = "map";
 
       var detailsHTML = '<summary id="' + id + '">' + summary;
 
       // if attributes mapping table, append relevant elements to summary
-      if (tableInfo.table.classList.contains('attributes')) {
-        detailsHTML += ' [' + relevantElsSummary + ']';
+      if (tableInfo.table.classList.contains("attributes")) {
+        detailsHTML += " [" + relevantElsSummary + "]";
       }
 
-      detailsHTML += '</summary><table><caption>' + caption;
+      detailsHTML += "</summary><table><caption>" + caption;
 
-      if (tableInfo.table.classList.contains('attributes')) {
-        detailsHTML += ' [' + relevantElsCaption + ']';
+      if (tableInfo.table.classList.contains("attributes")) {
+        detailsHTML += " [" + relevantElsCaption + "]";
       }
 
-      detailsHTML += '</caption><tbody>';
+      detailsHTML += "</caption><tbody>";
 
       // add table rows using appropriate header from detailsRowHead array and relevant value from rowCells array
       for (var i = 0, len = rowCells.length; i < len; i++) {
         detailsHTML +=
-          '<tr><th>' +
-          rowHeaders[i] +
-          '</th><td>' +
-          rowCells[i] +
-          '</td></tr>';
+          "<tr><th>" + rowHeaders[i] + "</th><td>" + rowCells[i] + "</td></tr>";
       }
-      detailsHTML += '</tbody></table></details>';
+      detailsHTML += "</tbody></table></details>";
       details.innerHTML = detailsHTML;
 
       // append the <details> element to the detailsContainer div
@@ -178,13 +164,13 @@ function mappingTables() {
     });
 
     // add 'expand/collapse all' functionality
-    var expandAllButton = document.createElement('button');
-    expandAllButton.className = 'expand';
+    var expandAllButton = document.createElement("button");
+    expandAllButton.className = "expand";
     expandAllButton.innerHTML = mappingTableLabels.expand;
 
-    var collapseAllButton = document.createElement('button');
+    var collapseAllButton = document.createElement("button");
     collapseAllButton.disabled = true;
-    collapseAllButton.className = 'collapse';
+    collapseAllButton.className = "collapse";
     collapseAllButton.innerHTML = mappingTableLabels.collapse;
 
     tableInfo.detailsContainer.insertBefore(
@@ -203,17 +189,17 @@ function mappingTables() {
     window.location = hash;
     var frag = document.querySelector(hash);
     // if frag id is for a summary element, expand the parent details element
-    if (frag && frag.tagName === 'SUMMARY') {
+    if (frag && frag.tagName === "SUMMARY") {
       expandReferredDetails(hash);
     }
   }
 
   // Add a hook to expand referred details element when <a> whose @href is fragid of a <summary> is clicked.
   queryAll('a[href^="#"]').forEach(function (a) {
-    var fragId = a.getAttribute('href');
+    var fragId = a.getAttribute("href");
 
-    if (fragId.tagName === 'SUMMARY') {
-      a.addEventListener('click', function () {
+    if (fragId.tagName === "SUMMARY") {
+      a.addEventListener("click", function () {
         expandReferredDetails(fragId);
       });
     }
@@ -221,18 +207,16 @@ function mappingTables() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("button.switch-view").forEach(function (b) {
+    b.addEventListener("click", function () {
+      tableContainer = b.parentElement.querySelector(".table-container");
+      table = tableContainer.querySelector("table");
+      detailsContainer = b.parentElement.querySelector(".details");
 
-  document.querySelectorAll('button.switch-view').forEach(function (b){
-    b.addEventListener('click', function () {
-      tableContainer = b.parentElement.querySelector('.table-container');
-      table = tableContainer.querySelector('table');
-      detailsContainer = b.parentElement.querySelector('.details');
-
-      if (detailsContainer.style.display !== 'none') {
+      if (detailsContainer.style.display !== "none") {
         viewAsSingleTable(tableContainer, detailsContainer);
         // toggle the viewSwitch label from view-as-single-table to view-by-X
-        b.innerHTML =
-          mappingTableLabels.viewByLabels[table.id];
+        b.innerHTML = mappingTableLabels.viewByLabels[table.id];
       } else {
         viewAsDetails(tableContainer, detailsContainer);
         // toggle the viewSwitch label from view-by-X to view-as-single-table.
@@ -242,30 +226,30 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   var expandCollapseDetails = function (detCont, action) {
-    queryAll('details', detCont).forEach(function (details) {
-      details.open = action !== 'collapse'
+    queryAll("details", detCont).forEach(function (details) {
+      details.open = action !== "collapse";
     });
   };
 
-  document.querySelectorAll('button.expand').forEach(function (b){
-    b.addEventListener('click', function () {
+  document.querySelectorAll("button.expand").forEach(function (b) {
+    b.addEventListener("click", function () {
       detailsContainer = b.parentElement;
-      expandCollapseDetails(detailsContainer, 'expand');
+      expandCollapseDetails(detailsContainer, "expand");
       b.disabled = true;
       b.parentElement
-        .querySelector('button.collapse')
-        .removeAttribute('disabled');
+        .querySelector("button.collapse")
+        .removeAttribute("disabled");
     });
   });
 
-  document.querySelectorAll('button.collapse').forEach(function (b){
-    b.addEventListener('click', function () {
+  document.querySelectorAll("button.collapse").forEach(function (b) {
+    b.addEventListener("click", function () {
       detailsContainer = b.parentElement;
-      expandCollapseDetails(detailsContainer, 'collapse');
+      expandCollapseDetails(detailsContainer, "collapse");
       b.disabled = true;
       b.parentElement
-        .querySelector('button.expand')
-        .removeAttribute('disabled');
+        .querySelector("button.expand")
+        .removeAttribute("disabled");
     });
   });
 });
