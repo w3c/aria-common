@@ -7,9 +7,6 @@
  * localprops: local properties and states
  */
 
-/* jshint shadow: true, unused: false, laxbreak:true, laxcomma:true, asi: true, eqeqeq: false, strict: implied, jquery: true */
-/* global require, updateReferences, ariaAttributeReferences */
-
 var roleInfo = {};
 
 function ariaAttributeReferences() {
@@ -450,7 +447,6 @@ function ariaAttributeReferences() {
                 item.parentRoles.forEach(function (role) {
                     myList = myList.concat(getStates(role));
                 });
-                /* jshint loopfunc: true */
                 // strip out any items that we have locally
                 if (item.localprops.length && myList.length) {
                     for (var j = myList.length - 1; j >= 0; j--) {

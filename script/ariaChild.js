@@ -3,8 +3,6 @@
 // same directory that contains the roleInfo data structure.
 //
 
-/* jshint laxbreak:true, laxcomma:true, asi: true, eqeqeq: false, strict: implied, jquery: true */
-/* global require, roleInfo, updateReferences */
 var localRoleInfo = {};
 
 // NOTE: this was taken from https://github.com/w3c/respec/blob/develop/src/core/utils.js
@@ -311,7 +309,6 @@ function ariaAttributeReferences() {
                     });
 
                     // strip out any items that we have locally
-                    /* jshint loopfunc: true */
                     if (item.localprops.length && myList.length) {
                         for (var j = myList.length - 1; j >= 0; j--) {
                             item.localprops.forEach(function (x) {
