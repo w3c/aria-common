@@ -67,7 +67,7 @@ jobs:
         repository: ${{ matrix.repo }}
         path: ${{ matrix.repo }}
         ref: ${{ matrix.branch }}
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.ARIA_COMMON }}
 
     - name: Cleanup old files
       run: |
