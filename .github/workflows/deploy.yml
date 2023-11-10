@@ -57,7 +57,7 @@ jobs:
           - repo: w3c/svg-aam
             branch: main
           - repo: w3c/html-aam
-            branch: gh-pages
+            branch: aria-common-sync
 
     steps:
     - uses: actions/checkout@v3
