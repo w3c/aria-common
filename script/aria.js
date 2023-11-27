@@ -57,8 +57,11 @@ function ariaAttributeReferences() {
                 deprecated: isDeprecated,
             });
         }
-        // the rdef is gone.  if we are in a div, convert that div to a section
 
+        // if we are in a div, convert that div to a section
+        // TODO:  
+        // a) seems to be always the case. 
+        // b) Why don't we author the spec this way?
         if (container.nodeName.toLowerCase() == "div") {
             // change the enclosing DIV to a section with notoc
             const sec = document.createElement("section");
