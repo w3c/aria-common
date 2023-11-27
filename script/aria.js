@@ -21,8 +21,7 @@ function ariaAttributeReferences() {
 
     // process the document before anything else is done
     // first get the properties
-    Array.prototype.slice
-        .call(document.querySelectorAll("pdef, sdef"))
+    document.querySelectorAll("pdef, sdef")
         .forEach(function (item) {
             const type = item.localName === "pdef" ? "property" : "state";
             const container = item.parentNode;
@@ -101,8 +100,7 @@ function ariaAttributeReferences() {
             if (container.nodeName.toLowerCase() == "div") {
                 // change the enclosing DIV to a section with notoc
                 const sec = document.createElement("section");
-                Array.prototype.slice
-                    .call(container.attributes)
+                [...container.attributes]
                     .forEach(function (attr) {
                         sec.setAttribute(attr.name, attr.value);
                     });
@@ -220,8 +218,7 @@ function ariaAttributeReferences() {
     let fromContent = "";
     let fromProhibited = "";
 
-    Array.prototype.slice
-        .call(document.querySelectorAll("rdef"))
+    document.querySelectorAll("rdef")
         .forEach(function (item) {
             const container = item.parentNode;
             const content = item.innerHTML;
@@ -267,9 +264,7 @@ function ariaAttributeReferences() {
             roleIndex += "<dd>" + desc + "</dd>\n";
             // grab info about this role
             // do we have a parent class?  if so, put us in that parents list
-            const node = Array.prototype.slice.call(
-                container.querySelectorAll(".role-parent rref")
-            );
+            const node = container.querySelectorAll(".role-parent rref");
             // s will hold the name of the parent role if any
             let s = null;
             const parentRoles = [];
@@ -287,11 +282,8 @@ function ariaAttributeReferences() {
             }
             // are there supported states / properties in this role?
             const attrs = [];
-            Array.prototype.slice
-                .call(
-                    container.querySelectorAll(
+            container.querySelectorAll(
                         ".role-properties, .role-required-properties, .role-disallowed"
-                    )
                 )
                 .forEach(function (node) {
                     if (
@@ -300,8 +292,7 @@ function ariaAttributeReferences() {
                             (node.innerText && node.innerText.length !== 1))
                     ) {
                         // looks like we do
-                        Array.prototype.slice
-                            .call(node.querySelectorAll("pref,sref"))
+                        node.querySelectorAll("pref,sref")
                             .forEach(function (item) {
                                 let name = item.getAttribute("title");
                                 if (!name) {
@@ -341,8 +332,7 @@ function ariaAttributeReferences() {
             // is there a namefrom indication?  If so, add this one to
             // the list
             if (!isAbstract) {
-                Array.prototype.slice
-                    .call(container.querySelectorAll(".role-namefrom"))
+                container.querySelectorAll(".role-namefrom")
                     .forEach(function (node) {
                         const reqRef =
                             container.querySelector(".role-namerequired");
@@ -399,8 +389,7 @@ function ariaAttributeReferences() {
             if (container.nodeName.toLowerCase() == "div") {
                 // change the enclosing DIV to a section with notoc
                 const sec = document.createElement("section");
-                Array.prototype.slice
-                    .call(container.attributes)
+                [...container.attributes]
                     .forEach(function (attr) {
                         sec.setAttribute(attr.name, attr.value);
                     });
@@ -420,8 +409,7 @@ function ariaAttributeReferences() {
             return ref.allprops;
         } else {
             let myList = ref.localprops;
-            Array.prototype.slice
-                .call(ref.parentRoles)
+            ref.parentRoles
                 .forEach(function (item) {
                     const pList = getStates(item);
                     myList = myList.concat(pList);
@@ -742,11 +730,8 @@ function ariaAttributeReferences() {
     }
 
     // prune out unused rows throughout the document
-    Array.prototype.slice
-        .call(
-            document.querySelectorAll(
+    document.querySelectorAll(
                 ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"
-            )
         )
         .forEach(function (item) {
             var content = item.innerText;
