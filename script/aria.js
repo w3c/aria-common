@@ -41,42 +41,20 @@ function ariaAttributeReferences() {
         // Replace pdef/sdef with HTML
         item.insertAdjacentHTML('afterend', `<h4><span class="${type}-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span></span></h4>`)
         item.remove();
-        const abstract = container.querySelector("." + type + "-applicability");
-        if (
-            (abstract.textContent || abstract.innerText) ===
-            "All elements of the base markup"
-        ) {
+        // Populate globalSP
+        const applicabilityText = container.querySelector("." + type + "-applicability").innerText;
+        const isDefault = (applicabilityText === "All elements of the base markup");
+        const isProhibited = (applicabilityText === "All elements of the base markup except for some roles or elements that prohibit its use");
+        const isDeprecated = (applicabilityText === "Use as a global deprecated in ARIA 1.2");
+        // NOTE: the only other value for applicabilityText appears to be "Placeholder"
+        if (isDefault || isProhibited || isDeprecated) {
             globalSP.push({
                 is: type,
                 title: title,
                 name: content,
                 desc: desc,
-                prohibited: false,
-                deprecated: false,
-            });
-        } else if (
-            (abstract.textContent || abstract.innerText) ===
-            "All elements of the base markup except for some roles or elements that prohibit its use"
-        ) {
-            globalSP.push({
-                is: type,
-                title: title,
-                name: content,
-                desc: desc,
-                prohibited: true,
-                deprecated: false,
-            });
-        } else if (
-            (abstract.textContent || abstract.innerText) ===
-            "Use as a global deprecated in ARIA 1.2"
-        ) {
-            globalSP.push({
-                is: type,
-                title: title,
-                name: content,
-                desc: desc,
-                prohibited: false,
-                deprecated: true,
+                prohibited: isProhibited,
+                deprecated: isDeprecated,
             });
         }
         // the rdef is gone.  if we are in a div, convert that div to a section
