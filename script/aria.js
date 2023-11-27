@@ -21,95 +21,91 @@ function ariaAttributeReferences() {
 
     // process the document before anything else is done
     // first get the properties
-    document.querySelectorAll("pdef, sdef")
-        .forEach(function (item) {
-            const type = item.localName === "pdef" ? "property" : "state";
-            const container = item.parentNode;
-            const content = item.innerHTML;
-            const sp = document.createElement("span");
-            let title = item.getAttribute("title");
-            if (!title) {
-                title = content;
-            }
-            sp.className = type + "-name";
-            sp.title = title;
-            sp.innerHTML =
-                "<code>" +
-                content +
-                '</code> <span class="type-indicator">' +
-                type +
-                "</span>";
-            sp.setAttribute("aria-describedby", "desc-" + title);
-            const dRef = item.nextElementSibling;
-            const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
-            dRef.id = "desc-" + title;
-            dRef.setAttribute("role", "definition");
-            const heading = document.createElement("h4");
-            heading.appendChild(sp);
-            container.replaceChild(heading, item);
-            // add this item to the index
-            propList[title] = {
+    document.querySelectorAll("pdef, sdef").forEach(function (item) {
+        const type = item.localName === "pdef" ? "property" : "state";
+        const container = item.parentNode;
+        const content = item.innerHTML;
+        const sp = document.createElement("span");
+        let title = item.getAttribute("title");
+        if (!title) {
+            title = content;
+        }
+        sp.className = type + "-name";
+        sp.title = title;
+        sp.innerHTML =
+            "<code>" +
+            content +
+            '</code> <span class="type-indicator">' +
+            type +
+            "</span>";
+        sp.setAttribute("aria-describedby", "desc-" + title);
+        const dRef = item.nextElementSibling;
+        const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
+        dRef.id = "desc-" + title;
+        dRef.setAttribute("role", "definition");
+        const heading = document.createElement("h4");
+        heading.appendChild(sp);
+        container.replaceChild(heading, item);
+        // add this item to the index
+        propList[title] = {
+            is: type,
+            title: title,
+            name: content,
+            desc: desc,
+            roles: [],
+        };
+        const abstract = container.querySelector("." + type + "-applicability");
+        if (
+            (abstract.textContent || abstract.innerText) ===
+            "All elements of the base markup"
+        ) {
+            globalSP.push({
                 is: type,
                 title: title,
                 name: content,
                 desc: desc,
-                roles: [],
-            };
-            const abstract = container.querySelector(
-                "." + type + "-applicability"
-            );
-            if (
-                (abstract.textContent || abstract.innerText) ===
-                "All elements of the base markup"
-            ) {
-                globalSP.push({
-                    is: type,
-                    title: title,
-                    name: content,
-                    desc: desc,
-                    prohibited: false,
-                    deprecated: false,
-                });
-            } else if (
-                (abstract.textContent || abstract.innerText) ===
-                "All elements of the base markup except for some roles or elements that prohibit its use"
-            ) {
-                globalSP.push({
-                    is: type,
-                    title: title,
-                    name: content,
-                    desc: desc,
-                    prohibited: true,
-                    deprecated: false,
-                });
-            } else if (
-                (abstract.textContent || abstract.innerText) ===
-                "Use as a global deprecated in ARIA 1.2"
-            ) {
-                globalSP.push({
-                    is: type,
-                    title: title,
-                    name: content,
-                    desc: desc,
-                    prohibited: false,
-                    deprecated: true,
-                });
-            }
-            // the rdef is gone.  if we are in a div, convert that div to a section
+                prohibited: false,
+                deprecated: false,
+            });
+        } else if (
+            (abstract.textContent || abstract.innerText) ===
+            "All elements of the base markup except for some roles or elements that prohibit its use"
+        ) {
+            globalSP.push({
+                is: type,
+                title: title,
+                name: content,
+                desc: desc,
+                prohibited: true,
+                deprecated: false,
+            });
+        } else if (
+            (abstract.textContent || abstract.innerText) ===
+            "Use as a global deprecated in ARIA 1.2"
+        ) {
+            globalSP.push({
+                is: type,
+                title: title,
+                name: content,
+                desc: desc,
+                prohibited: false,
+                deprecated: true,
+            });
+        }
+        // the rdef is gone.  if we are in a div, convert that div to a section
 
-            if (container.nodeName.toLowerCase() == "div") {
-                // change the enclosing DIV to a section with notoc
-                const sec = document.createElement("section");
-                [...container.attributes]
-                    .forEach(function (attr) {
-                        sec.setAttribute(attr.name, attr.value);
-                    });
-                sec.classList.add("notoc");
-                const theContents = container.innerHTML;
-                sec.innerHTML = theContents;
-                container.parentNode.replaceChild(sec, container);
-            }
-        });
+        if (container.nodeName.toLowerCase() == "div") {
+            // change the enclosing DIV to a section with notoc
+            const sec = document.createElement("section");
+            [...container.attributes].forEach(function (attr) {
+                sec.setAttribute(attr.name, attr.value);
+            });
+            sec.classList.add("notoc");
+            const theContents = container.innerHTML;
+            sec.innerHTML = theContents;
+            container.parentNode.replaceChild(sec, container);
+        }
+    });
 
     if (!skipIndex) {
         // we have all the properties and states - spit out the
@@ -218,188 +214,184 @@ function ariaAttributeReferences() {
     let fromContent = "";
     let fromProhibited = "";
 
-    document.querySelectorAll("rdef")
-        .forEach(function (item) {
-            const container = item.parentNode;
-            const content = item.innerHTML;
-            const sp = document.createElement("h4");
-            let title = item.getAttribute("title");
-            if (!title) {
-                title = content;
-            }
+    document.querySelectorAll("rdef").forEach(function (item) {
+        const container = item.parentNode;
+        const content = item.innerHTML;
+        const sp = document.createElement("h4");
+        let title = item.getAttribute("title");
+        if (!title) {
+            title = content;
+        }
 
-            const pnID = title;
-            container.id = pnID;
-            sp.className = "role-name";
-            sp.title = title;
-            // is this a role or an abstract role
-            let type = "role";
-            let isAbstract = false;
-            const abstract = container.querySelectorAll(".role-abstract");
-            if (abstract.innerText === "True") {
-                type = "abstract role";
-                isAbstract = true;
-            }
-            sp.innerHTML =
-                "<code>" +
-                content +
-                '</code> <span class="type-indicator">' +
-                type +
-                "</span>";
-            // sp.id = title;
-            sp.setAttribute("aria-describedby", "desc-" + title);
-            const dRef = item.nextElementSibling;
-            const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
-            dRef.id = "desc-" + title;
-            dRef.setAttribute("role", "definition");
-            container.replaceChild(sp, item);
-            roleIndex +=
-                '<dt><a href="#' +
-                pnID +
-                '" class="role-reference"><code>' +
-                content +
-                "</code>" +
-                (isAbstract ? " (abstract role) " : "") +
-                "</a></dt>\n";
-            roleIndex += "<dd>" + desc + "</dd>\n";
-            // grab info about this role
-            // do we have a parent class?  if so, put us in that parents list
-            const node = container.querySelectorAll(".role-parent rref");
-            // s will hold the name of the parent role if any
-            let s = null;
-            const parentRoles = [];
-            if (node.length) {
-                node.forEach(function (roleref) {
-                    s = roleref.textContent || roleref.innerText;
+        const pnID = title;
+        container.id = pnID;
+        sp.className = "role-name";
+        sp.title = title;
+        // is this a role or an abstract role
+        let type = "role";
+        let isAbstract = false;
+        const abstract = container.querySelectorAll(".role-abstract");
+        if (abstract.innerText === "True") {
+            type = "abstract role";
+            isAbstract = true;
+        }
+        sp.innerHTML =
+            "<code>" +
+            content +
+            '</code> <span class="type-indicator">' +
+            type +
+            "</span>";
+        // sp.id = title;
+        sp.setAttribute("aria-describedby", "desc-" + title);
+        const dRef = item.nextElementSibling;
+        const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
+        dRef.id = "desc-" + title;
+        dRef.setAttribute("role", "definition");
+        container.replaceChild(sp, item);
+        roleIndex +=
+            '<dt><a href="#' +
+            pnID +
+            '" class="role-reference"><code>' +
+            content +
+            "</code>" +
+            (isAbstract ? " (abstract role) " : "") +
+            "</a></dt>\n";
+        roleIndex += "<dd>" + desc + "</dd>\n";
+        // grab info about this role
+        // do we have a parent class?  if so, put us in that parents list
+        const node = container.querySelectorAll(".role-parent rref");
+        // s will hold the name of the parent role if any
+        let s = null;
+        const parentRoles = [];
+        if (node.length) {
+            node.forEach(function (roleref) {
+                s = roleref.textContent || roleref.innerText;
 
-                    if (!subRoles[s]) {
-                        subRoles.push(s);
-                        subRoles[s] = [];
-                    }
-                    subRoles[s].push(title);
-                    parentRoles.push(s);
-                });
-            }
-            // are there supported states / properties in this role?
-            const attrs = [];
-            container.querySelectorAll(
-                        ".role-properties, .role-required-properties, .role-disallowed"
-                )
+                if (!subRoles[s]) {
+                    subRoles.push(s);
+                    subRoles[s] = [];
+                }
+                subRoles[s].push(title);
+                parentRoles.push(s);
+            });
+        }
+        // are there supported states / properties in this role?
+        const attrs = [];
+        container
+            .querySelectorAll(
+                ".role-properties, .role-required-properties, .role-disallowed"
+            )
+            .forEach(function (node) {
+                if (
+                    node &&
+                    ((node.textContent && node.textContent.length !== 1) ||
+                        (node.innerText && node.innerText.length !== 1))
+                ) {
+                    // looks like we do
+                    node.querySelectorAll("pref,sref").forEach(function (item) {
+                        let name = item.getAttribute("title");
+                        if (!name) {
+                            name = item.textContent || item.innerText;
+                        }
+                        const type =
+                            item.localName === "pref" ? "property" : "state";
+                        const req = node.classList.contains(
+                            "role-required-properties"
+                        );
+                        const dis = node.classList.contains("role-disallowed");
+                        const dep = item.hasAttribute("data-deprecated");
+                        attrs.push({
+                            is: type,
+                            name: name,
+                            required: req,
+                            disallowed: dis,
+                            deprecated: dep,
+                        });
+
+                        // remember that the state or property is
+                        // referenced by this role
+                        propList[name].roles.push(title);
+                    });
+                }
+            });
+        roleInfo[title] = {
+            name: title,
+            fragID: pnID,
+            parentRoles: parentRoles,
+            localprops: attrs,
+        };
+
+        // is there a namefrom indication?  If so, add this one to
+        // the list
+        if (!isAbstract) {
+            container
+                .querySelectorAll(".role-namefrom")
                 .forEach(function (node) {
-                    if (
-                        node &&
-                        ((node.textContent && node.textContent.length !== 1) ||
-                            (node.innerText && node.innerText.length !== 1))
-                    ) {
-                        // looks like we do
-                        node.querySelectorAll("pref,sref")
-                            .forEach(function (item) {
-                                let name = item.getAttribute("title");
-                                if (!name) {
-                                    name = item.textContent || item.innerText;
-                                }
-                                const type =
-                                    item.localName === "pref"
-                                        ? "property"
-                                        : "state";
-                                const req = node.classList.contains(
-                                    "role-required-properties"
-                                );
-                                const dis =
-                                    node.classList.contains("role-disallowed");
-                                const dep = item.hasAttribute("data-deprecated");
-                                attrs.push({
-                                    is: type,
-                                    name: name,
-                                    required: req,
-                                    disallowed: dis,
-                                    deprecated: dep,
-                                });
+                    const reqRef =
+                        container.querySelector(".role-namerequired");
+                    let req = "";
+                    if (reqRef && reqRef.innerText === "True") {
+                        req = " (name required)";
+                    }
 
-                                // remember that the state or property is
-                                // referenced by this role
-                                propList[name].roles.push(title);
-                            });
+                    if (node.textContent.indexOf("author") !== -1) {
+                        fromAuthor +=
+                            '<li><a href="#' +
+                            pnID +
+                            '" class="role-reference"><code>' +
+                            content +
+                            "</code></a>" +
+                            req +
+                            "</li>";
+                    }
+                    if (node.textContent.indexOf("heading") !== -1) {
+                        fromHeading +=
+                            '<li><a href="#' +
+                            pnID +
+                            '" class="role-reference"><code>' +
+                            content +
+                            "</code></a>" +
+                            req +
+                            "</li>";
+                    }
+                    if (
+                        !isAbstract &&
+                        node.textContent.indexOf("content") !== -1
+                    ) {
+                        fromContent +=
+                            '<li><a href="#' +
+                            pnID +
+                            '" class="role-reference"><code>' +
+                            content +
+                            "</code></a>" +
+                            req +
+                            "</li>";
+                    }
+                    if (node.textContent.indexOf("prohibited") !== -1) {
+                        fromProhibited +=
+                            '<li><a href="#' +
+                            pnID +
+                            '" class="role-reference"><code>' +
+                            content +
+                            "</code></a>" +
+                            req +
+                            "</li>";
                     }
                 });
-            roleInfo[title] = {
-                name: title,
-                fragID: pnID,
-                parentRoles: parentRoles,
-                localprops: attrs,
-            };
+        }
+        if (container.nodeName.toLowerCase() == "div") {
+            // change the enclosing DIV to a section with notoc
+            const sec = document.createElement("section");
+            [...container.attributes].forEach(function (attr) {
+                sec.setAttribute(attr.name, attr.value);
+            });
 
-            // is there a namefrom indication?  If so, add this one to
-            // the list
-            if (!isAbstract) {
-                container.querySelectorAll(".role-namefrom")
-                    .forEach(function (node) {
-                        const reqRef =
-                            container.querySelector(".role-namerequired");
-                        let req = "";
-                        if (reqRef && reqRef.innerText === "True") {
-                            req = " (name required)";
-                        }
-
-                        if (node.textContent.indexOf("author") !== -1) {
-                            fromAuthor +=
-                                '<li><a href="#' +
-                                pnID +
-                                '" class="role-reference"><code>' +
-                                content +
-                                "</code></a>" +
-                                req +
-                                "</li>";
-                        }
-                        if (node.textContent.indexOf("heading") !== -1) {
-                            fromHeading +=
-                                '<li><a href="#' +
-                                pnID +
-                                '" class="role-reference"><code>' +
-                                content +
-                                "</code></a>" +
-                                req +
-                                "</li>";
-                        }
-                        if (
-                            !isAbstract &&
-                            node.textContent.indexOf("content") !== -1
-                        ) {
-                            fromContent +=
-                                '<li><a href="#' +
-                                pnID +
-                                '" class="role-reference"><code>' +
-                                content +
-                                "</code></a>" +
-                                req +
-                                "</li>";
-                        }
-                        if (node.textContent.indexOf("prohibited") !== -1) {
-                            fromProhibited +=
-                                '<li><a href="#' +
-                                pnID +
-                                '" class="role-reference"><code>' +
-                                content +
-                                "</code></a>" +
-                                req +
-                                "</li>";
-                        }
-                    });
-            }
-            if (container.nodeName.toLowerCase() == "div") {
-                // change the enclosing DIV to a section with notoc
-                const sec = document.createElement("section");
-                [...container.attributes]
-                    .forEach(function (attr) {
-                        sec.setAttribute(attr.name, attr.value);
-                    });
-
-                sec.classList.add("notoc");
-                const theContents = container.innerHTML;
-                sec.innerHTML = theContents;
-                container.parentNode.replaceChild(sec, container);
-            }
-        });
+            sec.classList.add("notoc");
+            const theContents = container.innerHTML;
+            sec.innerHTML = theContents;
+            container.parentNode.replaceChild(sec, container);
+        }
+    });
 
     const getStates = function (role) {
         const ref = roleInfo[role];
@@ -409,11 +401,10 @@ function ariaAttributeReferences() {
             return ref.allprops;
         } else {
             let myList = ref.localprops;
-            ref.parentRoles
-                .forEach(function (item) {
-                    const pList = getStates(item);
-                    myList = myList.concat(pList);
-                });
+            ref.parentRoles.forEach(function (item) {
+                const pList = getStates(item);
+                myList = myList.concat(pList);
+            });
             ref.allprops = myList;
             return myList;
         }
@@ -730,8 +721,9 @@ function ariaAttributeReferences() {
     }
 
     // prune out unused rows throughout the document
-    document.querySelectorAll(
-                ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"
+    document
+        .querySelectorAll(
+            ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"
         )
         .forEach(function (item) {
             var content = item.innerText;
