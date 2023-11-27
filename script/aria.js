@@ -25,24 +25,11 @@ function ariaAttributeReferences() {
         const type = item.localName === "pdef" ? "property" : "state";
         const container = item.parentNode;
         const content = item.innerHTML;
-        const sp = document.createElement("span");
         const title = item.getAttribute("title") || content;
-        sp.className = type + "-name";
-        sp.title = title;
-        sp.innerHTML =
-            "<code>" +
-            content +
-            '</code> <span class="type-indicator">' +
-            type +
-            "</span>";
-        sp.setAttribute("aria-describedby", "desc-" + title);
         const dRef = item.nextElementSibling;
         const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
         dRef.id = "desc-" + title;
         dRef.setAttribute("role", "definition");
-        const heading = document.createElement("h4");
-        heading.appendChild(sp);
-        container.replaceChild(heading, item);
         // add this item to the index
         propList[title] = {
             is: type,
@@ -51,6 +38,9 @@ function ariaAttributeReferences() {
             desc: desc,
             roles: [],
         };
+        // Replace pdef/sdef with HTML
+        item.insertAdjacentHTML('afterend', `<h4><span class="${type}-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span></span></h4>`)
+        item.remove();
         const abstract = container.querySelector("." + type + "-applicability");
         if (
             (abstract.textContent || abstract.innerText) ===
