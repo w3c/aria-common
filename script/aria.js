@@ -7,14 +7,14 @@
  * localprops: local properties and states
  */
 
-var roleInfo = {};
+const roleInfo = {};
 
 function ariaAttributeReferences() {
-    var propList = {};
-    var globalSP = [];
+    const propList = {};
+    const globalSP = [];
 
-    var skipIndex = 0;
-    var myURL = document.URL;
+    let skipIndex = 0;
+    const myURL = document.URL;
     if (myURL.match(/\?fast/)) {
         skipIndex = 1;
     }
@@ -24,11 +24,11 @@ function ariaAttributeReferences() {
     Array.prototype.slice
         .call(document.querySelectorAll("pdef, sdef"))
         .forEach(function (item) {
-            var type = item.localName === "pdef" ? "property" : "state";
-            var container = item.parentNode;
-            var content = item.innerHTML;
-            var sp = document.createElement("span");
-            var title = item.getAttribute("title");
+            const type = item.localName === "pdef" ? "property" : "state";
+            const container = item.parentNode;
+            const content = item.innerHTML;
+            const sp = document.createElement("span");
+            let title = item.getAttribute("title");
             if (!title) {
                 title = content;
             }
@@ -41,11 +41,11 @@ function ariaAttributeReferences() {
                 type +
                 "</span>";
             sp.setAttribute("aria-describedby", "desc-" + title);
-            var dRef = item.nextElementSibling;
-            var desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
+            const dRef = item.nextElementSibling;
+            const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
             dRef.id = "desc-" + title;
             dRef.setAttribute("role", "definition");
-            var heading = document.createElement("h4");
+            const heading = document.createElement("h4");
             heading.appendChild(sp);
             container.replaceChild(heading, item);
             // add this item to the index
@@ -56,7 +56,7 @@ function ariaAttributeReferences() {
                 desc: desc,
                 roles: [],
             };
-            var abstract = container.querySelector(
+            const abstract = container.querySelector(
                 "." + type + "-applicability"
             );
             if (
@@ -100,14 +100,14 @@ function ariaAttributeReferences() {
 
             if (container.nodeName.toLowerCase() == "div") {
                 // change the enclosing DIV to a section with notoc
-                var sec = document.createElement("section");
+                const sec = document.createElement("section");
                 Array.prototype.slice
                     .call(container.attributes)
                     .forEach(function (attr) {
                         sec.setAttribute(attr.name, attr.value);
                     });
                 sec.classList.add("notoc");
-                var theContents = container.innerHTML;
+                const theContents = container.innerHTML;
                 sec.innerHTML = theContents;
                 container.parentNode.replaceChild(sec, container);
             }
@@ -116,16 +116,16 @@ function ariaAttributeReferences() {
     if (!skipIndex) {
         // we have all the properties and states - spit out the
         // index
-        var propIndex = "";
-        var sortedList = [];
+        let propIndex = "";
+        let sortedList = [];
 
         Object.keys(propList).forEach(function (key) {
             sortedList.push(key);
         });
         sortedList = sortedList.sort();
 
-        for (var i = 0; i < sortedList.length; i++) {
-            var item = propList[sortedList[i]];
+        for (let i = 0; i < sortedList.length; i++) {
+            const item = propList[sortedList[i]];
             propIndex +=
                 '<dt><a href="#' +
                 item.title +
@@ -136,20 +136,20 @@ function ariaAttributeReferences() {
                 "</a></dt>\n";
             propIndex += "<dd>" + item.desc + "</dd>\n";
         }
-        var node = document.getElementById("index_state_prop");
-        var parentNode = node.parentNode;
-        var l = document.createElement("dl");
+        let node = document.getElementById("index_state_prop");
+        parentNode = node.parentNode;
+        let l = document.createElement("dl");
         l.id = "index_state_prop";
         l.className = "compact";
         l.innerHTML = propIndex;
         parentNode.replaceChild(l, node);
 
-        var globalSPIndex = "";
+        let globalSPIndex = "";
         sortedList = globalSP.sort(function (a, b) {
             return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
         });
         for (i = 0; i < sortedList.length; i++) {
-            var lItem = sortedList[i];
+            const lItem = sortedList[i];
             globalSPIndex += "<li>";
             if (lItem.is === "state") {
                 globalSPIndex +=
@@ -213,32 +213,32 @@ function ariaAttributeReferences() {
     //   4. grab any local states and properties so we can hand those down to the children
     //
 
-    var subRoles = [];
-    var roleIndex = "";
-    var fromAuthor = "";
-    var fromHeading = "";
-    var fromContent = "";
-    var fromProhibited = "";
+    const subRoles = [];
+    let roleIndex = "";
+    let fromAuthor = "";
+    let fromHeading = "";
+    let fromContent = "";
+    let fromProhibited = "";
 
     Array.prototype.slice
         .call(document.querySelectorAll("rdef"))
         .forEach(function (item) {
-            var container = item.parentNode;
-            var content = item.innerHTML;
-            var sp = document.createElement("h4");
-            var title = item.getAttribute("title");
+            const container = item.parentNode;
+            const content = item.innerHTML;
+            const sp = document.createElement("h4");
+            let title = item.getAttribute("title");
             if (!title) {
                 title = content;
             }
 
-            var pnID = title;
+            const pnID = title;
             container.id = pnID;
             sp.className = "role-name";
             sp.title = title;
             // is this a role or an abstract role
-            var type = "role";
-            var isAbstract = false;
-            var abstract = container.querySelectorAll(".role-abstract");
+            let type = "role";
+            let isAbstract = false;
+            const abstract = container.querySelectorAll(".role-abstract");
             if (abstract.innerText === "True") {
                 type = "abstract role";
                 isAbstract = true;
@@ -251,8 +251,8 @@ function ariaAttributeReferences() {
                 "</span>";
             // sp.id = title;
             sp.setAttribute("aria-describedby", "desc-" + title);
-            var dRef = item.nextElementSibling;
-            var desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
+            const dRef = item.nextElementSibling;
+            const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
             dRef.id = "desc-" + title;
             dRef.setAttribute("role", "definition");
             container.replaceChild(sp, item);
@@ -267,12 +267,12 @@ function ariaAttributeReferences() {
             roleIndex += "<dd>" + desc + "</dd>\n";
             // grab info about this role
             // do we have a parent class?  if so, put us in that parents list
-            var node = Array.prototype.slice.call(
+            const node = Array.prototype.slice.call(
                 container.querySelectorAll(".role-parent rref")
             );
             // s will hold the name of the parent role if any
-            var s = null;
-            var parentRoles = [];
+            let s = null;
+            const parentRoles = [];
             if (node.length) {
                 node.forEach(function (roleref) {
                     s = roleref.textContent || roleref.innerText;
@@ -286,7 +286,7 @@ function ariaAttributeReferences() {
                 });
             }
             // are there supported states / properties in this role?
-            var attrs = [];
+            const attrs = [];
             Array.prototype.slice
                 .call(
                     container.querySelectorAll(
@@ -303,20 +303,20 @@ function ariaAttributeReferences() {
                         Array.prototype.slice
                             .call(node.querySelectorAll("pref,sref"))
                             .forEach(function (item) {
-                                var name = item.getAttribute("title");
+                                let name = item.getAttribute("title");
                                 if (!name) {
                                     name = item.textContent || item.innerText;
                                 }
-                                var type =
+                                const type =
                                     item.localName === "pref"
                                         ? "property"
                                         : "state";
-                                var req = node.classList.contains(
+                                const req = node.classList.contains(
                                     "role-required-properties"
                                 );
-                                var dis =
+                                const dis =
                                     node.classList.contains("role-disallowed");
-                                var dep = item.hasAttribute("data-deprecated");
+                                const dep = item.hasAttribute("data-deprecated");
                                 attrs.push({
                                     is: type,
                                     name: name,
@@ -344,9 +344,9 @@ function ariaAttributeReferences() {
                 Array.prototype.slice
                     .call(container.querySelectorAll(".role-namefrom"))
                     .forEach(function (node) {
-                        var reqRef =
+                        const reqRef =
                             container.querySelector(".role-namerequired");
-                        var req = "";
+                        let req = "";
                         if (reqRef && reqRef.innerText === "True") {
                             req = " (name required)";
                         }
@@ -398,7 +398,7 @@ function ariaAttributeReferences() {
             }
             if (container.nodeName.toLowerCase() == "div") {
                 // change the enclosing DIV to a section with notoc
-                var sec = document.createElement("section");
+                const sec = document.createElement("section");
                 Array.prototype.slice
                     .call(container.attributes)
                     .forEach(function (attr) {
@@ -406,24 +406,24 @@ function ariaAttributeReferences() {
                     });
 
                 sec.classList.add("notoc");
-                var theContents = container.innerHTML;
+                const theContents = container.innerHTML;
                 sec.innerHTML = theContents;
                 container.parentNode.replaceChild(sec, container);
             }
         });
 
-    var getStates = function (role) {
-        var ref = roleInfo[role];
+    const getStates = function (role) {
+        const ref = roleInfo[role];
         if (!ref) {
             msg.pub("error", "No role definition for " + role);
         } else if (ref.allprops) {
             return ref.allprops;
         } else {
-            var myList = ref.localprops;
+            let myList = ref.localprops;
             Array.prototype.slice
                 .call(ref.parentRoles)
                 .forEach(function (item) {
-                    var pList = getStates(item);
+                    const pList = getStates(item);
                     myList = myList.concat(pList);
                 });
             ref.allprops = myList;
@@ -436,20 +436,20 @@ function ariaAttributeReferences() {
         // build up the complete inherited SP lists for each role
         // however, if the role already specifies an item, do not include it
         Object.entries(roleInfo).forEach(function (index) {
-            var item = index[1];
-            var output = "";
-            var placeholder = document.querySelector(
+            const item = index[1];
+            let output = "";
+            const placeholder = document.querySelector(
                 "#" + item.fragID + " .role-inherited"
             );
 
             if (placeholder) {
-                var myList = [];
+                let myList = [];
                 item.parentRoles.forEach(function (role) {
                     myList = myList.concat(getStates(role));
                 });
                 // strip out any items that we have locally
                 if (item.localprops.length && myList.length) {
-                    for (var j = myList.length - 1; j >= 0; j--) {
+                    for (let j = myList.length - 1; j >= 0; j--) {
                         item.localprops.forEach(function (x) {
                             if (x.name == myList[j].name) {
                                 myList.splice(j, 1);
@@ -458,13 +458,13 @@ function ariaAttributeReferences() {
                     }
                 }
 
-                var reducedList = myList.reduce((uniqueList, item) => {
+                const reducedList = myList.reduce((uniqueList, item) => {
                     return uniqueList.includes(item)
                         ? uniqueList
                         : [...uniqueList, item];
                 }, []);
 
-                var sortedList = reducedList.sort((a, b) => {
+                const sortedList = reducedList.sort((a, b) => {
                     if (a.name == b.name) {
                         // Ensure deprecated false properties occur first
                         if (a.deprecated !== b.deprecated) {
@@ -474,11 +474,11 @@ function ariaAttributeReferences() {
                     return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
                 }, []);
 
-                var prev;
-                for (var k = 0; k < sortedList.length; k++) {
-                    var property = sortedList[k];
-                    var req = "";
-                    var dep = "";
+                let prev;
+                for (let k = 0; k < sortedList.length; k++) {
+                    const property = sortedList[k];
+                    let req = "";
+                    let dep = "";
                     if (property.required) {
                         req = " <strong>(required)</strong>";
                     }
@@ -515,15 +515,15 @@ function ariaAttributeReferences() {
         });
 
         // Update state and property role references
-        var getAllSubRoles = function (role) {
-            var ref = subRoles[role];
+        const getAllSubRoles = function (role) {
+            const ref = subRoles[role];
             if (ref && ref.length) {
-                var myList = [];
+                let myList = [];
                 ref.forEach(function (item) {
                     if (!myList.item) {
                         myList[item] = 1;
                         myList.push(item);
-                        var childList = getAllSubRoles(item);
+                        const childList = getAllSubRoles(item);
                         myList = myList.concat(childList);
                     }
                 });
@@ -534,10 +534,10 @@ function ariaAttributeReferences() {
         };
 
         Object.entries(propList).forEach(function (index) {
-            var output = "";
-            var item = index[1];
-            var section = document.querySelector("#" + item.name);
-            var placeholder = section.querySelector(
+            let output = "";
+            const item = index[1];
+            const section = document.querySelector("#" + item.name);
+            let placeholder = section.querySelector(
                 ".state-applicability, .property-applicability"
             );
             if (
@@ -547,9 +547,9 @@ function ariaAttributeReferences() {
                 item.roles.length
             ) {
                 // update the used in roles list
-                var sortedList = [];
+                let sortedList = [];
                 sortedList = item.roles.sort();
-                for (var j = 0; j < sortedList.length; j++) {
+                for (let j = 0; j < sortedList.length; j++) {
                     output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
                 }
                 if (output !== "") {
@@ -557,9 +557,9 @@ function ariaAttributeReferences() {
                 }
                 placeholder.innerHTML = output;
                 // also update any inherited roles
-                var myList = [];
+                let myList = [];
                 item.roles.forEach(function (role) {
-                    var children = getAllSubRoles(role);
+                    let children = getAllSubRoles(role);
                     // Some subroles have required properties which are also required by the superclass.
                     // Example: The checked state of radio, which is also required by superclass checkbox.
                     // We only want to include these one time, so filter out the subroles.
@@ -576,8 +576,8 @@ function ariaAttributeReferences() {
                 if (placeholder && myList.length) {
                     sortedList = myList.sort();
                     output = "";
-                    var last = "";
-                    for (j = 0; j < sortedList.length; j++) {
+                    let last = "";
+                    for (let j = 0; j < sortedList.length; j++) {
                         var sItem = sortedList[j];
                         if (last != sItem) {
                             output += "<li><rref>" + sItem + "</rref></li>\n";
@@ -596,7 +596,7 @@ function ariaAttributeReferences() {
                 item.roles.length
             ) {
                 // update the used in roles list
-                var sortedList = [];
+                let sortedList = [];
                 sortedList = item.roles.sort();
                 //remove roletype from the sorted list
                 const index = sortedList.indexOf("roletype");
@@ -604,7 +604,7 @@ function ariaAttributeReferences() {
                     sortedList.splice(index, 1);
                 }
 
-                for (var j = 0; j < sortedList.length; j++) {
+                for (let j = 0; j < sortedList.length; j++) {
                     output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
                 }
                 if (output !== "") {
@@ -612,9 +612,9 @@ function ariaAttributeReferences() {
                 }
                 placeholder.innerHTML = output;
                 // also update any inherited roles
-                var myList = [];
+                let myList = [];
                 item.roles.forEach(function (role) {
-                    var children = getAllSubRoles(role);
+                    let children = getAllSubRoles(role);
                     // Some subroles have required properties which are also required by the superclass.
                     // Example: The checked state of radio, which is also required by superclass checkbox.
                     // We only want to include these one time, so filter out the subroles.
@@ -629,11 +629,11 @@ function ariaAttributeReferences() {
                     ".state-descendants, .property-descendants"
                 );
                 if (placeholder && myList.length) {
-                    sortedList = myList.sort();
-                    output = "";
-                    var last = "";
+                    let sortedList = myList.sort();
+                    let output = "";
+                    let last = "";
                     for (j = 0; j < sortedList.length; j++) {
-                        var sItem = sortedList[j];
+                        const sItem = sortedList[j];
                         if (last != sItem) {
                             output += "<li><rref>" + sItem + "</rref></li>\n";
                             last = sItem;
@@ -651,7 +651,7 @@ function ariaAttributeReferences() {
                 item.roles.length
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
-                var sortedList = [];
+                let sortedList = [];
                 sortedList = item.roles.sort();
                 //remove roletype from the sorted list
                 const index = sortedList.indexOf("roletype");
@@ -660,7 +660,7 @@ function ariaAttributeReferences() {
                 }
                 output +=
                     "All elements of the base markup except for the following roles: ";
-                for (var j = 0; j < sortedList.length - 1; j++) {
+                for (let j = 0; j < sortedList.length - 1; j++) {
                     output += "<rref>" + sortedList[j] + "</rref>, ";
                 }
                 output +=
@@ -670,9 +670,9 @@ function ariaAttributeReferences() {
         });
 
         // spit out the index
-        var node = document.getElementById("index_role");
-        var parentNode = node.parentNode;
-        var list = document.createElement("dl");
+        let node = document.getElementById("index_role");
+        let parentNode = node.parentNode;
+        let list = document.createElement("dl");
         list.id = "index_role";
         list.className = "compact";
         list.innerHTML = roleIndex;
@@ -719,20 +719,20 @@ function ariaAttributeReferences() {
             parentNode.replaceChild(list, node);
         }
         // assuming we found some parent roles, update those parents with their children
-        for (var i = 0; i < subRoles.length; i++) {
-            var item = subRoles[subRoles[i]];
-            var sortedList = item.sort(function (a, b) {
+        for (let i = 0; i < subRoles.length; i++) {
+            const item = subRoles[subRoles[i]];
+            const sortedList = item.sort(function (a, b) {
                 return a < b ? -1 : a > b ? 1 : 0;
             });
-            var output = "<ul>\n";
-            for (var j = 0; j < sortedList.length; j++) {
+            let output = "<ul>\n";
+            for (let j = 0; j < sortedList.length; j++) {
                 output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
             }
             output += "</ul>\n";
             // put it somewhere
-            var subRolesContainer = document.querySelector("#" + subRoles[i]);
+            const subRolesContainer = document.querySelector("#" + subRoles[i]);
             if (subRolesContainer) {
-                var subRolesListContainer =
+                const subRolesListContainer =
                     subRolesContainer.querySelector(".role-children");
                 if (subRolesListContainer) {
                     subRolesListContainer.innerHTML = output;
