@@ -26,10 +26,7 @@ function ariaAttributeReferences() {
         const container = item.parentNode;
         const content = item.innerHTML;
         const sp = document.createElement("span");
-        let title = item.getAttribute("title");
-        if (!title) {
-            title = content;
-        }
+        const title = item.getAttribute("title") || content;
         sp.className = type + "-name";
         sp.title = title;
         sp.innerHTML =
@@ -522,7 +519,7 @@ function ariaAttributeReferences() {
             if (
                 placeholder &&
                 (placeholder.textContent || placeholder.innerText) ===
-                    "Placeholder" &&
+                "Placeholder" &&
                 item.roles.length
             ) {
                 // update the used in roles list
@@ -571,7 +568,7 @@ function ariaAttributeReferences() {
             } else if (
                 placeholder &&
                 (placeholder.textContent || placeholder.innerText) ===
-                    "Use as a global deprecated in ARIA 1.2" &&
+                "Use as a global deprecated in ARIA 1.2" &&
                 item.roles.length
             ) {
                 // update the used in roles list
@@ -626,7 +623,7 @@ function ariaAttributeReferences() {
             } else if (
                 placeholder &&
                 (placeholder.textContent || placeholder.innerText) ===
-                    "All elements of the base markup except for some roles or elements that prohibit its use" &&
+                "All elements of the base markup except for some roles or elements that prohibit its use" &&
                 item.roles.length
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
