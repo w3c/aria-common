@@ -39,13 +39,22 @@ function ariaAttributeReferences() {
             roles: [],
         };
         // Replace pdef/sdef with HTML
-        item.insertAdjacentHTML('afterend', `<h4><span class="${type}-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span></span></h4>`)
+        item.insertAdjacentHTML(
+            "afterend",
+            `<h4><span class="${type}-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span></span></h4>`
+        );
         item.remove();
         // Populate globalSP
-        const applicabilityText = container.querySelector("." + type + "-applicability").innerText;
-        const isDefault = (applicabilityText === "All elements of the base markup");
-        const isProhibited = (applicabilityText === "All elements of the base markup except for some roles or elements that prohibit its use");
-        const isDeprecated = (applicabilityText === "Use as a global deprecated in ARIA 1.2");
+        const applicabilityText = container.querySelector(
+            "." + type + "-applicability"
+        ).innerText;
+        const isDefault =
+            applicabilityText === "All elements of the base markup";
+        const isProhibited =
+            applicabilityText ===
+            "All elements of the base markup except for some roles or elements that prohibit its use";
+        const isDeprecated =
+            applicabilityText === "Use as a global deprecated in ARIA 1.2";
         // NOTE: the only other value for applicabilityText appears to be "Placeholder"
         if (isDefault || isProhibited || isDeprecated) {
             globalSP.push({
@@ -59,8 +68,8 @@ function ariaAttributeReferences() {
         }
 
         // if we are in a div, convert that div to a section
-        // TODO:  
-        // a) seems to be always the case. 
+        // TODO:
+        // a) seems to be always the case.
         // b) Why don't we author the spec this way?
         if (container.nodeName.toLowerCase() == "div") {
             // change the enclosing DIV to a section with notoc
@@ -490,7 +499,7 @@ function ariaAttributeReferences() {
             if (
                 placeholder &&
                 (placeholder.textContent || placeholder.innerText) ===
-                "Placeholder" &&
+                    "Placeholder" &&
                 item.roles.length
             ) {
                 // update the used in roles list
@@ -539,7 +548,7 @@ function ariaAttributeReferences() {
             } else if (
                 placeholder &&
                 (placeholder.textContent || placeholder.innerText) ===
-                "Use as a global deprecated in ARIA 1.2" &&
+                    "Use as a global deprecated in ARIA 1.2" &&
                 item.roles.length
             ) {
                 // update the used in roles list
@@ -594,7 +603,7 @@ function ariaAttributeReferences() {
             } else if (
                 placeholder &&
                 (placeholder.textContent || placeholder.innerText) ===
-                "All elements of the base markup except for some roles or elements that prohibit its use" &&
+                    "All elements of the base markup except for some roles or elements that prohibit its use" &&
                 item.roles.length
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
