@@ -85,28 +85,20 @@ function ariaAttributeReferences() {
     });
 
     if (!skipIndex) {
-        // we have all the properties and states - spit out the
-        // index
-        let propIndex = "";
-
-        for (let item of Object.values(propList)) {
-            propIndex +=
-                '<dt><a href="#' +
-                item.title +
-                '" class="' +
-                item.is +
-                '-reference">' +
-                item.name +
-                "</a></dt>\n";
-            propIndex += "<dd>" + item.desc + "</dd>\n";
-        }
-        let node = document.getElementById("index_state_prop");
-        parentNode = node.parentNode;
-        let l = document.createElement("dl");
-        l.id = "index_state_prop";
-        l.className = "compact";
-        l.innerHTML = propIndex;
-        parentNode.replaceChild(l, node);
+        // Generate index of states and properties
+        const indexStatePropPlaceholder =
+            document.getElementById("index_state_prop");
+        const indexStatePropContent = Object.values(propList)
+            .map(
+                (item) =>
+                    `<dt><a href="#${item.title}" class="${item.is}-reference">${item.name}</a></dt>\n<dd>${item.desc}</dd>\n`
+            )
+            .join("");
+        indexStatePropPlaceholder.insertAdjacentHTML(
+            "afterend",
+            `<dl id="index_state_prop" class="compact">${indexStatePropContent}</dl>`
+        );
+        indexStatePropPlaceholder.remove();
 
         let globalSPIndex = "";
         for (let lItem of globalSP) {
