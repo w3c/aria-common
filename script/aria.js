@@ -88,7 +88,6 @@ function ariaAttributeReferences() {
         // we have all the properties and states - spit out the
         // index
         let propIndex = "";
-        let sortedList = [];
 
         for (let item of Object.values(propList)) {
             propIndex +=
@@ -110,11 +109,7 @@ function ariaAttributeReferences() {
         parentNode.replaceChild(l, node);
 
         let globalSPIndex = "";
-        sortedList = globalSP.sort(function (a, b) {
-            return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-        });
-        for (i = 0; i < sortedList.length; i++) {
-            const lItem = sortedList[i];
+        for (let lItem of globalSP) {
             globalSPIndex += "<li>";
             if (lItem.is === "state") {
                 globalSPIndex +=
