@@ -128,21 +128,15 @@ function ariaAttributeReferences() {
         );
         globalStatesPropertiesPlaceholder.remove();
 
-        // there is only one role that uses the global properties
-        parentNode = document.querySelector(
+        // Populate role=roletype properties with global properties
+        const roletypePropsPlaceholder = document.querySelector(
             "#roletype td.role-properties span.placeholder"
         );
-        if (parentNode) {
-            node = parentNode.parentNode;
-            if (
-                (parentNode.textContent || parentNode.innerText) ===
-                "Placeholder for global states and properties"
-            ) {
-                l = document.createElement("ul");
-                l.innerHTML = globalStatesPropertiesContent;
-                node.replaceChild(l, parentNode);
-            }
-        }
+        roletypePropsPlaceholder.insertAdjacentHTML(
+            "afterend",
+            `<ul>${globalStatesPropertiesContent}</ul>`
+        );
+        roletypePropsPlaceholder.remove();
     }
 
     // what about roles?
