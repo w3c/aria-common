@@ -90,13 +90,7 @@ function ariaAttributeReferences() {
         let propIndex = "";
         let sortedList = [];
 
-        Object.keys(propList).forEach(function (key) {
-            sortedList.push(key);
-        });
-        sortedList = sortedList.sort();
-
-        for (let i = 0; i < sortedList.length; i++) {
-            const item = propList[sortedList[i]];
+        for (let item of Object.values(propList)) {
             propIndex +=
                 '<dt><a href="#' +
                 item.title +
