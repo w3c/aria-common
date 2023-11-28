@@ -100,45 +100,34 @@ function ariaAttributeReferences() {
         );
         indexStatePropPlaceholder.remove();
 
-        let globalSPIndex = "";
-        for (let lItem of globalSP) {
-            globalSPIndex += "<li>";
-            if (lItem.is === "state") {
-                globalSPIndex +=
-                    "<sref " +
-                    (lItem.prohibited ? "data-prohibited " : "") +
-                    (lItem.deprecated ? "data-deprecated " : "") +
-                    'title="' +
-                    lItem.name +
-                    '">' +
-                    lItem.name +
-                    " (state)</sref>";
-            } else {
-                globalSPIndex +=
-                    "<pref " +
-                    (lItem.prohibited ? "data-prohibited " : "") +
-                    (lItem.deprecated ? "data-deprecated " : "") +
-                    ">" +
-                    lItem.name +
-                    "</pref>";
-            }
-            if (lItem.prohibited) {
-                globalSPIndex += " (Except where prohibited)";
-            }
-            if (lItem.deprecated) {
-                globalSPIndex += " (Global use deprecated in ARIA 1.2)";
-            }
-            globalSPIndex += "</li>\n";
-        }
-        parentNode = document.querySelector("#global_states");
-        if (parentNode) {
-            node = parentNode.querySelector(".placeholder");
-            if (node) {
-                l = document.createElement("ul");
-                l.innerHTML = globalSPIndex;
-                parentNode.replaceChild(l, node);
-            }
-        }
+        // Generate index of global states and properties
+        // TODO: consider moving "(state)" out of sref/pref; then maybe remove title attr for sref (after checking resolveReferences interference)
+        const globalStatesPropertiesContent = globalSP
+            .map((item) => {
+                const isState = item.is === "state";
+                const tagName = isState ? "sref" : "pref";
+                return `<li><${tagName} ${
+                    item.prohibited ? "data-prohibited " : ""
+                }${item.deprecated ? "data-deprecated " : ""}${
+                    isState ? `title="${item.name}"` : ""
+                }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
+                    item.prohibited ? " (Except where prohibited)" : ""
+                }${
+                    item.deprecated
+                        ? " (Global use deprecated in ARIA 1.2)"
+                        : ""
+                }</li>\n`;
+            })
+            .join("");
+        const globalStatesPropertiesPlaceholder = document.querySelector(
+            "#global_states .placeholder"
+        );
+        globalStatesPropertiesPlaceholder.insertAdjacentHTML(
+            "afterend",
+            `<ul>${globalStatesPropertiesContent}</ul>`
+        );
+        globalStatesPropertiesPlaceholder.remove();
+
         // there is only one role that uses the global properties
         parentNode = document.querySelector(
             "#roletype td.role-properties span.placeholder"
@@ -150,7 +139,7 @@ function ariaAttributeReferences() {
                 "Placeholder for global states and properties"
             ) {
                 l = document.createElement("ul");
-                l.innerHTML = globalSPIndex;
+                l.innerHTML = globalStatesPropertiesContent;
                 node.replaceChild(l, parentNode);
             }
         }
