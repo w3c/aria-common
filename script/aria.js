@@ -1,3 +1,17 @@
+
+/**
+ * Clones a node but strips IDs
+ * @param {HTMLElement} node - an element node
+ * @returns {HTMLElement} - cloned node without IDs
+ */
+function cloneWithoutIds(node) {
+    const clone = node.cloneNode(true);
+    for (const elementWithId of clone.querySelectorAll("[id]")) {
+        elementWithId.removeAttribute("id");
+    }
+    return clone;
+}
+
 /**
  * roleInfo is structured like this:
  *
@@ -684,14 +698,6 @@ function ariaAttributeReferences() {
         });
 
     updateReferences(document);
-
-    function cloneWithoutIds(node) {
-        const clone = node.cloneNode(true);
-        for (const elementWithId of clone.querySelectorAll("[id]")) {
-            elementWithId.removeAttribute("id");
-        }
-        return clone;
-    }
 }
 
 require(["core/pubsubhub"], function (respecEvents) {
