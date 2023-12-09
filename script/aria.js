@@ -23,21 +23,18 @@ function cloneWithoutIds(node) {
 const roleInfo = {};
 
 /**
- * temporary refactoring to keep things legible
+ * Populates propList for given sdef/pdef
  * @param {Object} propList -
- * @param {Object} globalSP -
  * @param {HTMLElement} item - from nodeList.forEach
  */
-const handleStatesAndProperties = function (propList, globalSP, item) {
+const populatePropList = function (propList, item) {
     const type = item.localName === "pdef" ? "property" : "state";
-    const container = item.parentNode;
     const content = item.innerHTML;
     const title = item.getAttribute("title") || content;
     const dRef = item.nextElementSibling;
     const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
-    dRef.id = "desc-" + title;
-    dRef.setAttribute("role", "definition");
-    // add this item to the index
+    dRef.id = "desc-" + title; // TODO: side-effect; to be extracted
+    dRef.setAttribute("role", "definition"); // TODO: extract
     propList[title] = {
         is: type,
         title: title,
@@ -45,9 +42,21 @@ const handleStatesAndProperties = function (propList, globalSP, item) {
         desc: desc,
         roles: [],
     };
-    // Populate globalSP
+};
+
+/**
+ * Populates globalSP for given sdef/pdef
+ * @param {Object} propList -
+ * @param {Object} globalSP -
+ * @param {HTMLElement} item - from nodeList.forEach
+ */
+const populateGlobalSP = function (propList, globalSP, item) {
+    const title = item.getAttribute("title") || item.innerHTML;
+    const container = item.parentElement;
+    const itemEntry = propList[title];
+
     const applicabilityText = container.querySelector(
-        "." + type + "-applicability"
+        "." + itemEntry.is + "-applicability"
     ).innerText;
     const isDefault = applicabilityText === "All elements of the base markup";
     const isProhibited =
@@ -57,14 +66,12 @@ const handleStatesAndProperties = function (propList, globalSP, item) {
         applicabilityText === "Use as a global deprecated in ARIA 1.2";
     // NOTE: the only other value for applicabilityText appears to be "Placeholder"
     if (isDefault || isProhibited || isDeprecated) {
-        globalSP.push({
-            is: type,
-            title: title,
-            name: content,
-            desc: desc,
-            prohibited: isProhibited,
-            deprecated: isDeprecated,
-        });
+        globalSP.push(
+            Object.assign(itemEntry, {
+                prohibited: isProhibited,
+                deprecated: isDeprecated,
+            })
+        );
     }
 };
 
@@ -185,9 +192,8 @@ function ariaAttributeReferences() {
         (node) => node.parentNode
     );
 
-    pdefsAndsdefs.forEach(
-        handleStatesAndProperties.bind(null, propList, globalSP)
-    );
+    pdefsAndsdefs.forEach(populatePropList.bind(null, propList));
+    pdefsAndsdefs.forEach(populateGlobalSP.bind(null, propList, globalSP));
     pdefsAndsdefs.forEach(generateHTMLStatesAndProperties.bind(null, propList));
     pdefsAndsdefsContainer.forEach(rewriteStatesAndPropertiesContainer);
 
