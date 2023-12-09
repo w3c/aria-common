@@ -72,7 +72,13 @@ const handleStatesAndProperties = function (propList, globalSP, item) {
             deprecated: isDeprecated,
         });
     }
+};
 
+/**
+ *
+ * @param {HTMLElement} container - parent of sdef or pdef
+ */
+const rewriteStatesAndPropertiesContainer = (container) => {
     // if we are in a div, convert that div to a section
     // TODO:
     // a) seems to be always the case.
@@ -164,9 +170,15 @@ function ariaAttributeReferences() {
 
     // process the document before anything else is done
     // first get the properties
-    document
-        .querySelectorAll("pdef, sdef")
-        .forEach(handleStatesAndProperties.bind(null, propList, globalSP));
+    const pdefsAndsdefs = document.querySelectorAll("pdef, sdef");
+    const pdefsAndsdefsContainer = [...pdefsAndsdefs].map(
+        (node) => node.parentNode
+    );
+
+    pdefsAndsdefs.forEach(
+        handleStatesAndProperties.bind(null, propList, globalSP)
+    );
+    pdefsAndsdefsContainer.forEach(rewriteStatesAndPropertiesContainer);
 
     if (!skipIndex) {
         // Generate index of states and properties
