@@ -23,6 +23,74 @@ function cloneWithoutIds(node) {
 
 const roleInfo = {};
 
+/**
+ * temporary refactoring to keep things legible
+ * @param {Object} propList -
+ * @param {Object} globalSP -
+ * @param {HTMLElement} item - from nodeList.forEach
+ */
+const handleStatesAndProperties = function (propList, globalSP, item) {
+    const type = item.localName === "pdef" ? "property" : "state";
+    const container = item.parentNode;
+    const content = item.innerHTML;
+    const title = item.getAttribute("title") || content;
+    const dRef = item.nextElementSibling;
+    const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
+    dRef.id = "desc-" + title;
+    dRef.setAttribute("role", "definition");
+    // add this item to the index
+    propList[title] = {
+        is: type,
+        title: title,
+        name: content,
+        desc: desc,
+        roles: [],
+    };
+    // Replace pdef/sdef with HTML
+    item.insertAdjacentHTML(
+        "afterend",
+        `<h4><span class="${type}-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span></span></h4>`
+    );
+    item.remove();
+    // Populate globalSP
+    const applicabilityText = container.querySelector(
+        "." + type + "-applicability"
+    ).innerText;
+    const isDefault = applicabilityText === "All elements of the base markup";
+    const isProhibited =
+        applicabilityText ===
+        "All elements of the base markup except for some roles or elements that prohibit its use";
+    const isDeprecated =
+        applicabilityText === "Use as a global deprecated in ARIA 1.2";
+    // NOTE: the only other value for applicabilityText appears to be "Placeholder"
+    if (isDefault || isProhibited || isDeprecated) {
+        globalSP.push({
+            is: type,
+            title: title,
+            name: content,
+            desc: desc,
+            prohibited: isProhibited,
+            deprecated: isDeprecated,
+        });
+    }
+
+    // if we are in a div, convert that div to a section
+    // TODO:
+    // a) seems to be always the case.
+    // b) Why don't we author the spec this way?
+    if (container.nodeName.toLowerCase() == "div") {
+        // change the enclosing DIV to a section with notoc
+        const sec = document.createElement("section");
+        [...container.attributes].forEach(function (attr) {
+            sec.setAttribute(attr.name, attr.value);
+        });
+        sec.classList.add("notoc");
+        const theContents = container.innerHTML;
+        sec.innerHTML = theContents;
+        container.parentNode.replaceChild(sec, container);
+    }
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -35,68 +103,9 @@ function ariaAttributeReferences() {
 
     // process the document before anything else is done
     // first get the properties
-    document.querySelectorAll("pdef, sdef").forEach(function (item) {
-        const type = item.localName === "pdef" ? "property" : "state";
-        const container = item.parentNode;
-        const content = item.innerHTML;
-        const title = item.getAttribute("title") || content;
-        const dRef = item.nextElementSibling;
-        const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
-        dRef.id = "desc-" + title;
-        dRef.setAttribute("role", "definition");
-        // add this item to the index
-        propList[title] = {
-            is: type,
-            title: title,
-            name: content,
-            desc: desc,
-            roles: [],
-        };
-        // Replace pdef/sdef with HTML
-        item.insertAdjacentHTML(
-            "afterend",
-            `<h4><span class="${type}-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span></span></h4>`
-        );
-        item.remove();
-        // Populate globalSP
-        const applicabilityText = container.querySelector(
-            "." + type + "-applicability"
-        ).innerText;
-        const isDefault =
-            applicabilityText === "All elements of the base markup";
-        const isProhibited =
-            applicabilityText ===
-            "All elements of the base markup except for some roles or elements that prohibit its use";
-        const isDeprecated =
-            applicabilityText === "Use as a global deprecated in ARIA 1.2";
-        // NOTE: the only other value for applicabilityText appears to be "Placeholder"
-        if (isDefault || isProhibited || isDeprecated) {
-            globalSP.push({
-                is: type,
-                title: title,
-                name: content,
-                desc: desc,
-                prohibited: isProhibited,
-                deprecated: isDeprecated,
-            });
-        }
-
-        // if we are in a div, convert that div to a section
-        // TODO:
-        // a) seems to be always the case.
-        // b) Why don't we author the spec this way?
-        if (container.nodeName.toLowerCase() == "div") {
-            // change the enclosing DIV to a section with notoc
-            const sec = document.createElement("section");
-            [...container.attributes].forEach(function (attr) {
-                sec.setAttribute(attr.name, attr.value);
-            });
-            sec.classList.add("notoc");
-            const theContents = container.innerHTML;
-            sec.innerHTML = theContents;
-            container.parentNode.replaceChild(sec, container);
-        }
-    });
+    document
+        .querySelectorAll("pdef, sdef")
+        .forEach(handleStatesAndProperties.bind(null, propList, globalSP));
 
     if (!skipIndex) {
         // Generate index of states and properties
