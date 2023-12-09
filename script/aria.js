@@ -90,6 +90,26 @@ const handleStatesAndProperties = function (propList, globalSP, item) {
     }
 };
 
+/**
+ * Generate index of states and properties
+ * @param {Object} propList
+ */
+const generateIndexStatesAndProperties = (propList) => {
+    const indexStatePropPlaceholder =
+        document.getElementById("index_state_prop");
+    const indexStatePropContent = Object.values(propList)
+        .map(
+            (item) =>
+                `<dt><a href="#${item.title}" class="${item.is}-reference">${item.name}</a></dt>\n<dd>${item.desc}</dd>\n`
+        )
+        .join("");
+    indexStatePropPlaceholder.insertAdjacentHTML(
+        "afterend",
+        `<dl id="index_state_prop" class="compact">${indexStatePropContent}</dl>`
+    );
+    indexStatePropPlaceholder.remove();
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -108,19 +128,7 @@ function ariaAttributeReferences() {
 
     if (!skipIndex) {
         // Generate index of states and properties
-        const indexStatePropPlaceholder =
-            document.getElementById("index_state_prop");
-        const indexStatePropContent = Object.values(propList)
-            .map(
-                (item) =>
-                    `<dt><a href="#${item.title}" class="${item.is}-reference">${item.name}</a></dt>\n<dd>${item.desc}</dd>\n`
-            )
-            .join("");
-        indexStatePropPlaceholder.insertAdjacentHTML(
-            "afterend",
-            `<dl id="index_state_prop" class="compact">${indexStatePropContent}</dl>`
-        );
-        indexStatePropPlaceholder.remove();
+        generateIndexStatesAndProperties(propList);
 
         // Generate index of global states and properties
         // TODO: consider moving "(state)" out of sref/pref; then maybe remove title attr for sref (after checking resolveReferences interference)
