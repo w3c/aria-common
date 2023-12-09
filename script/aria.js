@@ -110,6 +110,48 @@ const generateIndexStatesAndProperties = (propList) => {
     indexStatePropPlaceholder.remove();
 };
 
+/**
+ * Generate index of global states and properties
+ * @param {Object} globalSP
+ */
+const generateIndexGlobalStatesAndProperties = (globalSP) => {
+    const globalStatesPropertiesContent = globalSP
+        .map((item) => {
+            const isState = item.is === "state";
+            const tagName = isState ? "sref" : "pref";
+            return `<li><${tagName} ${
+                item.prohibited ? "data-prohibited " : ""
+            }${item.deprecated ? "data-deprecated " : ""}${
+                isState ? `title="${item.name}"` : ""
+            }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
+                // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
+
+                item.prohibited ? " (Except where prohibited)" : ""
+            }${
+                item.deprecated ? " (Global use deprecated in ARIA 1.2)" : ""
+            }</li>\n`;
+        })
+        .join("");
+    const globalStatesPropertiesPlaceholder = document.querySelector(
+        "#global_states .placeholder"
+    );
+    globalStatesPropertiesPlaceholder.insertAdjacentHTML(
+        "afterend",
+        `<ul>${globalStatesPropertiesContent}</ul>`
+    );
+    globalStatesPropertiesPlaceholder.remove();
+
+    // Populate role=roletype properties with global properties
+    const roletypePropsPlaceholder = document.querySelector(
+        "#roletype td.role-properties span.placeholder"
+    );
+    roletypePropsPlaceholder.insertAdjacentHTML(
+        "afterend",
+        `<ul>${globalStatesPropertiesContent}</ul>`
+    );
+    roletypePropsPlaceholder.remove();
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -131,42 +173,7 @@ function ariaAttributeReferences() {
         generateIndexStatesAndProperties(propList);
 
         // Generate index of global states and properties
-        // TODO: consider moving "(state)" out of sref/pref; then maybe remove title attr for sref (after checking resolveReferences interference)
-        const globalStatesPropertiesContent = globalSP
-            .map((item) => {
-                const isState = item.is === "state";
-                const tagName = isState ? "sref" : "pref";
-                return `<li><${tagName} ${
-                    item.prohibited ? "data-prohibited " : ""
-                }${item.deprecated ? "data-deprecated " : ""}${
-                    isState ? `title="${item.name}"` : ""
-                }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
-                    item.prohibited ? " (Except where prohibited)" : ""
-                }${
-                    item.deprecated
-                        ? " (Global use deprecated in ARIA 1.2)"
-                        : ""
-                }</li>\n`;
-            })
-            .join("");
-        const globalStatesPropertiesPlaceholder = document.querySelector(
-            "#global_states .placeholder"
-        );
-        globalStatesPropertiesPlaceholder.insertAdjacentHTML(
-            "afterend",
-            `<ul>${globalStatesPropertiesContent}</ul>`
-        );
-        globalStatesPropertiesPlaceholder.remove();
-
-        // Populate role=roletype properties with global properties
-        const roletypePropsPlaceholder = document.querySelector(
-            "#roletype td.role-properties span.placeholder"
-        );
-        roletypePropsPlaceholder.insertAdjacentHTML(
-            "afterend",
-            `<ul>${globalStatesPropertiesContent}</ul>`
-        );
-        roletypePropsPlaceholder.remove();
+        generateIndexGlobalStatesAndProperties(globalSP);
     }
 
     // what about roles?
