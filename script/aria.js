@@ -1,4 +1,3 @@
-
 /**
  * Clones a node but strips IDs
  * @param {HTMLElement} node - an element node
