@@ -45,12 +45,6 @@ const handleStatesAndProperties = function (propList, globalSP, item) {
         desc: desc,
         roles: [],
     };
-    // Replace pdef/sdef with HTML
-    item.insertAdjacentHTML(
-        "afterend",
-        `<h4><span class="${type}-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span></span></h4>`
-    );
-    item.remove();
     // Populate globalSP
     const applicabilityText = container.querySelector(
         "." + type + "-applicability"
@@ -94,6 +88,22 @@ const rewriteStatesAndPropertiesContainer = (container) => {
         sec.innerHTML = theContents;
         container.parentNode.replaceChild(sec, container);
     }
+};
+
+/**
+ * Replaces sdef/pdef with desired HTML
+ * @param {Object} propList -
+ * @param {HTMLElement} item - sdef or pdef, from nodeList.forEach
+ */
+const generateHTMLStatesAndProperties = function (propList, item) {
+    const title = item.getAttribute("title") || item.innerHTML;
+    const itemEntry = propList[title];
+    // Replace pdef/sdef with HTML
+    item.insertAdjacentHTML(
+        "afterend",
+        `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`
+    );
+    item.remove();
 };
 
 /**
@@ -178,6 +188,7 @@ function ariaAttributeReferences() {
     pdefsAndsdefs.forEach(
         handleStatesAndProperties.bind(null, propList, globalSP)
     );
+    pdefsAndsdefs.forEach(generateHTMLStatesAndProperties.bind(null, propList));
     pdefsAndsdefsContainer.forEach(rewriteStatesAndPropertiesContainer);
 
     if (!skipIndex) {
