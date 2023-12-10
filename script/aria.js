@@ -226,7 +226,7 @@ function ariaAttributeReferences() {
         const container = item.parentNode;
         const content = item.innerHTML;
         const sp = document.createElement("h4");
-        let title = item.getAttribute("title");
+        let title = item.getAttribute("title"); // TODO: no rdef has title (same for sdef, pdef)
         if (!title) {
             title = content;
         }
