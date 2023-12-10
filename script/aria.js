@@ -252,7 +252,7 @@ function ariaAttributeReferences() {
         // sp.id = title;
         sp.setAttribute("aria-describedby", "desc-" + title);
         const dRef = item.nextElementSibling;
-        const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
+        const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML; // TODO: should the spec markup provide something more robust than "next sibling first child"? [same for sdef/pdef "desc"]
         dRef.id = "desc-" + title;
         dRef.setAttribute("role", "definition");
         container.replaceChild(sp, item);
