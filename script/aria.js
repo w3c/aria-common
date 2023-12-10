@@ -238,7 +238,7 @@ function ariaAttributeReferences() {
         // is this a role or an abstract role
         let type = "role";
         let isAbstract = false;
-        const abstract = container.querySelectorAll(".role-abstract");//TODO: maybe #105
+        const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
         if (abstract.innerText === "True") {
             type = "abstract role";
             isAbstract = true;
