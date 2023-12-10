@@ -140,6 +140,7 @@ const generateIndexStatesAndProperties = (propList) => {
 const generateIndexGlobalStatesAndProperties = (globalSP) => {
     const globalStatesPropertiesContent = globalSP
         .map((item) => {
+            // TODO: This is the only use of globalSP - why does it not just consist of the markup we create here in this loop?
             const isState = item.is === "state";
             const tagName = isState ? "sref" : "pref";
             return `<li><${tagName} ${
