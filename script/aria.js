@@ -96,6 +96,29 @@ const rewriteDefContainer = (container) => {
 };
 
 /**
+ *
+ * @param {HTMLElement} item - rdef element
+ */
+const rewriteRdef = function (item) {
+    // TODO: merge with generateHTMLStatesAndProperties() but that creates different HTML
+    const content = item.innerHTML;
+    let title = item.getAttribute("title") || content;
+    let type = "role";
+    const abstract = item.parentNode.querySelectorAll(".role-abstract"); //TODO: maybe #105
+    if (abstract.innerText === "True") {
+        type = "abstract role";
+    }
+    const dRef = item.nextElementSibling;
+    dRef.id = "desc-" + title;
+    dRef.setAttribute("role", "definition");
+    item.insertAdjacentHTML(
+        "afterend",
+        `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`
+    );
+    item.remove();
+};
+
+/**
  * Replaces sdef/pdef with desired HTML
  * @param {Object} propList -
  * @param {HTMLElement} item - sdef or pdef, from nodeList.forEach
@@ -229,16 +252,12 @@ function ariaAttributeReferences() {
     rdefs.forEach(function (item) {
         const container = item.parentNode;
         const content = item.innerHTML;
-        const sp = document.createElement("h4");
         let title = item.getAttribute("title"); // TODO: no rdef has title (same for sdef, pdef)
         if (!title) {
             title = content;
         }
-
         const pnID = title;
         container.id = pnID;
-        sp.className = "role-name";
-        sp.title = title;
         // is this a role or an abstract role
         let type = "role";
         let isAbstract = false;
@@ -247,19 +266,8 @@ function ariaAttributeReferences() {
             type = "abstract role";
             isAbstract = true;
         }
-        sp.innerHTML =
-            "<code>" +
-            content +
-            '</code> <span class="type-indicator">' +
-            type +
-            "</span>";
-        // sp.id = title;
-        sp.setAttribute("aria-describedby", "desc-" + title);
         const dRef = item.nextElementSibling;
         const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML; // TODO: should the spec markup provide something more robust than "next sibling first child"? [same for sdef/pdef "desc"]
-        dRef.id = "desc-" + title;
-        dRef.setAttribute("role", "definition");
-        container.replaceChild(sp, item);
         roleIndex +=
             '<dt><a href="#' +
             pnID +
@@ -392,6 +400,8 @@ function ariaAttributeReferences() {
                 });
         }
     });
+
+    rdefs.forEach(rewriteRdef);
 
     rdefsContainer.forEach(rewriteDefContainer);
 
