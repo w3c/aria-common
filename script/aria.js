@@ -77,7 +77,7 @@ const populateGlobalSP = function (propList, globalSP, item) {
  *
  * @param {HTMLElement} container - parent of sdef or pdef or rdef
  */
-const rewriteContainer = (container) => {
+const rewriteDefContainer = (container) => {
     // if we are in a div, convert that div to a section
     // TODO:
     // a) seems to be always the case.
@@ -197,7 +197,7 @@ function ariaAttributeReferences() {
     pdefsAndsdefs.forEach(populatePropList.bind(null, propList));
     pdefsAndsdefs.forEach(populateGlobalSP.bind(null, propList, globalSP));
     pdefsAndsdefs.forEach(generateHTMLStatesAndProperties.bind(null, propList));
-    pdefsAndsdefsContainer.forEach(rewriteContainer);
+    pdefsAndsdefsContainer.forEach(rewriteDefContainer);
 
     if (!skipIndex) {
         // Generate index of states and properties
@@ -393,7 +393,7 @@ function ariaAttributeReferences() {
         }
     });
 
-    rdefsContainer.forEach(rewriteContainer);
+    rdefsContainer.forEach(rewriteDefContainer);
 
     const getStates = function (role) {
         const ref = roleInfo[role];
