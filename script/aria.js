@@ -33,8 +33,6 @@ const populatePropList = function (propList, item) {
     const title = item.getAttribute("title") || content;
     const dRef = item.nextElementSibling;
     const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML;
-    dRef.id = "desc-" + title; // TODO: side-effect; to be extracted
-    dRef.setAttribute("role", "definition"); // TODO: extract
     propList[title] = {
         is: type,
         title: title,
@@ -105,6 +103,9 @@ const rewriteContainer = (container) => {
 const generateHTMLStatesAndProperties = function (propList, item) {
     const title = item.getAttribute("title") || item.innerHTML;
     const itemEntry = propList[title];
+    const dRef = item.nextElementSibling;
+    dRef.id = "desc-" + title; // TODO: too much of a side-effect?
+    dRef.setAttribute("role", "definition"); // TODO: ditto?
     // Replace pdef/sdef with HTML
     item.insertAdjacentHTML(
         "afterend",
