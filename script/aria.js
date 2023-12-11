@@ -77,9 +77,9 @@ const populateGlobalSP = function (propList, globalSP, item) {
 
 /**
  *
- * @param {HTMLElement} container - parent of sdef or pdef
+ * @param {HTMLElement} container - parent of sdef or pdef or rdef
  */
-const rewriteStatesAndPropertiesContainer = (container) => {
+const rewriteContainer = (container) => {
     // if we are in a div, convert that div to a section
     // TODO:
     // a) seems to be always the case.
@@ -196,7 +196,7 @@ function ariaAttributeReferences() {
     pdefsAndsdefs.forEach(populatePropList.bind(null, propList));
     pdefsAndsdefs.forEach(populateGlobalSP.bind(null, propList, globalSP));
     pdefsAndsdefs.forEach(generateHTMLStatesAndProperties.bind(null, propList));
-    pdefsAndsdefsContainer.forEach(rewriteStatesAndPropertiesContainer);
+    pdefsAndsdefsContainer.forEach(rewriteContainer);
 
     if (!skipIndex) {
         // Generate index of states and properties
@@ -222,7 +222,10 @@ function ariaAttributeReferences() {
     let fromContent = "";
     let fromProhibited = "";
 
-    document.querySelectorAll("rdef").forEach(function (item) {
+    const rdefs = document.querySelectorAll("rdef");
+    const rdefsContainer = [...rdefs].map((node) => node.parentNode);
+
+    rdefs.forEach(function (item) {
         const container = item.parentNode;
         const content = item.innerHTML;
         const sp = document.createElement("h4");
@@ -387,19 +390,9 @@ function ariaAttributeReferences() {
                     }
                 });
         }
-        if (container.nodeName.toLowerCase() == "div") {
-            // change the enclosing DIV to a section with notoc
-            const sec = document.createElement("section");
-            [...container.attributes].forEach(function (attr) {
-                sec.setAttribute(attr.name, attr.value);
-            });
-
-            sec.classList.add("notoc");
-            const theContents = container.innerHTML;
-            sec.innerHTML = theContents;
-            container.parentNode.replaceChild(sec, container);
-        }
     });
+
+    rdefsContainer.forEach(rewriteContainer);
 
     const getStates = function (role) {
         const ref = roleInfo[role];
