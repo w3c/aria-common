@@ -228,6 +228,26 @@ const generateHTMLRoleIndexEntry = function (item) {
     }</a></dt>\n<dd>${desc}</dd>\n`;
 };
 
+/**
+ * Generates subrole information
+ * @param {Object} subRoles - the subRoles "array" (overloaded)
+ * @param {HTMLement} rdef - rdef element node
+ */
+const populateSubRoles = (subRoles, rdef) => {
+    const title = rdef.innerHTML;
+    rdef.parentNode
+        .querySelectorAll(".role-parent rref")
+        .forEach(function (roleref) {
+            const s = roleref.innerText;
+            // TODO: this overloading seems weird
+            if (!subRoles[s]) {
+                subRoles.push(s);
+                subRoles[s] = []; // TODO: should this be a set?
+            }
+            subRoles[s].push(title); // TODO: should this be a set?
+        });
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -276,6 +296,7 @@ function ariaAttributeReferences() {
     const rdefs = document.querySelectorAll("rdef");
     const rdefsContainer = [...rdefs].map((node) => node.parentNode);
 
+    rdefs.forEach(populateSubRoles.bind(null, subRoles));
     const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
     rdefs.forEach(function (item) {
         const container = item.parentNode;
@@ -297,14 +318,6 @@ function ariaAttributeReferences() {
         // do we have a parent class?  if so, put us in that parents list
         const rrefs = container.querySelectorAll(".role-parent rref");
         const parentRoles = [...rrefs].map((rref) => rref.innerText);
-        rrefs.forEach(function (roleref) {
-            const s = roleref.innerText;
-            if (!subRoles[s]) {
-                subRoles.push(s);
-                subRoles[s] = [];
-            }
-            subRoles[s].push(title);
-        });
         // are there supported states / properties in this role?
         const attrs = [];
         container
