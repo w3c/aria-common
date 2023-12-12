@@ -309,23 +309,22 @@ function ariaAttributeReferences() {
         const rrefs = container.querySelectorAll(".role-parent rref");
         const parentRoles = [...rrefs].map((rref) => rref.innerText);
         // are there supported states / properties in this role?
-        const attrs = [];
         const PSDefs = container.querySelectorAll(
             `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
         );
-        PSDefs.forEach(function (item) {
+        const attrs = [...PSDefs].map(function (item) {
             const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
             const type = item.localName === "pref" ? "property" : "state";
             const req = item.closest(".role-required-properties");
             const dis = item.closest(".role-disallowed");
             const dep = item.hasAttribute("data-deprecated");
-            attrs.push({
+            return {
                 is: type,
                 name: name,
                 required: req,
                 disallowed: dis,
                 deprecated: dep,
-            });
+            };
         });
         // remember that the state or property is
         // referenced by this role
