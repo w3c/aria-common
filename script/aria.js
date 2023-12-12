@@ -328,6 +328,28 @@ const populateRoleInfoPropList = function (roleInfo, propList, item) {
     };
 };
 
+/**
+ * TODO: depends on global roleInfo object
+ * @param {string} role - name of a role
+ * @returns
+ */
+const getStates = function (role) {
+    const ref = roleInfo[role];
+    if (!ref) {
+        msg.pub("error", "No role definition for " + role);
+    } else if (ref.allprops) {
+        return ref.allprops;
+    } else {
+        let myList = ref.localprops;
+        ref.parentRoles.forEach(function (item) {
+            const pList = getStates(item);
+            myList = myList.concat(pList);
+        });
+        ref.allprops = myList;
+        return myList;
+    }
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -393,23 +415,6 @@ function ariaAttributeReferences() {
     rdefs.forEach(rewriteRdef);
 
     rdefsContainer.forEach(rewriteDefContainer);
-
-    const getStates = function (role) {
-        const ref = roleInfo[role];
-        if (!ref) {
-            msg.pub("error", "No role definition for " + role);
-        } else if (ref.allprops) {
-            return ref.allprops;
-        } else {
-            let myList = ref.localprops;
-            ref.parentRoles.forEach(function (item) {
-                const pList = getStates(item);
-                myList = myList.concat(pList);
-            });
-            ref.allprops = myList;
-            return myList;
-        }
-    };
 
     // TODO: test this on a page where `skipIndex` is truthy
     if (!skipIndex) {
