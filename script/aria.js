@@ -263,6 +263,34 @@ const extractStatesProperties = function (item) {
     };
 };
 
+/**
+ *
+ * @param {String} indexTest - string to decide if this index needs it
+ * @param {HTMLElement} rdef - rdef node
+ */
+const generateHTMLNameFromIndices = (indexTest, rdef) => {
+    const container = rdef.parentNode;
+    // is there a namefrom indication?  If so, add this one to
+    // the list
+    const roleFromNode = container.querySelector(".role-namefrom");
+    // is this a role or an abstract role
+    let isAbstract = false;
+    const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
+    if (abstract.innerText === "True") {
+        isAbstract = true;
+    }
+    if (!isAbstract && roleFromNode) {
+        const content = rdef.innerText;
+        const isRequired =
+            roleFromNode.closest("table").querySelector(".role-namerequired")
+                ?.innerText === "True";
+        if (roleFromNode.textContent.indexOf(indexTest) !== -1)
+            return `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${
+                isRequired ? " (name required)" : ""
+            }</li>`; // TODO: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact string
+    }
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -303,15 +331,25 @@ function ariaAttributeReferences() {
     //
 
     const subRoles = [];
-    let fromAuthor = "";
-    let fromHeading = "";
-    let fromContent = "";
-    let fromProhibited = "";
 
     const rdefs = document.querySelectorAll("rdef");
     const rdefsContainer = [...rdefs].map((node) => node.parentNode);
 
     rdefs.forEach(populateSubRoles.bind(null, subRoles));
+
+    let fromAuthor = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "author"))
+        .join("");
+    let fromHeading = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "heading"))
+        .join("");
+    let fromContent = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "content"))
+        .join("");
+    let fromProhibited = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "prohibited"))
+        .join("");
+
     const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
     rdefs.forEach(function (item) {
         const container = item.parentNode;
@@ -341,41 +379,6 @@ function ariaAttributeReferences() {
             parentRoles: parentRoles,
             localprops: attrs,
         };
-
-        // is there a namefrom indication?  If so, add this one to
-        // the list
-        const roleFromNode = container.querySelector(".role-namefrom");
-        // is this a role or an abstract role
-        let isAbstract = false;
-        const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
-        if (abstract.innerText === "True") {
-            isAbstract = true;
-        }
-        if (!isAbstract && roleFromNode) {
-            const isRequired =
-                roleFromNode
-                    .closest("table")
-                    .querySelector(".role-namerequired")?.innerText === "True";
-            const liString = `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${
-                isRequired ? " (name required)" : ""
-            }</li>`;
-            if (roleFromNode.textContent.indexOf("author") !== -1) {
-                fromAuthor += liString;
-            }
-            if (roleFromNode.textContent.indexOf("heading") !== -1) {
-                fromHeading += liString;
-            }
-            if (
-                !isAbstract &&
-                roleFromNode.textContent.indexOf("content") !== -1
-            ) {
-                fromContent += liString;
-            }
-            if (roleFromNode.textContent.indexOf("prohibited") !== -1) {
-                fromProhibited += liString;
-            }
-            // TODO: Above: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact string
-        }
     });
 
     rdefs.forEach(rewriteRdef);
