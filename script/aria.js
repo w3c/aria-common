@@ -354,56 +354,30 @@ function ariaAttributeReferences() {
             container
                 .querySelectorAll(".role-namefrom")
                 .forEach(function (node) {
-                    const reqRef =
-                        container.querySelector(".role-namerequired");
-                    let req = "";
-                    if (reqRef && reqRef.innerText === "True") {
-                        req = " (name required)";
-                    }
-
+                    const isRequired =
+                        node
+                            .closest("table")
+                            .querySelector(".role-namerequired")?.innerText ===
+                        "True";
+                    const liString = `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${
+                        isRequired ? " (name required)" : ""
+                    }</li>`;
                     if (node.textContent.indexOf("author") !== -1) {
-                        fromAuthor +=
-                            '<li><a href="#' +
-                            content +
-                            '" class="role-reference"><code>' +
-                            content +
-                            "</code></a>" +
-                            req +
-                            "</li>";
+                        fromAuthor += liString;
                     }
                     if (node.textContent.indexOf("heading") !== -1) {
-                        fromHeading +=
-                            '<li><a href="#' +
-                            content +
-                            '" class="role-reference"><code>' +
-                            content +
-                            "</code></a>" +
-                            req +
-                            "</li>";
+                        fromHeading += liString;
                     }
                     if (
                         !isAbstract &&
                         node.textContent.indexOf("content") !== -1
                     ) {
-                        fromContent +=
-                            '<li><a href="#' +
-                            content +
-                            '" class="role-reference"><code>' +
-                            content +
-                            "</code></a>" +
-                            req +
-                            "</li>";
+                        fromContent += liString;
                     }
                     if (node.textContent.indexOf("prohibited") !== -1) {
-                        fromProhibited +=
-                            '<li><a href="#' +
-                            content +
-                            '" class="role-reference"><code>' +
-                            content +
-                            "</code></a>" +
-                            req +
-                            "</li>";
+                        fromProhibited += liString;
                     }
+                    // TODO: Above: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact strin
                 });
         }
     });
