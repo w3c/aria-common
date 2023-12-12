@@ -332,12 +332,20 @@ function ariaAttributeReferences() {
                         disallowed: dis,
                         deprecated: dep,
                     });
-
-                    // remember that the state or property is
-                    // referenced by this role
-                    propList[name].roles.push(content);
                 });
             });
+        // remember that the state or property is
+        // referenced by this role
+        container
+            .querySelectorAll(
+                `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
+            )
+            .forEach((node) =>
+                propList[
+                    node.getAttribute("title") || node.innerText
+                ].roles.push(content)
+            );
+
         roleInfo[content] = {
             name: content,
             fragID: content,
