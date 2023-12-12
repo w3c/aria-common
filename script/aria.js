@@ -292,24 +292,19 @@ function ariaAttributeReferences() {
         if (abstract.innerText === "True") {
             isAbstract = true;
         }
+
         // grab info about this role
         // do we have a parent class?  if so, put us in that parents list
-        const node = container.querySelectorAll(".role-parent rref");
-        // s will hold the name of the parent role if any
-        let s = null;
-        const parentRoles = [];
-        if (node.length) {
-            node.forEach(function (roleref) {
-                s = roleref.textContent || roleref.innerText;
-
-                if (!subRoles[s]) {
-                    subRoles.push(s);
-                    subRoles[s] = [];
-                }
-                subRoles[s].push(title);
-                parentRoles.push(s);
-            });
-        }
+        const rrefs = container.querySelectorAll(".role-parent rref");
+        const parentRoles = [...rrefs].map((rref) => rref.innerText);
+        rrefs.forEach(function (roleref) {
+            const s = roleref.innerText;
+            if (!subRoles[s]) {
+                subRoles.push(s);
+                subRoles[s] = [];
+            }
+            subRoles[s].push(title);
+        });
         // are there supported states / properties in this role?
         const attrs = [];
         container
