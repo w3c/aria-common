@@ -377,9 +377,7 @@ const buildInheritedStatesProperties = function (item) {
         }
     }
 
-    const reducedList = myList.reduce((uniqueList, item) => {
-        return uniqueList.includes(item) ? uniqueList : [...uniqueList, item];
-    }, []);
+    const reducedList = [...new Set(myList)];
 
     const sortedList = reducedList.sort((a, b) => {
         if (a.name == b.name) {
