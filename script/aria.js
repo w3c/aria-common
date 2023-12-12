@@ -206,13 +206,8 @@ const generateIndexGlobalStatesAndProperties = (globalSP) => {
  */
 const generateHTMLRoleIndexEntry = function (item) {
     const container = item.parentNode;
-    const content = item.innerHTML;
-    let title = item.getAttribute("title"); // TODO: no rdef has title (same for sdef, pdef)
-    if (!title) {
-        title = content;
-    }
-    const pnID = title;
-    container.id = pnID;
+    const content = item.innerText;
+    container.id = content;
     // is this a role or an abstract role
     let type = "role";
     let isAbstract = false;
@@ -223,7 +218,7 @@ const generateHTMLRoleIndexEntry = function (item) {
     }
     const dRef = item.nextElementSibling;
     const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML; // TODO: should the spec markup provide something more robust than "next sibling first child"? [same for sdef/pdef "desc"]
-    return `<dt><a href="#${pnID}" class="role-reference"><code>${content}</code>${
+    return `<dt><a href="#${content}" class="role-reference"><code>${content}</code>${
         isAbstract ? " (abstract role) " : ""
     }</a></dt>\n<dd>${desc}</dd>\n`;
 };
