@@ -310,35 +310,30 @@ function ariaAttributeReferences() {
         const parentRoles = [...rrefs].map((rref) => rref.innerText);
         // are there supported states / properties in this role?
         const attrs = [];
-        container
-            .querySelectorAll(
-                `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
-            )
-            .forEach(function (item) {
-                const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
-                const type = item.localName === "pref" ? "property" : "state";
-                const req = item.closest(".role-required-properties");
-                const dis = item.closest(".role-disallowed");
-                const dep = item.hasAttribute("data-deprecated");
-                attrs.push({
-                    is: type,
-                    name: name,
-                    required: req,
-                    disallowed: dis,
-                    deprecated: dep,
-                });
+        const PSDefs = container.querySelectorAll(
+            `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
+        );
+        PSDefs.forEach(function (item) {
+            const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
+            const type = item.localName === "pref" ? "property" : "state";
+            const req = item.closest(".role-required-properties");
+            const dis = item.closest(".role-disallowed");
+            const dep = item.hasAttribute("data-deprecated");
+            attrs.push({
+                is: type,
+                name: name,
+                required: req,
+                disallowed: dis,
+                deprecated: dep,
             });
+        });
         // remember that the state or property is
         // referenced by this role
-        container
-            .querySelectorAll(
-                `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
+        PSDefs.forEach((node) =>
+            propList[node.getAttribute("title") || node.innerText].roles.push(
+                content
             )
-            .forEach((node) =>
-                propList[
-                    node.getAttribute("title") || node.innerText
-                ].roles.push(content)
-            );
+        );
 
         roleInfo[content] = {
             name: content,
