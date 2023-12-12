@@ -291,6 +291,43 @@ const generateHTMLNameFromIndices = (indexTest, rdef) => {
     }
 };
 
+/**
+ * Populates roleInfo and updates proplist alongside it
+ * TODO: separate out propList updates
+ * @param {Object} roleInfo - the roleInfo object
+ * @param {Object} propList - the "list" of properties
+ * @param {HTMLElement} item - an rdef node
+ */
+const populateRoleInfoPropList = function (roleInfo, propList, item) {
+    const container = item.parentNode;
+    const content = item.innerText;
+    container.id = content;
+
+    // grab info about this role
+    // do we have a parent class?  if so, put us in that parents list
+    const rrefs = container.querySelectorAll(".role-parent rref");
+    const parentRoles = [...rrefs].map((rref) => rref.innerText);
+    // are there supported states / properties in this role?
+    const PSDefs = container.querySelectorAll(
+        `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
+    );
+    const attrs = [...PSDefs].map(extractStatesProperties);
+    // remember that the state or property is
+    // referenced by this role
+    PSDefs.forEach((node) =>
+        propList[node.getAttribute("title") || node.innerText].roles.push(
+            content
+        )
+    );
+
+    roleInfo[content] = {
+        name: content,
+        fragID: content,
+        parentRoles: parentRoles,
+        localprops: attrs,
+    };
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -351,35 +388,7 @@ function ariaAttributeReferences() {
         .join("");
 
     const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
-    rdefs.forEach(function (item) {
-        const container = item.parentNode;
-        const content = item.innerText;
-        container.id = content;
-
-        // grab info about this role
-        // do we have a parent class?  if so, put us in that parents list
-        const rrefs = container.querySelectorAll(".role-parent rref");
-        const parentRoles = [...rrefs].map((rref) => rref.innerText);
-        // are there supported states / properties in this role?
-        const PSDefs = container.querySelectorAll(
-            `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
-        );
-        const attrs = [...PSDefs].map(extractStatesProperties);
-        // remember that the state or property is
-        // referenced by this role
-        PSDefs.forEach((node) =>
-            propList[node.getAttribute("title") || node.innerText].roles.push(
-                content
-            )
-        );
-
-        roleInfo[content] = {
-            name: content,
-            fragID: content,
-            parentRoles: parentRoles,
-            localprops: attrs,
-        };
-    });
+    rdefs.forEach(populateRoleInfoPropList.bind(null, roleInfo, propList));
 
     rdefs.forEach(rewriteRdef);
 
