@@ -2,6 +2,7 @@
 
 # NOTE: Assumes there's a copy of w3c/aria in ../aria/
 
+rm before.html after.html
 echo "Run respec on ../aria/index.html to generate 'before.html'"
 npx respec --src ../aria/index.html --out before.html
 echo "Copy ./script/aria.js to ../aria/common/script/"
