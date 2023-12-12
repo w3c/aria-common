@@ -243,6 +243,26 @@ const populateSubRoles = (subRoles, rdef) => {
         });
 };
 
+/**
+ *
+ * @param {HTMLElement} item - sdef or pdef inside rdef Characteristics table
+ * @returns
+ */
+const extractStatesProperties = function (item) {
+    const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
+    const type = item.localName === "pref" ? "property" : "state";
+    const req = item.closest(".role-required-properties");
+    const dis = item.closest(".role-disallowed");
+    const dep = item.hasAttribute("data-deprecated");
+    return {
+        is: type,
+        name: name,
+        required: req,
+        disallowed: dis,
+        deprecated: dep,
+    };
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -312,20 +332,7 @@ function ariaAttributeReferences() {
         const PSDefs = container.querySelectorAll(
             `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
         );
-        const attrs = [...PSDefs].map(function (item) {
-            const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
-            const type = item.localName === "pref" ? "property" : "state";
-            const req = item.closest(".role-required-properties");
-            const dis = item.closest(".role-disallowed");
-            const dep = item.hasAttribute("data-deprecated");
-            return {
-                is: type,
-                name: name,
-                required: req,
-                disallowed: dis,
-                deprecated: dep,
-            };
-        });
+        const attrs = [...PSDefs].map(extractStatesProperties);
         // remember that the state or property is
         // referenced by this role
         PSDefs.forEach((node) =>
