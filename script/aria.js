@@ -200,6 +200,34 @@ const generateIndexGlobalStatesAndProperties = (globalSP) => {
     roletypePropsPlaceholder.remove();
 };
 
+/**
+ * For an rdef element, generates DT+DD content to be added to the Index of Roles
+ * @param {HTMLElement} item - rdef element
+ */
+const generateHTMLRoleIndexEntry = function (item) {
+    const container = item.parentNode;
+    const content = item.innerHTML;
+    let title = item.getAttribute("title"); // TODO: no rdef has title (same for sdef, pdef)
+    if (!title) {
+        title = content;
+    }
+    const pnID = title;
+    container.id = pnID;
+    // is this a role or an abstract role
+    let type = "role";
+    let isAbstract = false;
+    const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
+    if (abstract.innerText === "True") {
+        type = "abstract role";
+        isAbstract = true;
+    }
+    const dRef = item.nextElementSibling;
+    const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML; // TODO: should the spec markup provide something more robust than "next sibling first child"? [same for sdef/pdef "desc"]
+    return `<dt><a href="#${pnID}" class="role-reference"><code>${content}</code>${
+        isAbstract ? " (abstract role) " : ""
+    }</a></dt>\n<dd>${desc}</dd>\n`;
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -240,7 +268,6 @@ function ariaAttributeReferences() {
     //
 
     const subRoles = [];
-    let roleIndex = "";
     let fromAuthor = "";
     let fromHeading = "";
     let fromContent = "";
@@ -249,6 +276,7 @@ function ariaAttributeReferences() {
     const rdefs = document.querySelectorAll("rdef");
     const rdefsContainer = [...rdefs].map((node) => node.parentNode);
 
+    const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
     rdefs.forEach(function (item) {
         const container = item.parentNode;
         const content = item.innerHTML;
@@ -259,24 +287,11 @@ function ariaAttributeReferences() {
         const pnID = title;
         container.id = pnID;
         // is this a role or an abstract role
-        let type = "role";
         let isAbstract = false;
         const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
         if (abstract.innerText === "True") {
-            type = "abstract role";
             isAbstract = true;
         }
-        const dRef = item.nextElementSibling;
-        const desc = cloneWithoutIds(dRef.firstElementChild).innerHTML; // TODO: should the spec markup provide something more robust than "next sibling first child"? [same for sdef/pdef "desc"]
-        roleIndex +=
-            '<dt><a href="#' +
-            pnID +
-            '" class="role-reference"><code>' +
-            content +
-            "</code>" +
-            (isAbstract ? " (abstract role) " : "") +
-            "</a></dt>\n";
-        roleIndex += "<dd>" + desc + "</dd>\n";
         // grab info about this role
         // do we have a parent class?  if so, put us in that parents list
         const node = container.querySelectorAll(".role-parent rref");
