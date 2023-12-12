@@ -356,12 +356,12 @@ const getStates = function (role) {
  * @param {Object} item - value from Object.values(roleInfo)
  */
 const buildInheritedStatesProperties = function (item) {
-    let output = "";
     const placeholder = document.querySelector(
         "#" + item.fragID + " .role-inherited"
     );
     if (!placeholder) return;
 
+    // TODO: simplify (from here until sortedList)
     let myList = [];
     item.parentRoles.forEach(function (role) {
         myList = myList.concat(getStates(role));
@@ -389,31 +389,25 @@ const buildInheritedStatesProperties = function (item) {
         return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
     }, []);
 
-    let prev;
-    sortedList.forEach((property) => {
-        let req = "";
-        let dep = "";
-        if (property.required) {
-            req = " <strong>(required)</strong>";
-        }
-        if (property.deprecated) {
-            dep = " <strong>(deprecated on this role in ARIA 1.2)</strong>";
-        }
-        if (prev != property.name) {
-            output += "<li>";
-            if (property.is === "state") {
-                output +=
-                    "<sref>" + property.name + "</sref> (state)" + req + dep;
-            } else {
-                output += "<pref>" + property.name + "</pref>" + req + dep;
-            }
-            output += "</li>\n";
+    let prev; //TODO: get rid of "prev"
+    const output = sortedList
+        .map((property) => {
+            if (prev === property.name) return "";
             prev = property.name;
-        }
-    });
+
+            const isState = property.is === "state";
+            const suffix = isState ? " (state)" : "";
+            const tag = isState ? "sref" : "pref";
+            const req = property.required ? " <strong>(required)</strong>" : "";
+            const dep = property.deprecated
+                ? " <strong>(deprecated on this role in ARIA 1.2)</strong>"
+                : "";
+
+            return `<li><${tag}>${property.name}</${tag}>${suffix}${req}${dep}</li>\n`;
+        })
+        .join("");
     if (output !== "") {
-        output = "<ul>\n" + output + "</ul>\n";
-        placeholder.innerHTML = output;
+        placeholder.innerHTML = `<ul>\n${output}</ul>\n`;
     }
 };
 
