@@ -611,21 +611,14 @@ function ariaAttributeReferences() {
                 item.roles.length
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
-                let sortedList = [];
-                sortedList = item.roles.sort();
-                //remove roletype from the sorted list
-                const index = sortedList.indexOf("roletype");
-                if (index > -1) {
-                    sortedList.splice(index, 1);
-                }
-                output +=
-                    "All elements of the base markup except for the following roles: ";
-                for (let j = 0; j < sortedList.length - 1; j++) {
-                    output += "<rref>" + sortedList[j] + "</rref>, ";
-                }
-                output +=
-                    "<rref>" + sortedList[sortedList.length - 1] + "</rref>";
-                placeholder.innerHTML = output;
+                // exclude roletype from the sorted list
+                const sortedList = item.roles
+                    .sort()
+                    .filter((role) => role !== "roletype");
+
+                placeholder.innerHTML = `All elements of the base markup except for the following roles: ${sortedList
+                    .map((role) => `<rref>${role}</rref>`)
+                    .join(", ")}`;
             }
         });
 
