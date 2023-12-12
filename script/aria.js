@@ -317,12 +317,6 @@ function ariaAttributeReferences() {
         const container = item.parentNode;
         const content = item.innerText;
         container.id = content;
-        // is this a role or an abstract role
-        let isAbstract = false;
-        const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
-        if (abstract.innerText === "True") {
-            isAbstract = true;
-        }
 
         // grab info about this role
         // do we have a parent class?  if so, put us in that parents list
@@ -351,6 +345,12 @@ function ariaAttributeReferences() {
         // is there a namefrom indication?  If so, add this one to
         // the list
         const roleFromNode = container.querySelector(".role-namefrom");
+        // is this a role or an abstract role
+        let isAbstract = false;
+        const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
+        if (abstract.innerText === "True") {
+            isAbstract = true;
+        }
         if (!isAbstract && roleFromNode) {
             const isRequired =
                 roleFromNode
