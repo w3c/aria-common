@@ -325,16 +325,12 @@ function ariaAttributeReferences() {
                 ".role-properties, .role-required-properties, .role-disallowed"
             )
             .forEach(function (node) {
-                if (
-                    node &&
-                    ((node.textContent && node.textContent.length !== 1) ||
-                        (node.innerText && node.innerText.length !== 1))
-                ) {
+                if (node.innerText.length !== 1) {
                     // looks like we do
                     node.querySelectorAll("pref,sref").forEach(function (item) {
                         let name = item.getAttribute("title");
                         if (!name) {
-                            name = item.textContent || item.innerText;
+                            name = item.innerText;
                         }
                         const type =
                             item.localName === "pref" ? "property" : "state";
@@ -554,12 +550,7 @@ function ariaAttributeReferences() {
             let placeholder = section.querySelector(
                 ".state-applicability, .property-applicability"
             );
-            if (
-                placeholder &&
-                (placeholder.textContent || placeholder.innerText) ===
-                    "Placeholder" &&
-                item.roles.length
-            ) {
+            if (placeholder?.innerText === "Placeholder" && item.roles.length) {
                 // update the used in roles list
                 let sortedList = [];
                 sortedList = item.roles.sort();
@@ -604,8 +595,7 @@ function ariaAttributeReferences() {
                     placeholder.innerHTML = output;
                 }
             } else if (
-                placeholder &&
-                (placeholder.textContent || placeholder.innerText) ===
+                placeholder?.innerText ===
                     "Use as a global deprecated in ARIA 1.2" &&
                 item.roles.length
             ) {
@@ -659,8 +649,7 @@ function ariaAttributeReferences() {
                     placeholder.innerHTML = output;
                 }
             } else if (
-                placeholder &&
-                (placeholder.textContent || placeholder.innerText) ===
+                placeholder?.innerText ===
                     "All elements of the base markup except for some roles or elements that prohibit its use" &&
                 item.roles.length
             ) {
