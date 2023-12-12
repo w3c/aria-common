@@ -295,13 +295,8 @@ function ariaAttributeReferences() {
     const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
     rdefs.forEach(function (item) {
         const container = item.parentNode;
-        const content = item.innerHTML;
-        let title = item.getAttribute("title"); // TODO: no rdef has title (same for sdef, pdef)
-        if (!title) {
-            title = content;
-        }
-        const pnID = title;
-        container.id = pnID;
+        const content = item.innerText;
+        container.id = content;
         // is this a role or an abstract role
         let isAbstract = false;
         const abstract = container.querySelectorAll(".role-abstract"); //TODO: maybe #105
@@ -344,13 +339,13 @@ function ariaAttributeReferences() {
 
                         // remember that the state or property is
                         // referenced by this role
-                        propList[name].roles.push(title);
+                        propList[name].roles.push(content);
                     });
                 }
             });
-        roleInfo[title] = {
-            name: title,
-            fragID: pnID,
+        roleInfo[content] = {
+            name: content,
+            fragID: content,
             parentRoles: parentRoles,
             localprops: attrs,
         };
@@ -371,7 +366,7 @@ function ariaAttributeReferences() {
                     if (node.textContent.indexOf("author") !== -1) {
                         fromAuthor +=
                             '<li><a href="#' +
-                            pnID +
+                            content +
                             '" class="role-reference"><code>' +
                             content +
                             "</code></a>" +
@@ -381,7 +376,7 @@ function ariaAttributeReferences() {
                     if (node.textContent.indexOf("heading") !== -1) {
                         fromHeading +=
                             '<li><a href="#' +
-                            pnID +
+                            content +
                             '" class="role-reference"><code>' +
                             content +
                             "</code></a>" +
@@ -394,7 +389,7 @@ function ariaAttributeReferences() {
                     ) {
                         fromContent +=
                             '<li><a href="#' +
-                            pnID +
+                            content +
                             '" class="role-reference"><code>' +
                             content +
                             "</code></a>" +
@@ -404,7 +399,7 @@ function ariaAttributeReferences() {
                     if (node.textContent.indexOf("prohibited") !== -1) {
                         fromProhibited +=
                             '<li><a href="#' +
-                            pnID +
+                            content +
                             '" class="role-reference"><code>' +
                             content +
                             "</code></a>" +
