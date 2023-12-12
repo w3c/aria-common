@@ -312,26 +312,20 @@ function ariaAttributeReferences() {
         const attrs = [];
         container
             .querySelectorAll(
-                ".role-properties, .role-required-properties, .role-disallowed"
+                `:is(.role-properties, .role-required-properties, .role-disallowed) :is(pref, sref)`
             )
-            .forEach(function (node) {
-                // looks like we do
-                node.querySelectorAll("pref,sref").forEach(function (item) {
-                    const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
-                    const type =
-                        item.localName === "pref" ? "property" : "state";
-                    const req = node.classList.contains(
-                        "role-required-properties"
-                    );
-                    const dis = node.classList.contains("role-disallowed");
-                    const dep = item.hasAttribute("data-deprecated");
-                    attrs.push({
-                        is: type,
-                        name: name,
-                        required: req,
-                        disallowed: dis,
-                        deprecated: dep,
-                    });
+            .forEach(function (item) {
+                const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
+                const type = item.localName === "pref" ? "property" : "state";
+                const req = item.closest(".role-required-properties");
+                const dis = item.closest(".role-disallowed");
+                const dep = item.hasAttribute("data-deprecated");
+                attrs.push({
+                    is: type,
+                    name: name,
+                    required: req,
+                    disallowed: dis,
+                    deprecated: dep,
                 });
             });
         // remember that the state or property is
