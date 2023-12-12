@@ -318,10 +318,8 @@ function ariaAttributeReferences() {
                 if (node.innerText.length !== 1) {
                     // looks like we do
                     node.querySelectorAll("pref,sref").forEach(function (item) {
-                        let name = item.getAttribute("title");
-                        if (!name) {
-                            name = item.innerText;
-                        }
+                        const name =
+                            item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
                         const type =
                             item.localName === "pref" ? "property" : "state";
                         const req = node.classList.contains(
