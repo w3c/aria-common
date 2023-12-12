@@ -353,10 +353,9 @@ const getStates = function (role) {
 /**
  * Builds up the complete inherited SP lists for each role
  * However, if the role already specifies an item, do not include it
- * @param {Object} index - key value pair from Object.entries(roleInfo)
+ * @param {Object} item - value from Object.values(roleInfo)
  */
-const buildInheritedStatesProperties = function (index) {
-    const item = index[1];
+const buildInheritedStatesProperties = function (item) {
     let output = "";
     const placeholder = document.querySelector(
         "#" + item.fragID + " .role-inherited"
@@ -489,7 +488,7 @@ function ariaAttributeReferences() {
 
     // TODO: test this on a page where `skipIndex` is truthy
     if (!skipIndex) {
-        Object.entries(roleInfo).forEach(buildInheritedStatesProperties);
+        Object.values(roleInfo).forEach(buildInheritedStatesProperties);
 
         // Update state and property role references
         const getAllSubRoles = function (role) {
