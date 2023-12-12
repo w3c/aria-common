@@ -350,35 +350,31 @@ function ariaAttributeReferences() {
 
         // is there a namefrom indication?  If so, add this one to
         // the list
-        if (!isAbstract) {
-            container
-                .querySelectorAll(".role-namefrom")
-                .forEach(function (node) {
-                    const isRequired =
-                        node
-                            .closest("table")
-                            .querySelector(".role-namerequired")?.innerText ===
-                        "True";
-                    const liString = `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${
-                        isRequired ? " (name required)" : ""
-                    }</li>`;
-                    if (node.textContent.indexOf("author") !== -1) {
-                        fromAuthor += liString;
-                    }
-                    if (node.textContent.indexOf("heading") !== -1) {
-                        fromHeading += liString;
-                    }
-                    if (
-                        !isAbstract &&
-                        node.textContent.indexOf("content") !== -1
-                    ) {
-                        fromContent += liString;
-                    }
-                    if (node.textContent.indexOf("prohibited") !== -1) {
-                        fromProhibited += liString;
-                    }
-                    // TODO: Above: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact strin
-                });
+        const roleFromNode = container.querySelector(".role-namefrom");
+        if (!isAbstract && roleFromNode) {
+            const isRequired =
+                roleFromNode
+                    .closest("table")
+                    .querySelector(".role-namerequired")?.innerText === "True";
+            const liString = `<li><a href="#${content}" class="role-reference"><code>${content}</code></a>${
+                isRequired ? " (name required)" : ""
+            }</li>`;
+            if (roleFromNode.textContent.indexOf("author") !== -1) {
+                fromAuthor += liString;
+            }
+            if (roleFromNode.textContent.indexOf("heading") !== -1) {
+                fromHeading += liString;
+            }
+            if (
+                !isAbstract &&
+                roleFromNode.textContent.indexOf("content") !== -1
+            ) {
+                fromContent += liString;
+            }
+            if (roleFromNode.textContent.indexOf("prohibited") !== -1) {
+                fromProhibited += liString;
+            }
+            // TODO: Above: `textContent.indexOf` feels brittle; right now it's either the exact string or proper list markup with LI with exact string
         }
     });
 
