@@ -361,70 +361,63 @@ const buildInheritedStatesProperties = function (index) {
     const placeholder = document.querySelector(
         "#" + item.fragID + " .role-inherited"
     );
+    if (!placeholder) return;
 
-    if (placeholder) {
-        let myList = [];
-        item.parentRoles.forEach(function (role) {
-            myList = myList.concat(getStates(role));
-        });
-        // strip out any items that we have locally
-        if (item.localprops.length && myList.length) {
-            for (let j = myList.length - 1; j >= 0; j--) {
-                item.localprops.forEach(function (x) {
-                    if (x.name == myList[j].name) {
-                        myList.splice(j, 1);
-                    }
-                });
-            }
-        }
-
-        const reducedList = myList.reduce((uniqueList, item) => {
-            return uniqueList.includes(item)
-                ? uniqueList
-                : [...uniqueList, item];
-        }, []);
-
-        const sortedList = reducedList.sort((a, b) => {
-            if (a.name == b.name) {
-                // Ensure deprecated false properties occur first
-                if (a.deprecated !== b.deprecated) {
-                    return a.deprecated ? 1 : b.deprecated ? -1 : 0;
+    let myList = [];
+    item.parentRoles.forEach(function (role) {
+        myList = myList.concat(getStates(role));
+    });
+    // strip out any items that we have locally
+    if (item.localprops.length && myList.length) {
+        for (let j = myList.length - 1; j >= 0; j--) {
+            item.localprops.forEach(function (x) {
+                if (x.name == myList[j].name) {
+                    myList.splice(j, 1);
                 }
-            }
-            return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-        }, []);
+            });
+        }
+    }
 
-        let prev;
-        for (let k = 0; k < sortedList.length; k++) {
-            const property = sortedList[k];
-            let req = "";
-            let dep = "";
-            if (property.required) {
-                req = " <strong>(required)</strong>";
-            }
-            if (property.deprecated) {
-                dep = " <strong>(deprecated on this role in ARIA 1.2)</strong>";
-            }
-            if (prev != property.name) {
-                output += "<li>";
-                if (property.is === "state") {
-                    output +=
-                        "<sref>" +
-                        property.name +
-                        "</sref> (state)" +
-                        req +
-                        dep;
-                } else {
-                    output += "<pref>" + property.name + "</pref>" + req + dep;
-                }
-                output += "</li>\n";
-                prev = property.name;
+    const reducedList = myList.reduce((uniqueList, item) => {
+        return uniqueList.includes(item) ? uniqueList : [...uniqueList, item];
+    }, []);
+
+    const sortedList = reducedList.sort((a, b) => {
+        if (a.name == b.name) {
+            // Ensure deprecated false properties occur first
+            if (a.deprecated !== b.deprecated) {
+                return a.deprecated ? 1 : b.deprecated ? -1 : 0;
             }
         }
-        if (output !== "") {
-            output = "<ul>\n" + output + "</ul>\n";
-            placeholder.innerHTML = output;
+        return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+    }, []);
+
+    let prev;
+    for (let k = 0; k < sortedList.length; k++) {
+        const property = sortedList[k];
+        let req = "";
+        let dep = "";
+        if (property.required) {
+            req = " <strong>(required)</strong>";
         }
+        if (property.deprecated) {
+            dep = " <strong>(deprecated on this role in ARIA 1.2)</strong>";
+        }
+        if (prev != property.name) {
+            output += "<li>";
+            if (property.is === "state") {
+                output +=
+                    "<sref>" + property.name + "</sref> (state)" + req + dep;
+            } else {
+                output += "<pref>" + property.name + "</pref>" + req + dep;
+            }
+            output += "</li>\n";
+            prev = property.name;
+        }
+    }
+    if (output !== "") {
+        output = "<ul>\n" + output + "</ul>\n";
+        placeholder.innerHTML = output;
     }
 };
 
