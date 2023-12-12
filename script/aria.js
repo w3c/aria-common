@@ -390,8 +390,7 @@ const buildInheritedStatesProperties = function (item) {
     }, []);
 
     let prev;
-    for (let k = 0; k < sortedList.length; k++) {
-        const property = sortedList[k];
+    sortedList.forEach((property) => {
         let req = "";
         let dep = "";
         if (property.required) {
@@ -411,7 +410,7 @@ const buildInheritedStatesProperties = function (item) {
             output += "</li>\n";
             prev = property.name;
         }
-    }
+    });
     if (output !== "") {
         output = "<ul>\n" + output + "</ul>\n";
         placeholder.innerHTML = output;
