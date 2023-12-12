@@ -315,31 +315,28 @@ function ariaAttributeReferences() {
                 ".role-properties, .role-required-properties, .role-disallowed"
             )
             .forEach(function (node) {
-                if (node.innerText.length !== 1) {
-                    // looks like we do
-                    node.querySelectorAll("pref,sref").forEach(function (item) {
-                        const name =
-                            item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
-                        const type =
-                            item.localName === "pref" ? "property" : "state";
-                        const req = node.classList.contains(
-                            "role-required-properties"
-                        );
-                        const dis = node.classList.contains("role-disallowed");
-                        const dep = item.hasAttribute("data-deprecated");
-                        attrs.push({
-                            is: type,
-                            name: name,
-                            required: req,
-                            disallowed: dis,
-                            deprecated: dep,
-                        });
-
-                        // remember that the state or property is
-                        // referenced by this role
-                        propList[name].roles.push(content);
+                // looks like we do
+                node.querySelectorAll("pref,sref").forEach(function (item) {
+                    const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
+                    const type =
+                        item.localName === "pref" ? "property" : "state";
+                    const req = node.classList.contains(
+                        "role-required-properties"
+                    );
+                    const dis = node.classList.contains("role-disallowed");
+                    const dep = item.hasAttribute("data-deprecated");
+                    attrs.push({
+                        is: type,
+                        name: name,
+                        required: req,
+                        disallowed: dis,
+                        deprecated: dep,
                     });
-                }
+
+                    // remember that the state or property is
+                    // referenced by this role
+                    propList[name].roles.push(content);
+                });
             });
         roleInfo[content] = {
             name: content,
