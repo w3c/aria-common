@@ -515,24 +515,32 @@ function ariaAttributeReferences() {
     if (!skipIndex) {
         Object.values(roleInfo).forEach(buildInheritedStatesProperties);
 
-        // Update state and property role references
-        const getAllSubRoles = function (role) {
-            const ref = subRoles[role];
-            if (ref && ref.length) {
-                let myList = [];
-                ref.forEach(function (item) {
-                    if (!myList.item) {
-                        myList[item] = 1;
-                        myList.push(item);
-                        const childList = getAllSubRoles(item);
-                        myList = myList.concat(childList);
-                    }
-                });
-                return myList;
-            } else {
-                return [];
-            }
+        const createDescendantRoles = (subRoles) => {
+            const descendantRoles = {};
+            // Update state and property role references
+            const getAllSubRoles = function (role) {
+                const ref = subRoles[role];
+                if (ref && ref.length) {
+                    let myList = [];
+                    ref.forEach(function (item) {
+                        if (!myList.item) {
+                            myList[item] = 1;
+                            myList.push(item);
+                            const childList = getAllSubRoles(item);
+                            myList = myList.concat(childList);
+                        }
+                    });
+                    return myList;
+                } else {
+                    return [];
+                }
+            };
+            subRoles.forEach(
+                (item) => (descendantRoles[item] = getAllSubRoles(item))
+            );
+            return descendantRoles;
         };
+        const descendantRoles = createDescendantRoles(subRoles);
 
         Object.values(propList).forEach(function (item) {
             const section = document.querySelector("#" + item.name);
@@ -583,7 +591,7 @@ function ariaAttributeReferences() {
             let myList = [];
             item.roles.forEach(function (role) {
                 // TODO: can we simplify this?
-                let children = getAllSubRoles(role);
+                let children = descendantRoles[role] || [];
                 // Some subroles have required properties which are also required by the superclass.
                 // Example: The checked state of radio, which is also required by superclass checkbox.
                 // We only want to include these one time, so filter out the subroles.
