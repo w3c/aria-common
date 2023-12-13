@@ -497,6 +497,25 @@ function ariaAttributeReferences() {
         .join("");
 
     const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
+
+    // spit out the indices
+    document.getElementById(
+        "index_role"
+    ).outerHTML = `<dl id="index_role" class="compact">${roleIndex}</dl>`;
+    document.getElementById(
+        "index_fromauthor"
+    ).outerHTML = `<ul id="index_fromauthor" class="compact">${fromAuthor}</ul>`;
+    document.getElementById(
+        "index_fromcontent"
+    ).outerHTML = `<ul id="index_fromcontent" class="compact">${fromContent}</ul>`;
+    document.getElementById(
+        "index_fromprohibited"
+    ).outerHTML = `<ul id="index_fromprohibited" class="compact">${fromProhibited}</ul>`;
+    // TODO: remove if-check after w3c/aria#1860
+    if (document.getElementById("index_fromheading"))
+        document.getElementById(
+            "index_fromheading"
+        ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
     rdefs.forEach(populateRoleInfoPropList.bind(null, roleInfo, propList));
 
     rdefs.forEach(rewriteRdef);
@@ -590,25 +609,6 @@ function ariaAttributeReferences() {
                 .map((role) => `<li><rref>${role}</rref></li>\n`)
                 .join("")}</ul>\n`;
         });
-
-        // spit out the indices
-        document.getElementById(
-            "index_role"
-        ).outerHTML = `<dl id="index_role" class="compact">${roleIndex}</dl>`;
-        document.getElementById(
-            "index_fromauthor"
-        ).outerHTML = `<ul id="index_fromauthor" class="compact">${fromAuthor}</ul>`;
-        document.getElementById(
-            "index_fromcontent"
-        ).outerHTML = `<ul id="index_fromcontent" class="compact">${fromContent}</ul>`;
-        document.getElementById(
-            "index_fromprohibited"
-        ).outerHTML = `<ul id="index_fromprohibited" class="compact">${fromProhibited}</ul>`;
-        // TODO: remove if-check after w3c/aria#1860
-        if (document.getElementById("index_fromheading"))
-            document.getElementById(
-                "index_fromheading"
-            ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
 
         // assuming we found some parent roles, update those parents with their children
         subRoles.forEach((role) => {
