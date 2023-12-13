@@ -500,9 +500,7 @@ function ariaAttributeReferences() {
             }
         };
 
-        Object.entries(propList).forEach(function (index) {
-            let output = "";
-            const item = index[1];
+        Object.values(propList).forEach(function (item) {
             const section = document.querySelector("#" + item.name);
             let placeholder = section.querySelector(
                 ".state-applicability, .property-applicability"
