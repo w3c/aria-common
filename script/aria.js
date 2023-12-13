@@ -457,6 +457,78 @@ const generateHTMLIndices = (rdefs) => {
         ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
 };
 
+/**
+ * The propList loop. 
+ * @param {Object} propList - the propList
+ * @param {Object} descendantRoles - the list of "descendant" roles
+ * @param {Object} item - value from object.values(propList)
+ * @returns 
+ */
+const propListLoop = function (propList, descendantRoles, item) {
+    const section = document.querySelector("#" + item.name);
+    let placeholder = section.querySelector(
+        ".state-applicability, .property-applicability"
+    );
+    const placeholderText = placeholder.innerText;
+    // Current values for placeholderText:
+    // * "All elements of the base markup"
+    // * "Placeholder"
+    // * "Use as a global deprecated in ARIA 1.2"
+    // * "All elements of the base markup except for some roles or elements that prohibit its use"
+    // TODO: Maybe use a data attribute instead?
+
+    // Case: nothing to od
+    if (placeholderText === "All elements of the base markup") return;
+
+    // update roles list: sort & maybe remove roletype
+    item.roles.sort();
+    if (placeholderText !== "Placeholder")
+        item.roles.splice(item.roles.indexOf("roletype"), 1);
+
+    // Case: partially prohibited
+    if (
+        placeholderText ===
+        "All elements of the base markup except for some roles or elements that prohibit its use"
+    ) {
+        // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
+
+        placeholder.innerHTML = `All elements of the base markup except for the following roles: ${item.roles
+            .map((role) => `<rref>${role}</rref>`)
+            .join(", ")}`;
+        return;
+    }
+
+    // Otherwise, i.e.,
+    // Cases: placeholderText "Placeholder" or "Use as a global deprecated in ARIA 1.2"
+
+    // populate placeholder
+    placeholder.innerHTML = `<ul>\n${item.roles
+        .map((role) => `<li><rref>${role}</rref></li>\n`)
+        .join("")}</ul>\n`;
+
+    // also update any inherited roles
+    const placeholderInheritedRoles = section.querySelector(
+        ".state-descendants, .property-descendants"
+    );
+    let myList = [];
+    item.roles.forEach(function (role) {
+        // TODO: can we simplify this?
+        let children = descendantRoles[role] || [];
+        // Some subroles have required properties which are also required by the superclass.
+        // Example: The checked state of radio, which is also required by superclass checkbox.
+        // We only want to include these one time, so filter out the subroles.
+        children = children.filter(function (subrole) {
+            return subrole.indexOf(propList[item.name].roles) === -1;
+        });
+        myList = myList.concat(children);
+    });
+
+    placeholderInheritedRoles.innerHTML = `<ul>\n${[...new Set(myList)]
+        .sort()
+        .map((role) => `<li><rref>${role}</rref></li>\n`)
+        .join("")}</ul>\n`;
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -542,70 +614,9 @@ function ariaAttributeReferences() {
         };
         const descendantRoles = createDescendantRoles(subRoles);
 
-        Object.values(propList).forEach(function (item) {
-            const section = document.querySelector("#" + item.name);
-            let placeholder = section.querySelector(
-                ".state-applicability, .property-applicability"
-            );
-            const placeholderText = placeholder.innerText;
-            // Current values for placeholderText:
-            // * "All elements of the base markup"
-            // * "Placeholder"
-            // * "Use as a global deprecated in ARIA 1.2"
-            // * "All elements of the base markup except for some roles or elements that prohibit its use"
-            // TODO: Maybe use a data attribute instead?
-
-            // Case: nothing to od
-            if (placeholderText === "All elements of the base markup") return;
-
-            // update roles list: sort & maybe remove roletype
-            item.roles.sort();
-            if (placeholderText !== "Placeholder")
-                item.roles.splice(item.roles.indexOf("roletype"), 1);
-
-            // Case: partially prohibited
-            if (
-                placeholderText ===
-                "All elements of the base markup except for some roles or elements that prohibit its use"
-            ) {
-                // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
-
-                placeholder.innerHTML = `All elements of the base markup except for the following roles: ${item.roles
-                    .map((role) => `<rref>${role}</rref>`)
-                    .join(", ")}`;
-                return;
-            }
-
-            // Otherwise, i.e.,
-            // Cases: placeholderText "Placeholder" or "Use as a global deprecated in ARIA 1.2"
-
-            // populate placeholder
-            placeholder.innerHTML = `<ul>\n${item.roles
-                .map((role) => `<li><rref>${role}</rref></li>\n`)
-                .join("")}</ul>\n`;
-
-            // also update any inherited roles
-            const placeholderInheritedRoles = section.querySelector(
-                ".state-descendants, .property-descendants"
-            );
-            let myList = [];
-            item.roles.forEach(function (role) {
-                // TODO: can we simplify this?
-                let children = descendantRoles[role] || [];
-                // Some subroles have required properties which are also required by the superclass.
-                // Example: The checked state of radio, which is also required by superclass checkbox.
-                // We only want to include these one time, so filter out the subroles.
-                children = children.filter(function (subrole) {
-                    return subrole.indexOf(propList[item.name].roles) === -1;
-                });
-                myList = myList.concat(children);
-            });
-
-            placeholderInheritedRoles.innerHTML = `<ul>\n${[...new Set(myList)]
-                .sort()
-                .map((role) => `<li><rref>${role}</rref></li>\n`)
-                .join("")}</ul>\n`;
-        });
+        Object.values(propList).forEach(
+            propListLoop.bind(null, propList, descendantRoles)
+        );
 
         // assuming we found some parent roles, update those parents with their children
         subRoles.forEach((role) => {
