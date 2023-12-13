@@ -111,11 +111,7 @@ const rewriteRdef = function (item) {
     const dRef = item.nextElementSibling;
     dRef.id = "desc-" + title;
     dRef.setAttribute("role", "definition");
-    item.insertAdjacentHTML(
-        "afterend",
-        `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`
-    );
-    item.remove();
+    item.outerHTML = `<h4 class="role-name" title="${title}" aria-describedby="desc-${title}"><code>${content}</code> <span class="type-indicator">${type}</span>`;
 };
 
 /**
@@ -130,11 +126,7 @@ const generateHTMLStatesAndProperties = function (propList, item) {
     dRef.id = "desc-" + title; // TODO: too much of a side-effect?
     dRef.setAttribute("role", "definition"); // TODO: ditto?
     // Replace pdef/sdef with HTML
-    item.insertAdjacentHTML(
-        "afterend",
-        `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`
-    );
-    item.remove();
+    item.outerHTML = `<h4><span class="${itemEntry.is}-name" title="${itemEntry.title}" aria-describedby="desc-${itemEntry.title}"><code>${itemEntry.name}</code> <span class="type-indicator">${itemEntry.is}</span></span></h4>`;
 };
 
 /**
@@ -150,11 +142,7 @@ const generateIndexStatesAndProperties = (propList) => {
                 `<dt><a href="#${item.title}" class="${item.is}-reference">${item.name}</a></dt>\n<dd>${item.desc}</dd>\n`
         )
         .join("");
-    indexStatePropPlaceholder.insertAdjacentHTML(
-        "afterend",
-        `<dl id="index_state_prop" class="compact">${indexStatePropContent}</dl>`
-    );
-    indexStatePropPlaceholder.remove();
+    indexStatePropPlaceholder.outerHTML = `<dl id="index_state_prop" class="compact">${indexStatePropContent}</dl>`;
 };
 
 /**
@@ -183,21 +171,13 @@ const generateIndexGlobalStatesAndProperties = (globalSP) => {
     const globalStatesPropertiesPlaceholder = document.querySelector(
         "#global_states .placeholder"
     );
-    globalStatesPropertiesPlaceholder.insertAdjacentHTML(
-        "afterend",
-        `<ul>${globalStatesPropertiesContent}</ul>`
-    );
-    globalStatesPropertiesPlaceholder.remove();
+    globalStatesPropertiesPlaceholder.outerHTML = `<ul>${globalStatesPropertiesContent}</ul>`;
 
     // Populate role=roletype properties with global properties
     const roletypePropsPlaceholder = document.querySelector(
         "#roletype td.role-properties span.placeholder"
     );
-    roletypePropsPlaceholder.insertAdjacentHTML(
-        "afterend",
-        `<ul>${globalStatesPropertiesContent}</ul>`
-    );
-    roletypePropsPlaceholder.remove();
+    roletypePropsPlaceholder.outerHTML = `<ul>${globalStatesPropertiesContent}</ul>`;
 };
 
 /**
