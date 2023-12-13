@@ -437,6 +437,46 @@ const pruneUnusedRows = () => {
         });
 };
 
+/**
+ * Generates the HTML for various indices in the spec
+ * @param {NodeList} rdefs - all the rdefs
+ */
+const generateHTMLIndices = (rdefs) => {
+    let fromAuthor = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "author"))
+        .join("");
+    let fromHeading = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "heading"))
+        .join("");
+    let fromContent = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "content"))
+        .join("");
+    let fromProhibited = [...rdefs]
+        .map(generateHTMLNameFromIndices.bind(null, "prohibited"))
+        .join("");
+
+    const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
+
+    // spit out the indices
+    document.getElementById(
+        "index_role"
+    ).outerHTML = `<dl id="index_role" class="compact">${roleIndex}</dl>`;
+    document.getElementById(
+        "index_fromauthor"
+    ).outerHTML = `<ul id="index_fromauthor" class="compact">${fromAuthor}</ul>`;
+    document.getElementById(
+        "index_fromcontent"
+    ).outerHTML = `<ul id="index_fromcontent" class="compact">${fromContent}</ul>`;
+    document.getElementById(
+        "index_fromprohibited"
+    ).outerHTML = `<ul id="index_fromprohibited" class="compact">${fromProhibited}</ul>`;
+    // TODO: remove if-check after w3c/aria#1860
+    if (document.getElementById("index_fromheading"))
+        document.getElementById(
+            "index_fromheading"
+        ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -483,39 +523,8 @@ function ariaAttributeReferences() {
 
     rdefs.forEach(populateSubRoles.bind(null, subRoles));
 
-    let fromAuthor = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "author"))
-        .join("");
-    let fromHeading = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "heading"))
-        .join("");
-    let fromContent = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "content"))
-        .join("");
-    let fromProhibited = [...rdefs]
-        .map(generateHTMLNameFromIndices.bind(null, "prohibited"))
-        .join("");
+    generateHTMLIndices(rdefs);
 
-    const roleIndex = [...rdefs].map(generateHTMLRoleIndexEntry).join("");
-
-    // spit out the indices
-    document.getElementById(
-        "index_role"
-    ).outerHTML = `<dl id="index_role" class="compact">${roleIndex}</dl>`;
-    document.getElementById(
-        "index_fromauthor"
-    ).outerHTML = `<ul id="index_fromauthor" class="compact">${fromAuthor}</ul>`;
-    document.getElementById(
-        "index_fromcontent"
-    ).outerHTML = `<ul id="index_fromcontent" class="compact">${fromContent}</ul>`;
-    document.getElementById(
-        "index_fromprohibited"
-    ).outerHTML = `<ul id="index_fromprohibited" class="compact">${fromProhibited}</ul>`;
-    // TODO: remove if-check after w3c/aria#1860
-    if (document.getElementById("index_fromheading"))
-        document.getElementById(
-            "index_fromheading"
-        ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
     rdefs.forEach(populateRoleInfoPropList.bind(null, roleInfo, propList));
 
     rdefs.forEach(rewriteRdef);
