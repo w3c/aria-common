@@ -558,6 +558,19 @@ const propListLoop = function (propList, descendantRoles, item) {
         .join("")}</ul>\n`;
 };
 
+/**
+ * In forEach loop, generates HTML for child role entries
+ * @param {String} role - subRoles array entry
+ * @param {Number} index - subRoles array index
+ * @param {Object} subRoles - overloaded subRoles array
+ */
+const generateHTMLRoleChildren = (role, index, subRoles) => {
+    const item = subRoles[role]; //TODO: cf. populateSubRoles overloading
+    document.querySelector(`#${role} .role-children`).innerHTML = `<ul>\n${item
+        .map((subrole) => `<li><rref>${subrole}</rref></li>\n`)
+        .join("")}</ul>\n`;
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -623,14 +636,7 @@ function ariaAttributeReferences() {
         );
 
         // assuming we found some parent roles, update those parents with their children
-        subRoles.forEach((role) => {
-            const item = subRoles[role]; //TODO: cf. populateSubRoles overloading
-            document.querySelector(
-                `#${role} .role-children`
-            ).innerHTML = `<ul>\n${item
-                .map((subrole) => `<li><rref>${subrole}</rref></li>\n`)
-                .join("")}</ul>\n`;
-        });
+        subRoles.forEach(generateHTMLRoleChildren);
     }
 
     pruneUnusedRows();
