@@ -458,11 +458,40 @@ const generateHTMLIndices = (rdefs) => {
 };
 
 /**
- * The propList loop. 
+ * Creates dictionary of "descendant" roles
+ * @param {Object} subRoles - the subroles collection
+ * @returns
+ */
+const createDescendantRoles = (subRoles) => {
+    const descendantRoles = {};
+    // Update state and property role references
+    const getAllSubRoles = function (role) {
+        const ref = subRoles[role];
+        if (ref && ref.length) {
+            let myList = [];
+            ref.forEach(function (item) {
+                if (!myList.item) {
+                    myList[item] = 1;
+                    myList.push(item);
+                    const childList = getAllSubRoles(item);
+                    myList = myList.concat(childList);
+                }
+            });
+            return myList;
+        } else {
+            return [];
+        }
+    };
+    subRoles.forEach((item) => (descendantRoles[item] = getAllSubRoles(item)));
+    return descendantRoles;
+};
+
+/**
+ * The propList loop.
  * @param {Object} propList - the propList
  * @param {Object} descendantRoles - the list of "descendant" roles
  * @param {Object} item - value from object.values(propList)
- * @returns 
+ * @returns
  */
 const propListLoop = function (propList, descendantRoles, item) {
     const section = document.querySelector("#" + item.name);
@@ -587,31 +616,6 @@ function ariaAttributeReferences() {
     if (!skipIndex) {
         Object.values(roleInfo).forEach(buildInheritedStatesProperties);
 
-        const createDescendantRoles = (subRoles) => {
-            const descendantRoles = {};
-            // Update state and property role references
-            const getAllSubRoles = function (role) {
-                const ref = subRoles[role];
-                if (ref && ref.length) {
-                    let myList = [];
-                    ref.forEach(function (item) {
-                        if (!myList.item) {
-                            myList[item] = 1;
-                            myList.push(item);
-                            const childList = getAllSubRoles(item);
-                            myList = myList.concat(childList);
-                        }
-                    });
-                    return myList;
-                } else {
-                    return [];
-                }
-            };
-            subRoles.forEach(
-                (item) => (descendantRoles[item] = getAllSubRoles(item))
-            );
-            return descendantRoles;
-        };
         const descendantRoles = createDescendantRoles(subRoles);
 
         Object.values(propList).forEach(
