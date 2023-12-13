@@ -556,22 +556,13 @@ function ariaAttributeReferences() {
                     "Use as a global deprecated in ARIA 1.2" &&
                 item.roles.length
             ) {
-                // update the used in roles list
-                let sortedList = [];
-                sortedList = item.roles.sort();
-                //remove roletype from the sorted list
-                const index = sortedList.indexOf("roletype");
-                if (index > -1) {
-                    sortedList.splice(index, 1);
-                }
+                // update roles list (sort, remove roletype)
+                item.roles.sort().splice(item.roles.indexOf("roletype"), 1);
+                placeholder.innerHTML = `<ul>\n${item.roles
+                    .map((role) => `<li><rref>${role}</rref></li>\n`)
+                    .join("")}</ul>\n`;
 
-                for (let j = 0; j < sortedList.length; j++) {
-                    output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
-                }
-                if (output !== "") {
-                    output = "<ul>\n" + output + "</ul>\n";
-                }
-                placeholder.innerHTML = output;
+                // BREAK -- different placeholder coming up
                 // also update any inherited roles
                 let myList = [];
                 item.roles.forEach(function (role) {
@@ -612,11 +603,9 @@ function ariaAttributeReferences() {
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
                 // exclude roletype from the sorted list
-                const sortedList = item.roles
-                    .sort()
-                    .filter((role) => role !== "roletype");
+                item.roles.sort().splice(item.roles.indexOf("roletype"), 1);
 
-                placeholder.innerHTML = `All elements of the base markup except for the following roles: ${sortedList
+                placeholder.innerHTML = `All elements of the base markup except for the following roles: ${item.roles
                     .map((role) => `<rref>${role}</rref>`)
                     .join(", ")}`;
             }
