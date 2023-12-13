@@ -505,10 +505,12 @@ function ariaAttributeReferences() {
             let placeholder = section.querySelector(
                 ".state-applicability, .property-applicability"
             );
+            // update roles list: sort, maybe remove roletype
+            item.roles.sort();
+            if (placeholder.innerText !== "Placeholder")
+                item.roles.splice(item.roles.indexOf("roletype"), 1);
             // TODO: all three cases are near-identical. Can we do more?
             if (placeholder?.innerText === "Placeholder") {
-                // update the used in roles list
-                item.roles.sort();
                 placeholder.innerHTML = `<ul>\n${item.roles
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
                     .join("")}</ul>\n`;
@@ -542,8 +544,6 @@ function ariaAttributeReferences() {
                 placeholder?.innerText ===
                 "Use as a global deprecated in ARIA 1.2"
             ) {
-                // update roles list (sort, remove roletype)
-                item.roles.sort().splice(item.roles.indexOf("roletype"), 1);
                 placeholder.innerHTML = `<ul>\n${item.roles
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
                     .join("")}</ul>\n`;
@@ -577,8 +577,6 @@ function ariaAttributeReferences() {
                 "All elements of the base markup except for some roles or elements that prohibit its use"
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
-                // exclude roletype from the sorted list
-                item.roles.sort().splice(item.roles.indexOf("roletype"), 1);
 
                 placeholder.innerHTML = `All elements of the base markup except for the following roles: ${item.roles
                     .map((role) => `<rref>${role}</rref>`)
