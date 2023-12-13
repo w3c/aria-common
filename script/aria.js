@@ -562,10 +562,13 @@ function ariaAttributeReferences() {
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
                     .join("")}</ul>\n`;
 
-                // BREAK -- different placeholder coming up
                 // also update any inherited roles
+                const placeholderInheritedRoles = section.querySelector(
+                    ".state-descendants, .property-descendants"
+                );
                 let myList = [];
                 item.roles.forEach(function (role) {
+                    // TODO: can we simplify this?
                     let children = getAllSubRoles(role);
                     // Some subroles have required properties which are also required by the superclass.
                     // Example: The checked state of radio, which is also required by superclass checkbox.
@@ -577,25 +580,13 @@ function ariaAttributeReferences() {
                     });
                     myList = myList.concat(children);
                 });
-                placeholder = section.querySelector(
-                    ".state-descendants, .property-descendants"
-                );
-                if (placeholder && myList.length) {
-                    let sortedList = myList.sort();
-                    let output = "";
-                    let last = "";
-                    for (j = 0; j < sortedList.length; j++) {
-                        const sItem = sortedList[j];
-                        if (last != sItem) {
-                            output += "<li><rref>" + sItem + "</rref></li>\n";
-                            last = sItem;
-                        }
-                    }
-                    if (output !== "") {
-                        output = "<ul>\n" + output + "</ul>\n";
-                    }
-                    placeholder.innerHTML = output;
-                }
+                const output = [...new Set(myList)]
+                    .sort()
+                    .map((role) => `<li><rref>${role}</rref></li>\n`)
+                    .join("");
+
+                if (output !== "")
+                    placeholderInheritedRoles.innerHTML = `<ul>\n${output}</ul>\n`;
             } else if (
                 placeholder?.innerText ===
                     "All elements of the base markup except for some roles or elements that prohibit its use" &&
