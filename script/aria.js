@@ -505,12 +505,13 @@ function ariaAttributeReferences() {
             let placeholder = section.querySelector(
                 ".state-applicability, .property-applicability"
             );
+            const placeholderText = placeholder.innerText;
             // update roles list: sort, maybe remove roletype
             item.roles.sort();
-            if (placeholder.innerText !== "Placeholder")
+            if (placeholderText !== "Placeholder")
                 item.roles.splice(item.roles.indexOf("roletype"), 1);
             // TODO: all three cases are near-identical. Can we do more?
-            if (placeholder?.innerText === "Placeholder") {
+            if (placeholderText === "Placeholder") {
                 placeholder.innerHTML = `<ul>\n${item.roles
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
                     .join("")}</ul>\n`;
@@ -541,8 +542,7 @@ function ariaAttributeReferences() {
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
                     .join("")}</ul>\n`;
             } else if (
-                placeholder?.innerText ===
-                "Use as a global deprecated in ARIA 1.2"
+                placeholderText === "Use as a global deprecated in ARIA 1.2"
             ) {
                 placeholder.innerHTML = `<ul>\n${item.roles
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
@@ -573,7 +573,7 @@ function ariaAttributeReferences() {
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
                     .join("")}</ul>\n`;
             } else if (
-                placeholder?.innerText ===
+                placeholderText ===
                 "All elements of the base markup except for some roles or elements that prohibit its use"
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
