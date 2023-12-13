@@ -411,6 +411,32 @@ const buildInheritedStatesProperties = function (item) {
     }
 };
 
+/**
+ * prune out unused rows throughout the document
+ *
+ */
+const pruneUnusedRows = () => {
+    document
+        .querySelectorAll(
+            ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"
+        )
+        .forEach(function (item) {
+            var content = item.innerText;
+            if (content.length === 1 || content.length === 0) {
+                // there is no item - remove the row
+                item.parentNode.parentNode.removeChild(item.parentNode);
+            } else if (
+                content === "Placeholder" &&
+                (item.className === "role-inherited" ||
+                    item.className === "role-children" ||
+                    item.className === "property-descendants" ||
+                    item.className === "state-descendants")
+            ) {
+                item.parentNode.remove();
+            }
+        });
+};
+
 function ariaAttributeReferences() {
     const propList = {};
     const globalSP = [];
@@ -595,27 +621,7 @@ function ariaAttributeReferences() {
         });
     }
 
-    // prune out unused rows throughout the document
-    document
-        .querySelectorAll(
-            ".role-abstract, .role-parent, .role-base, .role-related, .role-scope, .role-mustcontain, .role-required-properties, .role-properties, .role-namefrom, .role-namerequired, .role-namerequired-inherited, .role-childpresentational, .role-presentational-inherited, .state-related, .property-related,.role-inherited, .role-children, .property-descendants, .state-descendants, .implicit-values"
-        )
-        .forEach(function (item) {
-            var content = item.innerText;
-            if (content.length === 1 || content.length === 0) {
-                // there is no item - remove the row
-                item.parentNode.parentNode.removeChild(item.parentNode);
-            } else if (
-                content === "Placeholder" &&
-                !skipIndex &&
-                (item.className === "role-inherited" ||
-                    item.className === "role-children" ||
-                    item.className === "property-descendants" ||
-                    item.className === "state-descendants")
-            ) {
-                item.parentNode.remove();
-            }
-        });
+    pruneUnusedRows();
 
     updateReferences(document);
 }
