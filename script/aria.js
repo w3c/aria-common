@@ -506,73 +506,23 @@ function ariaAttributeReferences() {
                 ".state-applicability, .property-applicability"
             );
             const placeholderText = placeholder.innerText;
-            // update roles list: sort, maybe remove roletype
+            // Current values for placeholderText:
+            // * "All elements of the base markup"
+            // * "Placeholder"
+            // * "Use as a global deprecated in ARIA 1.2"
+            // * "All elements of the base markup except for some roles or elements that prohibit its use"
+            // TODO: Maybe use a data attribute instead?
+
+            // Case: nothing to od
+            if (placeholderText === "All elements of the base markup") return;
+
+            // update roles list: sort & maybe remove roletype
             item.roles.sort();
             if (placeholderText !== "Placeholder")
                 item.roles.splice(item.roles.indexOf("roletype"), 1);
-            // TODO: all three cases are near-identical. Can we do more?
-            if (placeholderText === "Placeholder") {
-                placeholder.innerHTML = `<ul>\n${item.roles
-                    .map((role) => `<li><rref>${role}</rref></li>\n`)
-                    .join("")}</ul>\n`;
 
-                // also update any inherited roles
-                const placeholderInheritedRoles = section.querySelector(
-                    ".state-descendants, .property-descendants"
-                );
-                let myList = [];
-                item.roles.forEach(function (role) {
-                    // TODO: can we simplify this?
-                    let children = getAllSubRoles(role);
-                    // Some subroles have required properties which are also required by the superclass.
-                    // Example: The checked state of radio, which is also required by superclass checkbox.
-                    // We only want to include these one time, so filter out the subroles.
-                    children = children.filter(function (subrole) {
-                        return (
-                            subrole.indexOf(propList[item.name].roles) === -1
-                        );
-                    });
-                    myList = myList.concat(children);
-                });
-
-                placeholderInheritedRoles.innerHTML = `<ul>\n${[
-                    ...new Set(myList),
-                ]
-                    .sort()
-                    .map((role) => `<li><rref>${role}</rref></li>\n`)
-                    .join("")}</ul>\n`;
-            } else if (
-                placeholderText === "Use as a global deprecated in ARIA 1.2"
-            ) {
-                placeholder.innerHTML = `<ul>\n${item.roles
-                    .map((role) => `<li><rref>${role}</rref></li>\n`)
-                    .join("")}</ul>\n`;
-
-                // also update any inherited roles
-                const placeholderInheritedRoles = section.querySelector(
-                    ".state-descendants, .property-descendants"
-                );
-                let myList = [];
-                item.roles.forEach(function (role) {
-                    // TODO: can we simplify this?
-                    let children = getAllSubRoles(role);
-                    // Some subroles have required properties which are also required by the superclass.
-                    // Example: The checked state of radio, which is also required by superclass checkbox.
-                    // We only want to include these one time, so filter out the subroles.
-                    children = children.filter(function (subrole) {
-                        return (
-                            subrole.indexOf(propList[item.name].roles) === -1
-                        );
-                    });
-                    myList = myList.concat(children);
-                });
-                placeholderInheritedRoles.innerHTML = `<ul>\n${[
-                    ...new Set(myList),
-                ]
-                    .sort()
-                    .map((role) => `<li><rref>${role}</rref></li>\n`)
-                    .join("")}</ul>\n`;
-            } else if (
+            // Case: partially prohibited
+            if (
                 placeholderText ===
                 "All elements of the base markup except for some roles or elements that prohibit its use"
             ) {
@@ -581,7 +531,38 @@ function ariaAttributeReferences() {
                 placeholder.innerHTML = `All elements of the base markup except for the following roles: ${item.roles
                     .map((role) => `<rref>${role}</rref>`)
                     .join(", ")}`;
+                return;
             }
+
+            // Otherwise, i.e.,
+            // Cases: placeholderText "Placeholder" or "Use as a global deprecated in ARIA 1.2"
+
+            // populate placeholder
+            placeholder.innerHTML = `<ul>\n${item.roles
+                .map((role) => `<li><rref>${role}</rref></li>\n`)
+                .join("")}</ul>\n`;
+
+            // also update any inherited roles
+            const placeholderInheritedRoles = section.querySelector(
+                ".state-descendants, .property-descendants"
+            );
+            let myList = [];
+            item.roles.forEach(function (role) {
+                // TODO: can we simplify this?
+                let children = getAllSubRoles(role);
+                // Some subroles have required properties which are also required by the superclass.
+                // Example: The checked state of radio, which is also required by superclass checkbox.
+                // We only want to include these one time, so filter out the subroles.
+                children = children.filter(function (subrole) {
+                    return subrole.indexOf(propList[item.name].roles) === -1;
+                });
+                myList = myList.concat(children);
+            });
+
+            placeholderInheritedRoles.innerHTML = `<ul>\n${[...new Set(myList)]
+                .sort()
+                .map((role) => `<li><rref>${role}</rref></li>\n`)
+                .join("")}</ul>\n`;
         });
 
         // spit out the index
