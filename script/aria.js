@@ -565,55 +565,25 @@ function ariaAttributeReferences() {
                 .join("")}</ul>\n`;
         });
 
-        // spit out the index
-        let node = document.getElementById("index_role");
-        let parentNode = node.parentNode;
-        let list = document.createElement("dl");
-        list.id = "index_role";
-        list.className = "compact";
-        list.innerHTML = roleIndex;
-        parentNode.replaceChild(list, node);
+        // spit out the indices
+        document.getElementById(
+            "index_role"
+        ).outerHTML = `<dl id="index_role" class="compact">${roleIndex}</dl>`;
+        document.getElementById(
+            "index_fromauthor"
+        ).outerHTML = `<ul id="index_fromauthor" class="compact">${fromAuthor}</ul>`;
+        document.getElementById(
+            "index_fromcontent"
+        ).outerHTML = `<ul id="index_fromcontent" class="compact">${fromContent}</ul>`;
+        document.getElementById(
+            "index_fromprohibited"
+        ).outerHTML = `<ul id="index_fromprohibited" class="compact">${fromProhibited}</ul>`;
+        // TODO: remove if-check after w3c/aria#1860
+        if (document.getElementById("index_fromheading"))
+            document.getElementById(
+                "index_fromheading"
+            ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
 
-        // and the namefrom lists
-        node = document.getElementById("index_fromauthor");
-        if (node) {
-            parentNode = node.parentNode;
-            list = document.createElement("ul");
-            list.id = "index_fromauthor";
-            list.className = "compact";
-            list.innerHTML = fromAuthor;
-            parentNode.replaceChild(list, node);
-        }
-
-        node = document.getElementById("index_fromheading");
-        if (node) {
-            parentNode = node.parentNode;
-            list = document.createElement("ul");
-            list.id = "index_fromheading";
-            list.className = "compact";
-            list.innerHTML = fromHeading;
-            parentNode.replaceChild(list, node);
-        }
-
-        node = document.getElementById("index_fromcontent");
-        if (node) {
-            parentNode = node.parentNode;
-            list = document.createElement("ul");
-            list.id = "index_fromcontent";
-            list.className = "compact";
-            list.innerHTML = fromContent;
-            parentNode.replaceChild(list, node);
-        }
-
-        node = document.getElementById("index_fromprohibited");
-        if (node) {
-            parentNode = node.parentNode;
-            list = document.createElement("ul");
-            list.id = "index_fromprohibited";
-            list.className = "compact";
-            list.innerHTML = fromProhibited;
-            parentNode.replaceChild(list, node);
-        }
         // assuming we found some parent roles, update those parents with their children
         for (let i = 0; i < subRoles.length; i++) {
             const item = subRoles[subRoles[i]];
