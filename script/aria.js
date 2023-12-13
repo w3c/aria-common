@@ -585,24 +585,14 @@ function ariaAttributeReferences() {
             ).outerHTML = `<ul id="index_fromheading" class="compact">${fromHeading}</ul>`;
 
         // assuming we found some parent roles, update those parents with their children
-        for (let i = 0; i < subRoles.length; i++) {
-            const item = subRoles[subRoles[i]];
-            const sortedList = item;
-            let output = "<ul>\n";
-            for (let j = 0; j < sortedList.length; j++) {
-                output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
-            }
-            output += "</ul>\n";
-            // put it somewhere
-            const subRolesContainer = document.querySelector("#" + subRoles[i]);
-            if (subRolesContainer) {
-                const subRolesListContainer =
-                    subRolesContainer.querySelector(".role-children");
-                if (subRolesListContainer) {
-                    subRolesListContainer.innerHTML = output;
-                }
-            }
-        }
+        subRoles.forEach((role) => {
+            const item = subRoles[role]; //TODO: cf. populateSubRoles overloading
+            document.querySelector(
+                `#${role} .role-children`
+            ).innerHTML = `<ul>\n${item
+                .map((subrole) => `<li><rref>${subrole}</rref></li>\n`)
+                .join("")}</ul>\n`;
+        });
     }
 
     // prune out unused rows throughout the document
