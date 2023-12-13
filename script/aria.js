@@ -587,9 +587,7 @@ function ariaAttributeReferences() {
         // assuming we found some parent roles, update those parents with their children
         for (let i = 0; i < subRoles.length; i++) {
             const item = subRoles[subRoles[i]];
-            const sortedList = item.sort(function (a, b) {
-                return a < b ? -1 : a > b ? 1 : 0;
-            });
+            const sortedList = item.sort();
             let output = "<ul>\n";
             for (let j = 0; j < sortedList.length; j++) {
                 output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
