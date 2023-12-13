@@ -507,20 +507,21 @@ function ariaAttributeReferences() {
             let placeholder = section.querySelector(
                 ".state-applicability, .property-applicability"
             );
+            // TODO: all three cases are near-identical. Can we do more?
             if (placeholder?.innerText === "Placeholder" && item.roles.length) {
                 // update the used in roles list
-                let sortedList = [];
-                sortedList = item.roles.sort();
-                for (let j = 0; j < sortedList.length; j++) {
-                    output += "<li><rref>" + sortedList[j] + "</rref></li>\n";
-                }
-                if (output !== "") {
-                    output = "<ul>\n" + output + "</ul>\n";
-                }
-                placeholder.innerHTML = output;
+                item.roles.sort();
+                placeholder.innerHTML = `<ul>\n${item.roles
+                    .map((role) => `<li><rref>${role}</rref></li>\n`)
+                    .join("")}</ul>\n`;
+
                 // also update any inherited roles
+                const placeholderInheritedRoles = section.querySelector(
+                    ".state-descendants, .property-descendants"
+                );
                 let myList = [];
                 item.roles.forEach(function (role) {
+                    // TODO: can we simplify this?
                     let children = getAllSubRoles(role);
                     // Some subroles have required properties which are also required by the superclass.
                     // Example: The checked state of radio, which is also required by superclass checkbox.
@@ -532,25 +533,13 @@ function ariaAttributeReferences() {
                     });
                     myList = myList.concat(children);
                 });
-                placeholder = section.querySelector(
-                    ".state-descendants, .property-descendants"
-                );
-                if (placeholder && myList.length) {
-                    sortedList = myList.sort();
-                    output = "";
-                    let last = "";
-                    for (let j = 0; j < sortedList.length; j++) {
-                        var sItem = sortedList[j];
-                        if (last != sItem) {
-                            output += "<li><rref>" + sItem + "</rref></li>\n";
-                            last = sItem;
-                        }
-                    }
-                    if (output !== "") {
-                        output = "<ul>\n" + output + "</ul>\n";
-                    }
-                    placeholder.innerHTML = output;
-                }
+                const output = [...new Set(myList)]
+                    .sort()
+                    .map((role) => `<li><rref>${role}</rref></li>\n`)
+                    .join("");
+
+                if (output !== "")
+                    placeholderInheritedRoles.innerHTML = `<ul>\n${output}</ul>\n`;
             } else if (
                 placeholder?.innerText ===
                     "Use as a global deprecated in ARIA 1.2" &&
