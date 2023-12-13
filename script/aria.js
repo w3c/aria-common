@@ -506,7 +506,7 @@ function ariaAttributeReferences() {
                 ".state-applicability, .property-applicability"
             );
             // TODO: all three cases are near-identical. Can we do more?
-            if (placeholder?.innerText === "Placeholder" && item.roles.length) {
+            if (placeholder?.innerText === "Placeholder") {
                 // update the used in roles list
                 item.roles.sort();
                 placeholder.innerHTML = `<ul>\n${item.roles
@@ -531,17 +531,16 @@ function ariaAttributeReferences() {
                     });
                     myList = myList.concat(children);
                 });
-                const output = [...new Set(myList)]
+
+                placeholderInheritedRoles.innerHTML = `<ul>\n${[
+                    ...new Set(myList),
+                ]
                     .sort()
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
-                    .join("");
-
-                if (output !== "")
-                    placeholderInheritedRoles.innerHTML = `<ul>\n${output}</ul>\n`;
+                    .join("")}</ul>\n`;
             } else if (
                 placeholder?.innerText ===
-                    "Use as a global deprecated in ARIA 1.2" &&
-                item.roles.length
+                "Use as a global deprecated in ARIA 1.2"
             ) {
                 // update roles list (sort, remove roletype)
                 item.roles.sort().splice(item.roles.indexOf("roletype"), 1);
@@ -567,17 +566,15 @@ function ariaAttributeReferences() {
                     });
                     myList = myList.concat(children);
                 });
-                const output = [...new Set(myList)]
+                placeholderInheritedRoles.innerHTML = `<ul>\n${[
+                    ...new Set(myList),
+                ]
                     .sort()
                     .map((role) => `<li><rref>${role}</rref></li>\n`)
-                    .join("");
-
-                if (output !== "")
-                    placeholderInheritedRoles.innerHTML = `<ul>\n${output}</ul>\n`;
+                    .join("")}</ul>\n`;
             } else if (
                 placeholder?.innerText ===
-                    "All elements of the base markup except for some roles or elements that prohibit its use" &&
-                item.roles.length
+                "All elements of the base markup except for some roles or elements that prohibit its use"
             ) {
                 // for prohibited roles the roles list just includes those roles which are prohibited... weird I know but it is what it is
                 // exclude roletype from the sorted list
