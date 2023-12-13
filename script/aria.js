@@ -231,8 +231,8 @@ const populateSubRoles = (subRoles, rdef) => {
 const extractStatesProperties = function (item) {
     const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
     const type = item.localName === "pref" ? "property" : "state";
-    const req = item.closest(".role-required-properties");
-    const dis = item.closest(".role-disallowed");
+    const req = new Boolean(item.closest(".role-required-properties"));
+    const dis = new Boolean(item.closest(".role-disallowed"));
     const dep = item.hasAttribute("data-deprecated");
     return {
         is: type,
