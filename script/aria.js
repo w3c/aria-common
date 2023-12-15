@@ -161,6 +161,7 @@ const generateIndexGlobalStatesAndProperties = (globalSP) => {
                 isState ? `title="${item.name}"` : ""
             }>${item.name}${isState ? " (state)" : ""}</${tagName}>${
                 // TODO: consider moving "(state)" out of sref/pref tag; then maybe remove title attr for sref (after checking resolveReferences interference)
+                // TODO: cf. extractStatesProperties() and populateRoleInfoPropList() which have extra logic for title set here)
 
                 item.prohibited ? " (Except where prohibited)" : ""
             }${
@@ -214,7 +215,7 @@ const populateSubRoles = (subRoles, rdef) => {
         .querySelectorAll(".role-parent rref")
         .forEach(function (roleref) {
             const s = roleref.innerText;
-            // TODO: this overloading seems weird
+            // SUPERTODO: this overloading seems weird
             if (!subRoles[s]) {
                 subRoles.push(s);
                 subRoles[s] = []; // TODO: should this be a set?
@@ -229,7 +230,7 @@ const populateSubRoles = (subRoles, rdef) => {
  * @returns
  */
 const extractStatesProperties = function (item) {
-    const name = item.getAttribute("title") || item.innerText; // TODO: tests indicate both are needed but why?
+    const name = item.getAttribute("title") || item.innerText; // TODO: raw HTML doesn't have sref/pref with title attributes but generateIndexGlobalStatesAndProperties() creates them
     const type = item.localName === "pref" ? "property" : "state";
     const req = !!item.closest(".role-required-properties");
     const dis = !!item.closest(".role-disallowed");
@@ -295,7 +296,7 @@ const populateRoleInfoPropList = function (roleInfo, propList, item) {
     // remember that the state or property is
     // referenced by this role
     PSDefs.forEach((node) =>
-        propList[node.getAttribute("title") || node.innerText].roles.push(
+        propList[node.getAttribute("title") || node.innerText].roles.push( // TODO: cf.  generateIndexGlobalStatesAndProperties() TODO for simplifying title || node.innerText 
             content
         )
     );
@@ -341,7 +342,7 @@ const buildInheritedStatesProperties = function (item) {
     );
     if (!placeholder) return;
 
-    // TODO: simplify (from here until sortedList)
+    // SUPERTODO: simplify (from here until sortedList)
     let myList = [];
     item.parentRoles.forEach(function (role) {
         myList = myList.concat(getStates(role));
@@ -369,7 +370,7 @@ const buildInheritedStatesProperties = function (item) {
         return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
     }, []);
 
-    let prev; //TODO: get rid of "prev"
+    let prev; //SUPERTODO: get rid of "prev"
     const output = sortedList
         .map((property) => {
             if (prev === property.name) return "";
@@ -506,7 +507,7 @@ const propListLoop = function (propList, descendantRoles, item) {
     // * "All elements of the base markup except for some roles or elements that prohibit its use"
     // TODO: Maybe use a data attribute instead?
 
-    // Case: nothing to od
+    // Case: nothing to do
     if (placeholderText === "All elements of the base markup") return;
 
     // update roles list: sort & maybe remove roletype
@@ -541,7 +542,7 @@ const propListLoop = function (propList, descendantRoles, item) {
     );
     let myList = [];
     item.roles.forEach(function (role) {
-        // TODO: can we simplify this?
+        // SUPERTODO: can we simplify this?
         let children = descendantRoles[role] || [];
         // Some subroles have required properties which are also required by the superclass.
         // Example: The checked state of radio, which is also required by superclass checkbox.
