@@ -467,19 +467,15 @@ const generateHTMLIndices = (rdefs) => {
 const createDescendantRoles = (subRoles) => {
     const descendantRoles = {};
     const getAllSubRoles = function (key) {
-        if (!subRoles[key]) return []; // NOTE: recursion end
-        const ref = [...subRoles[key]];
-        // SUPERTODO: refactor the rest here:
-        let myList = [];
-        ref.forEach(function (item) {
-            if (!myList.item) {
-                myList[item] = 1;
-                myList.push(item);
-                const childList = getAllSubRoles(item);
-                myList = myList.concat(childList);
-            }
+        const subroleSet = new Set();
+        if (!subRoles[key]) return subroleSet; // NOTE: recursion end
+        const childRoles = [...subRoles[key]];
+        childRoles.forEach(function (childRole) {
+            subroleSet.add(childRole);
+            const descendantRolesSet = getAllSubRoles(childRole);
+            [...descendantRolesSet].forEach((role) => subroleSet.add(role));
         });
-        return myList;
+        return subroleSet;
     };
     Object.keys(subRoles).forEach(
         (item) => (descendantRoles[item] = getAllSubRoles(item))
@@ -543,11 +539,12 @@ const propListLoop = function (propList, descendantRoles, item) {
     let myList = [];
     item.roles.forEach(function (role) {
         // SUPERTODO: can we simplify this?
-        let children = descendantRoles[role] || [];
+        let children = descendantRoles[role];
+        if (!children) return;
         // Some subroles have required properties which are also required by the superclass.
         // Example: The checked state of radio, which is also required by superclass checkbox.
         // We only want to include these one time, so filter out the subroles.
-        children = children.filter(function (subrole) {
+        children = [...children].filter(function (subrole) {
             return subrole.indexOf(propList[item.name].roles) === -1;
         });
         myList = myList.concat(children);
