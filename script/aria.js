@@ -536,21 +536,24 @@ const propListLoop = function (propList, descendantRoles, item) {
     const placeholderInheritedRoles = section.querySelector(
         ".state-descendants, .property-descendants"
     );
-    let myList = [];
+    let inheritedRoles = new Set();
     item.roles.forEach(function (role) {
-        // SUPERTODO: can we simplify this?
-        let children = descendantRoles[role];
-        if (!children) return;
         // Some subroles have required properties which are also required by the superclass.
         // Example: The checked state of radio, which is also required by superclass checkbox.
         // We only want to include these one time, so filter out the subroles.
-        children = [...children].filter(function (subrole) {
-            return subrole.indexOf(propList[item.name].roles) === -1;
+        if (!descendantRoles[role]) return;
+        descendantRoles[role].forEach((subrole) => {
+            if (subrole.indexOf(propList[item.name].roles) === -1)
+                inheritedRoles.add(subrole);
+            // TODO: the if-check doesn't make sense
+            // Should it be the other way around? I.e.
+            // if (propList[item.name].roles.indexOf(subrole) === -1)
+            //     inheritedRoles.add(subrole);
+            // But this changes the spec, adding some, removing other entries
         });
-        myList = myList.concat(children);
     });
 
-    placeholderInheritedRoles.innerHTML = `<ul>\n${[...new Set(myList)]
+    placeholderInheritedRoles.innerHTML = `<ul>\n${[...inheritedRoles]
         .sort()
         .map((role) => `<li><rref>${role}</rref></li>\n`)
         .join("")}</ul>\n`;
