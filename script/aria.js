@@ -206,18 +206,22 @@ const generateHTMLRoleIndexEntry = function (item) {
 
 /**
  * Generates subrole information
- * @param {Object} subRoles - the subRoles "array" (overloaded)
- * @param {HTMLement} rdef - rdef element node
+ * @param {NodeList} rdefs - rdefs
  */
-const populateSubRoles = (subRoles, rdef) => {
-    const title = rdef.innerHTML;
-    rdef.parentNode
-        .querySelectorAll(".role-parent rref")
-        .forEach(function (roleref) {
-            const parentRole = roleref.innerText;
-            const parentChildrenRoles = (subRoles[parentRole] ??= new Set());
-            parentChildrenRoles.add(title);
-        });
+const generateSubRoles = (rdefs) => {
+    const subRoles = {};
+    rdefs.forEach((rdef) => {
+        const title = rdef.innerHTML;
+        rdef.parentNode
+            .querySelectorAll(".role-parent rref")
+            .forEach(function (roleref) {
+                const parentRole = roleref.innerText;
+                const parentChildrenRoles = (subRoles[parentRole] ??=
+                    new Set());
+                parentChildrenRoles.add(title);
+            });
+    });
+    return subRoles;
 };
 
 /**
@@ -606,12 +610,10 @@ function ariaAttributeReferences() {
     //   4. grab any local states and properties so we can hand those down to the children
     //
 
-    const subRoles = {};
-
     const rdefs = document.querySelectorAll("rdef");
     const rdefsContainer = [...rdefs].map((node) => node.parentNode);
 
-    rdefs.forEach(populateSubRoles.bind(null, subRoles));
+    const subRoles = generateSubRoles(rdefs);
 
     generateHTMLIndices(rdefs);
 
