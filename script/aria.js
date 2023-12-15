@@ -214,13 +214,9 @@ const populateSubRoles = (subRoles, rdef) => {
     rdef.parentNode
         .querySelectorAll(".role-parent rref")
         .forEach(function (roleref) {
-            const s = roleref.innerText;
-            // SUPERTODO: this overloading seems weird
-            if (!subRoles[s]) {
-                subRoles.push(s);
-                subRoles[s] = []; // TODO: should this be a set?
-            }
-            subRoles[s].push(title); // TODO: should this be a set?
+            const parentRole = roleref.innerText;
+            const parentChildrenRoles = (subRoles[parentRole] ??= new Set());
+            parentChildrenRoles.add(title);
         });
 };
 
@@ -296,7 +292,8 @@ const populateRoleInfoPropList = function (roleInfo, propList, item) {
     // remember that the state or property is
     // referenced by this role
     PSDefs.forEach((node) =>
-        propList[node.getAttribute("title") || node.innerText].roles.push( // TODO: cf.  generateIndexGlobalStatesAndProperties() TODO for simplifying title || node.innerText 
+        propList[node.getAttribute("title") || node.innerText].roles.push(
+            // TODO: cf.  generateIndexGlobalStatesAndProperties() TODO for simplifying title || node.innerText
             content
         )
     );
@@ -465,25 +462,24 @@ const generateHTMLIndices = (rdefs) => {
  */
 const createDescendantRoles = (subRoles) => {
     const descendantRoles = {};
-    // Update state and property role references
-    const getAllSubRoles = function (role) {
-        const ref = subRoles[role];
-        if (ref && ref.length) {
-            let myList = [];
-            ref.forEach(function (item) {
-                if (!myList.item) {
-                    myList[item] = 1;
-                    myList.push(item);
-                    const childList = getAllSubRoles(item);
-                    myList = myList.concat(childList);
-                }
-            });
-            return myList;
-        } else {
-            return [];
-        }
+    const getAllSubRoles = function (key) {
+        if (!subRoles[key]) return []; // NOTE: recursion end
+        const ref = [...subRoles[key]];
+        // SUPERTODO: refactor the rest here:
+        let myList = [];
+        ref.forEach(function (item) {
+            if (!myList.item) {
+                myList[item] = 1;
+                myList.push(item);
+                const childList = getAllSubRoles(item);
+                myList = myList.concat(childList);
+            }
+        });
+        return myList;
     };
-    subRoles.forEach((item) => (descendantRoles[item] = getAllSubRoles(item)));
+    Object.keys(subRoles).forEach(
+        (item) => (descendantRoles[item] = getAllSubRoles(item))
+    );
     return descendantRoles;
 };
 
@@ -560,13 +556,12 @@ const propListLoop = function (propList, descendantRoles, item) {
 };
 
 /**
- * In forEach loop, generates HTML for child role entries
- * @param {String} role - subRoles array entry
- * @param {Number} index - subRoles array index
- * @param {Object} subRoles - overloaded subRoles array
+ * In Object.entries loop, generates HTML for child role entries
+ * @param {String} role - subRoles key
+ * @param {Object} subRolesSet - subRoles value
  */
-const generateHTMLRoleChildren = (role, index, subRoles) => {
-    const item = subRoles[role]; //TODO: cf. populateSubRoles overloading
+const generateHTMLRoleChildren = ([role, subroleSet]) => {
+    const item = [...subroleSet];
     document.querySelector(`#${role} .role-children`).innerHTML = `<ul>\n${item
         .map((subrole) => `<li><rref>${subrole}</rref></li>\n`)
         .join("")}</ul>\n`;
@@ -611,7 +606,7 @@ function ariaAttributeReferences() {
     //   4. grab any local states and properties so we can hand those down to the children
     //
 
-    const subRoles = [];
+    const subRoles = {};
 
     const rdefs = document.querySelectorAll("rdef");
     const rdefsContainer = [...rdefs].map((node) => node.parentNode);
@@ -637,7 +632,7 @@ function ariaAttributeReferences() {
         );
 
         // assuming we found some parent roles, update those parents with their children
-        subRoles.forEach(generateHTMLRoleChildren);
+        Object.entries(subRoles).forEach(generateHTMLRoleChildren);
     }
 
     pruneUnusedRows();
