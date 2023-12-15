@@ -469,11 +469,10 @@ const createDescendantRoles = (subRoles) => {
     const getAllSubRoles = function (key) {
         const subroleSet = new Set();
         if (!subRoles[key]) return subroleSet; // NOTE: recursion end
-        const childRoles = [...subRoles[key]];
-        childRoles.forEach(function (childRole) {
+        subRoles[key].forEach(function (childRole) {
             subroleSet.add(childRole);
             const descendantRolesSet = getAllSubRoles(childRole);
-            [...descendantRolesSet].forEach((role) => subroleSet.add(role));
+            descendantRolesSet.forEach((role) => subroleSet.add(role));
         });
         return subroleSet;
     };
