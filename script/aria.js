@@ -363,12 +363,13 @@ const buildInheritedStatesProperties = function (item) {
 
     const sortedList = reducedList.sort((a, b) => {
         if (a.name == b.name) {
+            //TODO: BUG: deprecated states&props do not actually appear at end 
             // Ensure deprecated false properties occur first
             if (a.deprecated !== b.deprecated) {
                 return a.deprecated ? 1 : b.deprecated ? -1 : 0;
             }
         }
-        return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+        return a.name.localeCompare(b.name);
     }, []);
 
     let prev; //SUPERTODO: get rid of "prev"
