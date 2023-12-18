@@ -340,11 +340,10 @@ const getStates = function (role) {
  * @param {Object} item - value from Object.values(roleInfo)
  */
 const buildInheritedStatesProperties = function (item) {
-
     // BEGIN TODO: why can't we do, e.g.,
     // 1. in the main function: Object.keys(roleInfo).forEach(role=> getStates(role)); (see also TODO: near where buildInheritedStatesProperties() is called)
     //   - Then: let myList = item.allprops; (instead of myList = myList.concat(getStates(role)))
-    //   - NOTE: the HTML stays the same but the exported roleInfo isn't. 
+    //   - NOTE: the HTML stays the same but the exported roleInfo isn't.
     //   - TODO: BUG? in the existing roleInfo allprops only occurs 30 times
     let myList = [];
     item.parentRoles.forEach(function (role) {
@@ -352,7 +351,7 @@ const buildInheritedStatesProperties = function (item) {
     });
     // END TODO
     // strip out any items that we have locally
-    // BEGIN TODO: why can't we do myList.filter( inherited => item.localprops.includes(local => local.name === inherited.name))? 
+    // BEGIN TODO: why can't we do myList.filter( inherited => item.localprops.includes(local => local.name === inherited.name))?
     // or do something else to simplify this
     if (item.localprops.length && myList.length) {
         for (let j = myList.length - 1; j >= 0; j--) {
@@ -363,12 +362,12 @@ const buildInheritedStatesProperties = function (item) {
             });
         }
     }
-    
+
     const reducedList = [...new Set(myList)];
 
     const sortedList = reducedList.sort((a, b) => {
         if (a.name == b.name) {
-            //TODO: BUG: deprecated states&props do not actually appear at end 
+            //TODO: BUG: deprecated states&props do not actually appear at end
             // NOTE: removing if (a.deprecated !== b.deprecated) seems to fix this
             // Ensure deprecated false properties occur first
             if (a.deprecated !== b.deprecated) {
@@ -378,12 +377,12 @@ const buildInheritedStatesProperties = function (item) {
         return a.name.localeCompare(b.name);
     }, []);
 
-    const uniquePropNames = new Set(sortedList.map(prop => prop.name))
+    const uniquePropNames = new Set(sortedList.map((prop) => prop.name));
     // NOTE: uniquePropNames is needed because sortedList can have duplicates, in particular with different deprecation states. E.g., treeitem inherits aria-disabled from option but also as deprecated-in-1.2 from listitem.
     // TODO: is it just luck that the not-deprecated state is listed first? (see same comment below)
     const output = [...uniquePropNames]
         .map((propName) => {
-            const property = sortedList.find(p => p.name === propName); // TODO: is it just luck that the not-deprecated state is listed first?
+            const property = sortedList.find((p) => p.name === propName); // TODO: is it just luck that the not-deprecated state is listed first?
             const isState = property.is === "state";
             const suffix = isState ? " (state)" : "";
             const tag = isState ? "sref" : "pref";
