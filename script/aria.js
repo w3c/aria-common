@@ -369,12 +369,12 @@ const buildInheritedStatesProperties = function (item) {
         return a.name.localeCompare(b.name);
     }, []);
 
-    let prev; //SUPERTODO: get rid of "prev"
-    const output = sortedList
-        .map((property) => {
-            if (prev === property.name) return "";
-            prev = property.name;
-
+    const uniquePropNames = new Set(sortedList.map(prop => prop.name))
+    // NOTE: uniquePropNames is needed because sortedList can have duplicates, in particular with different deprecation states. E.g., treeitem inherits aria-disabled from option but also as deprecated-in-1.2 from listitem.
+    // TODO: is it just luck that the not-deprecated state is listed first? (see same comment below)
+    const output = [...uniquePropNames]
+        .map((propName) => {
+            const property = sortedList.find(p => p.name === propName); // TODO: is it just luck that the not-deprecated state is listed first?
             const isState = property.is === "state";
             const suffix = isState ? " (state)" : "";
             const tag = isState ? "sref" : "pref";
