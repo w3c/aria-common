@@ -317,6 +317,7 @@ const populateRoleInfoPropList = function (roleInfo, propList, item) {
  * @returns
  */
 const getStates = function (role) {
+    // TODO: pkra would like to use sets here but allprops part of roleInfo serializaton
     const ref = roleInfo[role];
     if (!ref) {
         msg.pub("error", "No role definition for " + role);
@@ -340,12 +341,19 @@ const getStates = function (role) {
  */
 const buildInheritedStatesProperties = function (item) {
 
-    // SUPERTODO: simplify (from here until sortedList)
+    // BEGIN TODO: why can't we do, e.g.,
+    // 1. in the main function: Object.keys(roleInfo).forEach(role=> getStates(role)); (see also TODO: near where buildInheritedStatesProperties() is called)
+    //   - Then: let myList = item.allprops; (instead of myList = myList.concat(getStates(role)))
+    //   - NOTE: the HTML stays the same but the exported roleInfo isn't. 
+    //   - TODO: BUG? in the existing roleInfo allprops only occurs 30 times
     let myList = [];
     item.parentRoles.forEach(function (role) {
         myList = myList.concat(getStates(role));
     });
+    // END TODO
     // strip out any items that we have locally
+    // BEGIN TODO: why can't we do myList.filter( inherited => item.localprops.includes(local => local.name === inherited.name))? 
+    // or do something else to simplify this
     if (item.localprops.length && myList.length) {
         for (let j = myList.length - 1; j >= 0; j--) {
             item.localprops.forEach(function (x) {
@@ -355,12 +363,13 @@ const buildInheritedStatesProperties = function (item) {
             });
         }
     }
-
+    
     const reducedList = [...new Set(myList)];
 
     const sortedList = reducedList.sort((a, b) => {
         if (a.name == b.name) {
             //TODO: BUG: deprecated states&props do not actually appear at end 
+            // NOTE: removing if (a.deprecated !== b.deprecated) seems to fix this
             // Ensure deprecated false properties occur first
             if (a.deprecated !== b.deprecated) {
                 return a.deprecated ? 1 : b.deprecated ? -1 : 0;
@@ -624,6 +633,7 @@ function ariaAttributeReferences() {
 
     // TODO: test this on a page where `skipIndex` is truthy
     if (!skipIndex) {
+        // TODO: why not run  `Object.keys(roleInfo).forEach(role=> getStates(role))` here? (cf. TODO: in buildInheritedStatesProperties )
         Object.values(roleInfo).forEach(buildInheritedStatesProperties);
 
         const descendantRoles = createDescendantRoles(subRoles);
