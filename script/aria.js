@@ -312,6 +312,7 @@ const populateRoleInfoPropList = function (roleInfo, propList, item) {
 
 /**
  * TODO: depends on global roleInfo object
+ * Generats `allprops` array for a role entry in roleInfo
  * @param {string} role - name of a role
  * @returns
  */
@@ -338,10 +339,6 @@ const getStates = function (role) {
  * @param {Object} item - value from Object.values(roleInfo)
  */
 const buildInheritedStatesProperties = function (item) {
-    const placeholder = document.querySelector(
-        "#" + item.fragID + " .role-inherited"
-    );
-    if (!placeholder) return;
 
     // SUPERTODO: simplify (from here until sortedList)
     let myList = [];
@@ -390,7 +387,9 @@ const buildInheritedStatesProperties = function (item) {
         })
         .join("");
     if (output !== "") {
-        placeholder.innerHTML = `<ul>\n${output}</ul>\n`;
+        document.querySelector(
+            "#" + item.fragID + " .role-inherited"
+        ).innerHTML = `<ul>\n${output}</ul>\n`;
     }
 };
 
