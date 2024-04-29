@@ -32,8 +32,6 @@ jobs:
             branch: main
           - repo: w3c/aria
             branch: stable
-          - repo: w3c/aria-practices
-            branch: main
           - repo: w3c/core-aam
             branch: main
           - repo: w3c/core-aam
