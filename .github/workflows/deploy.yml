@@ -24,38 +24,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - repo: w3c/accname
-            branch: main
-          - repo: w3c/accname
-            branch: stable            
-          - repo: w3c/aria
-            branch: main
-          - repo: w3c/aria
-            branch: stable
-          - repo: w3c/core-aam
-            branch: main
-          - repo: w3c/core-aam
-            branch: stable
           - repo: w3c/css-aam
-            branch: main
-          - repo: w3c/dpub-aam
-            branch: main
-          - repo: w3c/dpub-aria
-            branch: main
-          - repo: w3c/graphics-aam
-            branch: main
-          - repo: w3c/graphics-aria
-            branch: main
-          - repo: w3c/math-aam
             branch: main
           - repo: w3c/math-aria
             branch: main
-          - repo: w3c/mathml-aam
-            branch: main
-          - repo: w3c/svg-aam
-            branch: main
-          - repo: w3c/html-aam
-            branch: aria-common-sync
 
     steps:
     - uses: actions/checkout@v3
